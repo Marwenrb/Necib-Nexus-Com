@@ -15,9 +15,29 @@
   backdrop-filter: blur(5px);
   transition: transform 0.5s var(--ease-out-expo);
   will-change: transform;
+  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.15);
+  border-radius: mobile-vw(2px);
+
+  @include mobile {
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0));
+      z-index: 3;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    
+    :global(.in-view) &::before {
+      opacity: 1;
+      animation: shineSweep 2.5s ease-in-out infinite;
+    }
+  }
 
   &:hover {
     transform: scale(1.03);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
     
     .image {
       transform: scale(1.1);
@@ -31,6 +51,7 @@
 
   @include desktop {
     width: columns(4);
+    border-radius: desktop-vw(2px);
   }
 
   .imageContainer {
@@ -44,6 +65,12 @@
     .image {
       object-fit: cover;
       transition: transform 0.8s var(--ease-out-expo);
+      
+      @include mobile {
+        :global(.in-view) & {
+          animation: pulseZoom 15s ease-in-out infinite;
+        }
+      }
     }
     
     .overlay {
@@ -54,6 +81,12 @@
       height: 100%;
       background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7));
       z-index: 1;
+      
+      @include mobile {
+        :global(.in-view) & {
+          animation: overlayFade 10s ease-in-out infinite alternate;
+        }
+      }
     }
   }
 
@@ -83,9 +116,18 @@
     opacity: 0;
     transition: transform 0.6s var(--ease-out-expo) 0.2s, opacity 0.6s var(--ease-out-expo) 0.2s;
 
+    :global(.in-view) &, 
     .in-view & {
       transform: translateY(0);
       opacity: 1;
+    }
+
+    @include mobile {
+      :global(.card-wrapper.in-view) & {
+        transform: translateY(0) !important;
+        opacity: 1 !important;
+        transition-delay: 0.1s !important;
+      }
     }
 
     @include desktop {
@@ -106,9 +148,18 @@
     opacity: 0;
     transition: transform 0.6s var(--ease-out-expo) 0.4s, opacity 0.6s var(--ease-out-expo) 0.4s;
 
+    :global(.in-view) &,
     .in-view & {
       transform: translateY(0);
       opacity: 1;
+    }
+
+    @include mobile {
+      :global(.card-wrapper.in-view) & {
+        transform: translateY(0) !important;
+        opacity: 1 !important;
+        transition-delay: 0.3s !important;
+      }
     }
 
     @include desktop {
@@ -121,5 +172,44 @@
       font-stretch: normal;
       font-weight: 600;
     }
+  }
+}
+
+@keyframes shineSweep {
+  0% {
+    background-position: -100% 0;
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    background-position: 200% 0;
+    opacity: 0;
+  }
+  100% {
+    background-position: 200% 0;
+    opacity: 0;
+  }
+}
+
+@keyframes pulseZoom {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes overlayFade {
+  0% {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7));
+  }
+  100% {
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.65));
   }
 } 

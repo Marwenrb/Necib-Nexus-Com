@@ -30,34 +30,61 @@
         align-items: center;
         justify-content: center;
         width: 100%;
-        perspective: 1000px;
+        perspective: 1400px;
 
         > * {
-          margin-bottom: mobile-vw(44px);
-          transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-          transform: translateY(40px) scale(0.95) translateZ(-10px);
-          opacity: 0.65;
+          margin-bottom: mobile-vw(80px);
+          transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+          transform: translateY(120px) scale(0.8) translateZ(-50px) rotateX(12deg);
+          opacity: 0;
           will-change: transform, opacity;
           transform-style: preserve-3d;
+          filter: blur(5px);
+          position: relative;
+          z-index: 1;
+
+          // Card wrapper
+          &.card-wrapper {
+            display: block;
+          }
+
+          // Initial state - completely invisible and positioned below
+          &:not(.in-view) {
+            pointer-events: none;
+          }
 
           // Staggered entrance effect
           @for $i from 1 through 5 {
             &:nth-child(#{$i}) {
-              transition-delay: $i * 0.05s;
+              transition-delay: $i * 0.1s;
             }
           }
 
           &.in-view {
-            transform: translateY(0) scale(1) translateZ(0);
+            transform: translateY(0) scale(1) translateZ(0) rotateX(0deg);
             opacity: 1;
+            filter: blur(0);
+            z-index: 2;
             
-            // When fully in view, add a subtle float animation
-            animation: floatCard 6s ease-in-out infinite;
+            // Premium reveal animation with subtle 3D effect
+            animation: revealCard 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
             
-            // Stagger the float animation
+            // Stagger the animation
             @for $i from 1 through 5 {
               &:nth-child(#{$i}) {
-                animation-delay: $i * 0.3s;
+                animation-delay: $i * 0.15s;
+              }
+            }
+
+            // Add floating effect after revealing
+            &.fully-visible {
+              animation: floatCard 6s ease-in-out infinite;
+              
+              // Stagger the float animation
+              @for $i from 1 through 5 {
+                &:nth-child(#{$i}) {
+                  animation-delay: $i * 0.3s;
+                }
               }
             }
           }
@@ -67,12 +94,31 @@
   }
 }
 
+@keyframes revealCard {
+  0% {
+    transform: translateY(60px) scale(0.9) translateZ(-20px) rotateX(8deg);
+    opacity: 0.3;
+    filter: blur(3px);
+  }
+  40% {
+    opacity: 0.9;
+  }
+  60% {
+    transform: translateY(-10px) scale(1.02) translateZ(10px) rotateX(-2deg);
+    filter: blur(0);
+  }
+  100% {
+    transform: translateY(0) scale(1) translateZ(0) rotateX(0deg);
+    opacity: 1;
+  }
+}
+
 @keyframes floatCard {
   0% {
     transform: translateY(0) scale(1) translateZ(0);
   }
   50% {
-    transform: translateY(-10px) scale(1.02) translateZ(0);
+    transform: translateY(-15px) scale(1.03) translateZ(5px);
   }
   100% {
     transform: translateY(0) scale(1) translateZ(0);

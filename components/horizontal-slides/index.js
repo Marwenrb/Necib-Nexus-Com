@@ -14,6 +14,8 @@ export const HorizontalSlides = ({ children }) => {
   const isMobile = useMediaQuery('(max-width: 800px)')
   const [wrapperRectRef, wrapperRect] = useRect()
   const [elementRectRef, elementRect] = useRect()
+  const [visibleCardIndex, setVisibleCardIndex] = useState(-1)
+  const [fullyVisibleCards, setFullyVisibleCards] = useState([])
 
   const { height: windowHeight } = useWindowSize()
 
@@ -58,34 +60,61 @@ export const HorizontalSlides = ({ children }) => {
   useEffect(() => {
     if (!isMobile) return
 
-    // Set up intersection observer for mobile cards
-    const options = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.2,
-    }
+    // Advanced sequential revealing of cards as user scrolls
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      const windowHeight = window.innerHeight
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add(s['in-view'])
-        } else {
-          entry.target.classList.remove(s['in-view'])
+      cardRefs.current.forEach((card, index) => {
+        if (!card) return
+        
+        const rect = card.getBoundingClientRect()
+        const cardTop = rect.top
+        const cardHeight = rect.height
+        
+        // Calculate how far the card is in the viewport
+        const visiblePercentage = 1 - (cardTop / windowHeight)
+        
+        // Make card visibility sequential but more independent for text to show properly
+        if (index === 0 || (index > 0 && index <= visibleCardIndex + 1)) {
+          if (visiblePercentage > 0.15) {
+            if (!card.classList.contains('in-view')) {
+              card.classList.add('in-view')
+              card.classList.add(s['in-view'])
+              setVisibleCardIndex(Math.max(visibleCardIndex, index))
+              
+              // Add fully-visible class for floating animation after reveal
+              setTimeout(() => {
+                if (card.classList.contains('in-view')) {
+                  card.classList.add(s['fully-visible'])
+                  card.classList.add('fully-visible')
+                  setFullyVisibleCards(prev => [...new Set([...prev, index])])
+                }
+              }, 1000) // Delay adding floating effect
+            }
+          } else if (visiblePercentage < 0.05) {
+            // Only hide cards if scrolling back up significantly
+            card.classList.remove('in-view')
+            card.classList.remove(s['in-view'])
+            card.classList.remove(s['fully-visible'])
+            card.classList.remove('fully-visible')
+            
+            if (visibleCardIndex === index) {
+              setVisibleCardIndex(index - 1)
+            }
+            setFullyVisibleCards(prev => prev.filter(i => i !== index))
+          }
         }
       })
-    }, options)
+    }
 
-    // Observe all card elements
-    cardRefs.current.forEach((card) => {
-      if (card) observer.observe(card)
-    })
+    window.addEventListener('scroll', handleScroll)
+    handleScroll() // Initial check
 
     return () => {
-      cardRefs.current.forEach((card) => {
-        if (card) observer.unobserve(card)
-      })
+      window.removeEventListener('scroll', handleScroll)
     }
-  }, [isMobile])
+  }, [isMobile, visibleCardIndex, fullyVisibleCards])
 
   const setCardRef = (el, index) => {
     cardRefs.current[index] = el
@@ -114,11 +143,11 @@ export const HorizontalSlides = ({ children }) => {
         <div className={cn(s.cards, 'hide-on-desktop')}>
           {Array.isArray(children) ? 
             children.map((child, i) => (
-              <div key={i} ref={(el) => setCardRef(el, i)}>
+              <div key={i} ref={(el) => setCardRef(el, i)} className="card-wrapper">
                 {child}
               </div>
             )) : 
-            <div ref={(el) => setCardRef(el, 0)}>
+            <div ref={(el) => setCardRef(el, 0)} className="card-wrapper">
               {children}
             </div>
           }
