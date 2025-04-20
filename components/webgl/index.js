@@ -2,7 +2,6 @@ import { Float, useGLTF, Environment } from '@react-three/drei'
 import { Canvas, useFrame, useThree } from '@react-three/fiber'
 import { useFrame as useRaf } from '@darkroom.engineering/hamo'
 import { useScroll } from 'hooks/use-scroll'
-import { button, useControls } from 'leva'
 import { mapRange } from 'lib/maths'
 import { useStore } from 'lib/store'
 import { Suspense, useEffect, useMemo, useRef, useState } from 'react'
@@ -33,9 +32,9 @@ function Particles({
   width = 250,
   height = 250,
   depth = 250,
-  count = 1500,
-  scale = 100,
-  size = 150,
+  count = 2000,
+  scale = 120,
+  size = 180,
 }) {
   const positions = useMemo(() => {
     const array = new Array(count * 3)
@@ -90,7 +89,7 @@ function Particles({
         value: 0,
       },
       uColor: {
-        value: new Color('rgb(0, 179, 255)'),
+        value: new Color('rgb(0, 66, 255)'),
       },
       uScroll: {
         value: 0,
@@ -240,18 +239,19 @@ const steps = [
 ]
 
 // Premium material settings for models
-const createModelMaterial = (color = '#00B3FF', roughness = 0.4, metalness = 1.0) => {
+const createModelMaterial = (color = '#0042ff', roughness = 0.3, metalness = 1.0) => {
   return new MeshPhysicalMaterial({
     color: new Color(color),
     metalness: metalness,
     roughness: roughness,
-    envMapIntensity: 1.5,
-    clearcoat: 0.8,
-    clearcoatRoughness: 0.2,
+    envMapIntensity: 2.0,
+    clearcoat: 1.0,
+    clearcoatRoughness: 0.1,
     side: FrontSide,
     transparent: true,
-    transmission: 0.2,
-    reflectivity: 0.5,
+    transmission: 0.3,
+    reflectivity: 0.7,
+    emissive: new Color(color).multiplyScalar(0.3),
     wireframe: false,
   })
 }
@@ -286,11 +286,11 @@ export function Arm() {
   // Apply materials to models
   useEffect(() => {
     // Create model-specific materials
-    const roboticMaterial = createModelMaterial('#00B3FF', 0.3, 1)
-    const maskMaterial = createModelMaterial('#00B3FF', 0.24, 0.9)
-    const computerMaterial = createModelMaterial('#00B3FF', 0.36, 0.8)
-    const armMaterial = createModelMaterial('#00B3FF', 0.3, 1)
-    const arm2Material = createModelMaterial('#00B3FF', 0.3, 1)
+    const roboticMaterial = createModelMaterial('#0042ff', 0.25, 1.0)
+    const maskMaterial = createModelMaterial('#0042ff', 0.2, 0.9)
+    const computerMaterial = createModelMaterial('#0042ff', 0.3, 0.8)
+    const armMaterial = createModelMaterial('#0042ff', 0.25, 1.0)
+    const arm2Material = createModelMaterial('#0042ff', 0.25, 1.0)
     
     // Apply materials to each model
     if (roboticGlow) {
@@ -376,47 +376,88 @@ export function Arm() {
     }
   });
 
-  // Simple scroll handler for model visibility
+  // Simple scroll handler for model visibility with improved animation
   useScroll(({ scroll }) => {
     if (!parentRef.current) return
 
-    // Show model based on scroll position
-    const scrollPercent = scroll / document.body.scrollHeight;
+    // Get document height and calculate scroll percentage
+    const docHeight = Math.max(
+      document.body.scrollHeight, 
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight
+    );
     
+    const scrollPercent = scroll / docHeight;
+    const viewportScale = viewport.height * 0.15;
+    
+    // Show model based on scroll position with smoother transitions
     if (scrollPercent < 0.2) {
       setCurrentModel('roboticGlow');
+      parentRef.current.scale.setScalar(viewportScale);
+      parentRef.current.position.set(viewport.width * 0.1, viewport.height * -0.1, 0);
+      parentRef.current.rotation.set(0, Math.PI * 0.5, 0);
     } else if (scrollPercent < 0.4) {
       setCurrentModel('punkMask');
+      parentRef.current.scale.setScalar(viewportScale);
+      parentRef.current.position.set(viewport.width * -0.1, viewport.height * -0.05, 0);
+      parentRef.current.rotation.set(
+        MathUtils.degToRad(-15),
+        MathUtils.degToRad(-180), 
+        MathUtils.degToRad(-15)
+      );
     } else if (scrollPercent < 0.6) {
       setCurrentModel('computer');
+      parentRef.current.scale.setScalar(viewportScale);
+      parentRef.current.position.set(viewport.width * -0.15, viewport.height * 0, 0);
+      parentRef.current.rotation.set(
+        MathUtils.degToRad(-30),
+        MathUtils.degToRad(-270),
+        MathUtils.degToRad(-15)
+      );
     } else if (scrollPercent < 0.8) {
       setCurrentModel('arm');
+      parentRef.current.scale.setScalar(viewportScale);
+      parentRef.current.position.set(viewport.width * 0.05, viewport.height * 0.05, 0);
+      parentRef.current.rotation.set(
+        MathUtils.degToRad(10),
+        MathUtils.degToRad(-360),
+        MathUtils.degToRad(10)
+      );
     } else {
       setCurrentModel('arm2');
+      parentRef.current.scale.setScalar(viewportScale);
+      parentRef.current.position.set(viewport.width * 0.2, viewport.height * 0.1, 0);
+      parentRef.current.rotation.set(
+        MathUtils.degToRad(20),
+        MathUtils.degToRad(-450),
+        MathUtils.degToRad(15)
+      );
     }
-    
-    // Simple position and scale adjustments
-    parentRef.current.position.y = -scroll * 0.001;
-    parentRef.current.rotation.y = scroll * 0.001;
   })
 
   return (
     <>
       {/* Ambient and directional lights */}
-      <ambientLight args={[new Color('#00B3FF'), 0.5]} />
+      <ambientLight args={[new Color('#0042ff'), 0.7]} />
       <directionalLight 
         position={[-200, 150, 50]}
-        args={[new Color('#00B3FF'), 1.5]} 
+        args={[new Color('#0042ff'), 2.0]}
         castShadow 
         shadow-mapSize={[2048, 2048]}
         shadow-bias={-0.0001}
       />
       <directionalLight 
         position={[300, -100, 150]}
-        args={[new Color('#00B3FF'), 1.2]}
+        args={[new Color('#0042ff'), 1.5]}
         castShadow 
         shadow-mapSize={[2048, 2048]}
         shadow-bias={-0.0001}
+      />
+      <pointLight
+        position={[0, 0, 100]}
+        args={[new Color('#0042ff'), 1.5, 500]}
+        castShadow={false}
       />
       
       {/* Environment for realistic reflections */}
@@ -424,9 +465,9 @@ export function Arm() {
       
       {/* Main container with floating animation */}
       <Float 
-        floatIntensity={0.8} 
-        rotationIntensity={0.5} 
-        speed={2}
+        floatIntensity={1.0}
+        rotationIntensity={0.7}
+        speed={2.5}
       >
         <group
           ref={parentRef}
@@ -489,12 +530,12 @@ function Content() {
   return (
     <>
       <Particles
-        width={viewport.width}
-        height={viewport.height}
-        depth={500}
-        count={1500}
+        width={viewport.width * 1.2}
+        height={viewport.height * 1.2}
+        depth={600}
+        count={2000}
         scale={500}
-        size={150}
+        size={200}
       />
       <Arm />
     </>
@@ -517,7 +558,7 @@ export function WebGL({ render = true }) {
         near: 0.01, 
         far: 10000, 
         position: [0, 0, 1000],
-        zoom: 1.5
+        zoom: 1.8
       }}
     >
       <Raf render={render} />
