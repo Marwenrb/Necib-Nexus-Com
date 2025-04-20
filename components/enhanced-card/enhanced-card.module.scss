@@ -1,0 +1,125 @@
+@import 'styles/_functions';
+
+.wrapper {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  color: var(--theme-secondary);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  aspect-ratio: 1 / 1;
+  width: mobile-vw(343px);
+  overflow: hidden;
+  background-color: var(--background);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  transition: transform 0.5s var(--ease-out-expo);
+  will-change: transform;
+
+  &:hover {
+    transform: scale(1.03);
+    
+    .image {
+      transform: scale(1.1);
+    }
+  }
+
+  &.inverted {
+    color: var(--theme-primary);
+    background-color: var(--theme-secondary);
+  }
+
+  @include desktop {
+    width: columns(4);
+  }
+
+  .imageContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    
+    .image {
+      object-fit: cover;
+      transition: transform 0.8s var(--ease-out-expo);
+    }
+    
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.7));
+      z-index: 1;
+    }
+  }
+
+  .content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    padding: mobile-vw(24px);
+    
+    @include desktop {
+      padding: desktop-vw(24px);
+    }
+  }
+
+  .number {
+    color: var(--theme-contrast);
+    font-stretch: condensed;
+    font-weight: 900;
+    line-height: 86%;
+    letter-spacing: -0.02em;
+    font-size: mobile-vw(56px);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.6s var(--ease-out-expo) 0.2s, opacity 0.6s var(--ease-out-expo) 0.2s;
+
+    .in-view & {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @include desktop {
+      font-size: desktop-vw(96px);
+      transform: none;
+      opacity: 1;
+    }
+  }
+
+  .text {
+    text-transform: uppercase;
+    font-stretch: expanded;
+    line-height: 100%;
+    letter-spacing: -0.01em;
+    font-size: mobile-vw(20px);
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    transform: translateY(20px);
+    opacity: 0;
+    transition: transform 0.6s var(--ease-out-expo) 0.4s, opacity 0.6s var(--ease-out-expo) 0.4s;
+
+    .in-view & {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    @include desktop {
+      font-size: desktop-vw(28px);
+      transform: none;
+      opacity: 1;
+    }
+
+    span {
+      font-stretch: normal;
+      font-weight: 600;
+    }
+  }
+} 

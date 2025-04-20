@@ -3,6 +3,7 @@ import cn from 'clsx'
 
 import { Button } from 'components/button'
 import { Card } from 'components/card'
+import { EnhancedCard } from 'components/enhanced-card'
 import { Title } from 'components/intro'
 import { Link } from 'components/link'
 import { ListItem } from 'components/list-item'
@@ -251,35 +252,35 @@ export default function Home() {
         </div>
         <div className={s.cards} ref={cardsRectRef}>
           <HorizontalSlides>
-            <Card
+            <EnhancedCard
               className={s.card}
               number="01"
               text="Digital Culture: Crafting immersive digital narratives that celebrate and preserve cultural heritage."
+              imageSrc="/images/digital-culture.jpeg"
             />
-            <Card
+            <EnhancedCard
               className={s.card}
               number="02"
               text="E-Tourism: Revolutionizing travel experiences with cutting-edge digital solutions."
+              imageSrc="/images/e-tourism.jpeg"
             />
-            <Card
+            <EnhancedCard
               className={s.card}
               number="03"
               text="Audiovisual Production: Producing stunning visuals and soundscapes that captivate audiences."
+              imageSrc="/images/photo-audio visuel.webp"
             />
-            <Card
+            <EnhancedCard
               className={s.card}
               number="04"
               text="Web & App Development: Building robust, user-centric websites and applications."
+              imageSrc="/images/Diverse Hands Showcasing HD Technology Display.jpeg"
             />
-            <Card
+            <EnhancedCard
               className={s.card}
               number="05"
               text="Digital Marketing: Driving engagement and growth through strategic digital campaigns."
-            />
-            <Card
-              className={s.card}
-              number="06"
-              text="Innovation Lab: Pioneering the future with AR, VR, and experimental technologies."
+              imageSrc="/images/digital-marketing.jpg"
             />
           </HorizontalSlides>
         </div>
