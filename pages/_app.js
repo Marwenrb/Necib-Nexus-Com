@@ -1,5 +1,4 @@
 import Tempus from '@darkroom.engineering/tempus'
-import { useDebug } from '@darkroom.engineering/hamo'
 import { RealViewport } from 'components/real-viewport'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
@@ -13,7 +12,7 @@ import 'styles/global.scss'
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
-  ScrollTrigger.defaults({ markers: process.env.NODE_ENV === 'development' })
+  ScrollTrigger.defaults({ markers: false })
 
   // merge rafs
   gsap.ticker.lagSmoothing(0)
@@ -23,23 +22,7 @@ if (typeof window !== 'undefined') {
   }, 0)
 }
 
-const Stats = dynamic(
-  () => import('components/stats').then(({ Stats }) => Stats),
-  { ssr: false }
-)
-
-const GridDebugger = dynamic(
-  () =>
-    import('components/grid-debugger').then(({ GridDebugger }) => GridDebugger),
-  { ssr: false }
-)
-
-const Leva = dynamic(() => import('leva').then(({ Leva }) => Leva), {
-  ssr: false,
-})
-
 function MyApp({ Component, pageProps }) {
-  const debug = useDebug()
   const lenis = useStore(({ lenis }) => lenis)
 
   useScroll(ScrollTrigger.update)
@@ -55,18 +38,10 @@ function MyApp({ Component, pageProps }) {
     window.history.scrollRestoration = 'manual'
   }, [])
 
-  ScrollTrigger.defaults({ markers: process.env.NODE_ENV === 'development' })
+  ScrollTrigger.defaults({ markers: false })
 
   return (
     <>
-      <Leva hidden={!debug} />
-      {debug && (
-        <>
-          <GridDebugger />
-          <Stats />
-        </>
-      )}
-
       {/* Google Tag Manager - Global base code */}
       {process.env.NODE_ENV !== 'development' && (
         <>

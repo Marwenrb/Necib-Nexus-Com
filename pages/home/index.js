@@ -21,11 +21,6 @@ import { Modal } from 'components/modal'
 const GitHub = dynamic(() => import('icons/github.svg'), { ssr: false })
 const Sponsor = dynamic(() => import('icons/sponsor.svg'), { ssr: false })
 
-const Parallax = dynamic(
-  () => import('components/parallax').then((mod) => mod.Parallax),
-  { ssr: false }
-)
-
 const AppearTitle = dynamic(
   () => import('components/appear-title').then((mod) => mod.AppearTitle),
   { ssr: false }
@@ -112,68 +107,6 @@ export default function Home() {
   const [whiteRectRef, whiteRect] = useRect()
   const [featuresRectRef, featuresRect] = useRect()
   const [inuseRectRef, inuseRect] = useRect()
-
-  const addThreshold = useStore(({ addThreshold }) => addThreshold)
-
-  useEffect(() => {
-    addThreshold({ id: 'top', value: 0 })
-  }, [])
-
-  useEffect(() => {
-    const top = whyRect.top - windowHeight / 2
-    addThreshold({ id: 'why-start', value: top })
-    addThreshold({
-      id: 'why-end',
-      value: top + whyRect.height,
-    })
-    
-    // Add more thresholds for the advanced 3D model transitions
-    addThreshold({ id: 'model-transition-1', value: top + (whyRect.height * 0.2) })
-    addThreshold({ id: 'model-transition-2', value: top + (whyRect.height * 0.4) })
-    addThreshold({ id: 'model-transition-3', value: top + (whyRect.height * 0.6) })
-    addThreshold({ id: 'model-transition-4', value: top + (whyRect.height * 0.8) })
-  }, [whyRect])
-
-  useEffect(() => {
-    const top = cardsRect.top - windowHeight / 2
-    addThreshold({ id: 'cards-start', value: top })
-    addThreshold({ id: 'cards-end', value: top + cardsRect.height })
-    addThreshold({
-      id: 'red-end',
-      value: top + cardsRect.height + windowHeight,
-    })
-    
-    // Add more thresholds for the advanced 3D model transitions
-    addThreshold({ id: 'model-transition-5', value: top + (cardsRect.height * 0.25) })
-    addThreshold({ id: 'model-transition-6', value: top + (cardsRect.height * 0.5) })
-    addThreshold({ id: 'model-transition-7', value: top + (cardsRect.height * 0.75) })
-  }, [cardsRect])
-
-  useEffect(() => {
-    const top = whiteRect.top - windowHeight
-    addThreshold({ id: 'light-start', value: top })
-    
-    // Add more thresholds for the advanced 3D model transitions
-    addThreshold({ id: 'model-transition-8', value: top + (windowHeight * 0.5) })
-  }, [whiteRect])
-
-  useEffect(() => {
-    const top = featuresRect.top
-    addThreshold({ id: 'features', value: top })
-    
-    // Add more thresholds for the final 3D model transitions
-    addThreshold({ id: 'model-transition-9', value: top + (featuresRect.height * 0.5) })
-  }, [featuresRect])
-
-  useEffect(() => {
-    const top = inuseRect.top
-    addThreshold({ id: 'in-use', value: top })
-  }, [inuseRect])
-
-  useEffect(() => {
-    const top = lenis?.limit
-    addThreshold({ id: 'end', value: top })
-  }, [lenis?.limit])
 
   const inUseRef = useRef()
 
@@ -306,18 +239,14 @@ export default function Home() {
       <section className={s.rethink}>
         <div className={cn('layout-grid', s.pre)}>
           <div className={s.highlight}>
-            <Parallax speed={-0.5}>
-              <p className="h2">
-                <AppearTitle>Our Services</AppearTitle>
-              </p>
-            </Parallax>
+            <p className="h2">
+              <AppearTitle>Our Services</AppearTitle>
+            </p>
           </div>
           <div className={s.comparison}>
-            <Parallax speed={0.5}>
-              <p className="p">
-                At Necib Nexus, we offer a comprehensive range of digital services designed to transform your vision into reality. From cultural immersion to cutting-edge technology, we have the expertise to elevate your digital presence.
-              </p>
-            </Parallax>
+            <p className="p">
+              At Necib Nexus, we offer a comprehensive range of digital services designed to transform your vision into reality. From cultural immersion to cutting-edge technology, we have the expertise to elevate your digital presence.
+            </p>
           </div>
         </div>
         <div className={s.cards} ref={cardsRectRef}>

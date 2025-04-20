@@ -346,20 +346,6 @@ export function Arm() {
 
   const { viewport } = useThree()
 
-  const _thresholds = useStore(({ thresholds }) => thresholds)
-  const thresholds = useMemo(() => {
-    return Object.values(_thresholds).sort((a, b) => a - b)
-  }, [_thresholds])
-
-  const [step, setStep] = useState(0)
-
-  useScroll(
-    ({ scroll }) => {
-      setStep(scroll < _thresholds['light-start'] ? 0 : 1)
-    },
-    [_thresholds]
-  )
-
   // Create floating animation for models
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
@@ -390,50 +376,28 @@ export function Arm() {
     }
   });
 
-  // Handle scroll-based model animation
+  // Simple scroll handler for model visibility
   useScroll(({ scroll }) => {
     if (!parentRef.current) return
 
-    const current = thresholds.findIndex((v) => scroll < v) - 1
+    // Show model based on scroll position
+    const scrollPercent = scroll / document.body.scrollHeight;
     
-    // Don't proceed if we're out of bounds
-    if (current < 0 || current >= steps.length - 1) return
-
-    const start = thresholds[current]
-    const end = thresholds[current + 1]
-    const progress = mapRange(start, end, scroll, 0, 1)
-
-    const from = steps[current]
-    const to = steps[current + 1]
-
-    if (!to) return
-
-    // Update visibility of models based on current transition
-    setCurrentModel(to.type)
+    if (scrollPercent < 0.2) {
+      setCurrentModel('roboticGlow');
+    } else if (scrollPercent < 0.4) {
+      setCurrentModel('punkMask');
+    } else if (scrollPercent < 0.6) {
+      setCurrentModel('computer');
+    } else if (scrollPercent < 0.8) {
+      setCurrentModel('arm');
+    } else {
+      setCurrentModel('arm2');
+    }
     
-    // Calculate smooth transitions
-    const _scale = mapRange(0, 1, progress, from.scale, to.scale)
-    const _position = new Vector3(
-      viewport.width *
-        mapRange(0, 1, progress, from.position[0], to.position[0]),
-      viewport.height *
-        mapRange(0, 1, progress, from.position[1], to.position[1]),
-      0
-    )
-    
-    // Create smooth rotation transition
-    const _rotation = new Euler().fromArray(
-      new Array(3)
-        .fill(0)
-        .map((_, i) =>
-          mapRange(0, 1, progress, from.rotation[i], to.rotation[i])
-        )
-    )
-
-    // Apply transformations to parent container
-    parentRef.current.scale.setScalar(viewport.height * _scale)
-    parentRef.current.position.copy(_position)
-    parentRef.current.rotation.copy(_rotation)
+    // Simple position and scale adjustments
+    parentRef.current.position.y = -scroll * 0.001;
+    parentRef.current.rotation.y = scroll * 0.001;
   })
 
   return (
