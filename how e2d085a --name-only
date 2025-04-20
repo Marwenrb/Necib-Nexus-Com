@@ -1,0 +1,8 @@
+[33mcommit c63a9ba8a97ea500e125d7526569df7cffde2640[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mnew-feature-branch[m[33m)[m
+Author: Marwenrb <rbmarwenrb@gmail.com>
+Date:   Sat Apr 19 10:48:34 2025 +0200
+
+    Add premium Necib Nexus typing animation loader
+
+components/intro/index.js
+components/intro/intro.module.scss

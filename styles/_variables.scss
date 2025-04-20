@@ -7,3 +7,15 @@ $desktop-height: 850px;
 
 $mobile-width: 375px;
 $mobile-height: 650px;
+
+/* Colors */
+$neon-blue: #00b3ff;
+$neon-blue-glow: rgba(0, 179, 255, 0.7);
+$neon-blue-glow-light: rgba(0, 179, 255, 0.3);
+
+// We'll keep these variables but won't use them for the site
+$neon-pink: #ff69b4;
+$neon-pink-glow: rgba(255, 105, 180, 0.7);
+$neon-pink-glow-light: rgba(255, 105, 180, 0.3);
+
+// CSS variables will be defined in global.scss instead

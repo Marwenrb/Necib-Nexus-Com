@@ -1,7 +1,14 @@
 @import 'styles/_functions';
+@import 'styles/_variables';
 
 $intro-in: 1500ms;
 $intro-out: 1500ms;
+$neon-blue: var(--neon-blue);
+$neon-blue-glow: var(--neon-blue-glow);
+$neon-blue-glow-light: var(--neon-blue-glow-light);
+$neon-pink: var(--neon-pink);
+$neon-pink-glow: var(--neon-pink-glow);
+$neon-pink-glow-light: var(--neon-pink-glow-light);
 
 .wrapper {
   height: 100vh;
@@ -64,33 +71,33 @@ $intro-out: 1500ms;
 }
 
 .typedText {
-  color: var(--pink);
+  color: $neon-blue;
   font-size: desktop-vw(80px);
   font-weight: 700;
   letter-spacing: desktop-vw(10px);
   text-transform: uppercase;
   font-family: monospace;
-  text-shadow: 0 0 desktop-vw(10px) var(--pink);
+  text-shadow: 0 0 desktop-vw(10px) $neon-blue-glow, 0 0 desktop-vw(20px) $neon-blue-glow;
   
   @include mobile {
     font-size: mobile-vw(40px);
     letter-spacing: mobile-vw(5px);
-    text-shadow: 0 0 mobile-vw(5px) var(--pink);
+    text-shadow: 0 0 mobile-vw(5px) $neon-blue-glow, 0 0 mobile-vw(10px) $neon-blue-glow;
   }
 }
 
 .cursor {
-  color: var(--pink);
+  color: $neon-blue;
   font-size: desktop-vw(80px);
   font-weight: 700;
   margin-left: desktop-vw(5px);
   animation: blink 0.75s infinite;
-  text-shadow: 0 0 desktop-vw(10px) var(--pink);
+  text-shadow: 0 0 desktop-vw(10px) $neon-blue-glow, 0 0 desktop-vw(20px) $neon-blue-glow;
   
   @include mobile {
     font-size: mobile-vw(40px);
     margin-left: mobile-vw(3px);
-    text-shadow: 0 0 mobile-vw(5px) var(--pink);
+    text-shadow: 0 0 mobile-vw(5px) $neon-blue-glow, 0 0 mobile-vw(10px) $neon-blue-glow;
   }
 }
 
@@ -110,11 +117,11 @@ $intro-out: 1500ms;
 
 .logoImage {
   border-radius: 50%;
-  box-shadow: 0 0 desktop-vw(30px) var(--pink);
+  box-shadow: 0 0 desktop-vw(30px) $neon-blue-glow, 0 0 desktop-vw(50px) $neon-blue-glow-light;
   transition: transform 0.5s ease;
   
   @include mobile {
-    box-shadow: 0 0 mobile-vw(15px) var(--pink);
+    box-shadow: 0 0 mobile-vw(15px) $neon-blue-glow, 0 0 mobile-vw(25px) $neon-blue-glow-light;
   }
 }
 
@@ -123,6 +130,12 @@ $intro-out: 1500ms;
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: auto;
+  position: relative;
+  
+  @include desktop {
+    margin-top: desktop-vw(-20px);
+  }
 }
 
 .translate {
@@ -153,5 +166,225 @@ $intro-out: 1500ms;
   }
   100% {
     transform: perspective(1000px) rotateY(360deg);
+  }
+}
+
+// Enhanced header styling
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.8);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  padding: desktop-vw(15px) desktop-vw(30px);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 desktop-vw(20px) rgba(0, 0, 0, 0.5);
+  
+  @include mobile {
+    padding: mobile-vw(10px) mobile-vw(15px);
+  }
+}
+
+.headerLogo {
+  width: auto;
+  height: desktop-vw(40px);
+  display: flex;
+  align-items: center;
+  
+  img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+  
+  @include mobile {
+    height: mobile-vw(30px);
+  }
+}
+
+.headerLogoImage {
+  border-radius: 50%;
+  box-shadow: 0 0 desktop-vw(10px) $neon-blue-glow;
+}
+
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: desktop-vw(15px);
+  
+  button {
+    background: transparent;
+    border: 1px solid $neon-blue;
+    color: $neon-blue;
+    border-radius: desktop-vw(20px);
+    padding: desktop-vw(5px) desktop-vw(15px);
+    font-size: desktop-vw(14px);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 desktop-vw(5px) $neon-blue-glow;
+    box-shadow: 0 0 desktop-vw(5px) $neon-blue-glow;
+    
+    &:hover {
+      background-color: rgba($neon-blue, 0.2);
+      box-shadow: 0 0 desktop-vw(10px) $neon-blue-glow;
+    }
+    
+    @include mobile {
+      padding: mobile-vw(3px) mobile-vw(10px);
+      font-size: mobile-vw(12px);
+    }
+  }
+}
+
+// Enhanced sponsorship section
+.sponsorshipSection {
+  padding: desktop-vw(80px) desktop-vw(40px);
+  background-color: rgba(0, 0, 0, 0.9);
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba($neon-blue, 0.05) 0%, transparent 70%);
+    z-index: 0;
+  }
+  
+  @include mobile {
+    padding: mobile-vw(40px) mobile-vw(20px);
+  }
+}
+
+.sponsorshipTitle {
+  font-size: desktop-vw(36px);
+  color: white;
+  text-align: center;
+  margin-bottom: desktop-vw(40px);
+  position: relative;
+  z-index: 1;
+  font-weight: 600;
+  text-shadow: 0 0 desktop-vw(10px) $neon-blue-glow;
+  
+  @include mobile {
+    font-size: mobile-vw(24px);
+    margin-bottom: mobile-vw(20px);
+  }
+}
+
+.sponsorshipGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(desktop-vw(200px), 1fr));
+  gap: desktop-vw(30px);
+  position: relative;
+  z-index: 1;
+  
+  @include mobile {
+    grid-template-columns: repeat(auto-fit, minmax(mobile-vw(120px), 1fr));
+    gap: mobile-vw(15px);
+  }
+}
+
+.sponsorItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: desktop-vw(20px);
+  background-color: rgba(0, 0, 0, 0.5);
+  border-radius: desktop-vw(10px);
+  border: 1px solid rgba($neon-blue, 0.2);
+  transition: all 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 desktop-vw(10px) desktop-vw(20px) rgba(0, 0, 0, 0.3), 0 0 desktop-vw(15px) $neon-blue-glow;
+    border-color: $neon-blue;
+  }
+  
+  img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: desktop-vw(10px);
+    filter: drop-shadow(0 0 desktop-vw(5px) $neon-blue-glow);
+  }
+  
+  p {
+    color: white;
+    font-size: desktop-vw(14px);
+    text-align: center;
+    margin: 0;
+  }
+  
+  @include mobile {
+    padding: mobile-vw(15px);
+    
+    p {
+      font-size: mobile-vw(12px);
+    }
+  }
+}
+
+.sponsorImageContainer {
+  width: desktop-vw(80px);
+  height: desktop-vw(80px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: desktop-vw(15px);
+  
+  @include mobile {
+    width: mobile-vw(60px);
+    height: mobile-vw(60px);
+  }
+}
+
+.sponsorIcon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: drop-shadow(0 0 desktop-vw(5px) $neon-blue-glow);
+  
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+  
+  @include mobile {
+    filter: drop-shadow(0 0 mobile-vw(3px) $neon-blue-glow);
+  }
+}
+
+.sponsorName {
+  font-size: desktop-vw(20px);
+  font-weight: 600;
+  color: $neon-blue;
+  margin: 0 0 desktop-vw(5px) 0;
+  text-shadow: 0 0 desktop-vw(5px) $neon-blue-glow;
+  
+  @include mobile {
+    font-size: mobile-vw(16px);
+    text-shadow: 0 0 mobile-vw(3px) $neon-blue-glow;
+  }
+}
+
+.sponsorDescription {
+  font-size: desktop-vw(14px);
+  color: white;
+  text-align: center;
+  opacity: 0.8;
+  
+  @include mobile {
+    font-size: mobile-vw(12px);
   }
 }

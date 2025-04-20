@@ -9,7 +9,6 @@ import { ListItem } from 'components/list-item'
 import { projects } from 'content/projects'
 import { useScroll } from 'hooks/use-scroll'
 import { Layout } from 'layouts/default'
-import { button, useControls } from 'leva'
 import { clamp, mapRange } from 'lib/maths'
 import { useStore } from 'lib/store'
 import dynamic from 'next/dynamic'
@@ -71,43 +70,11 @@ export default function Home() {
   const [theme, setTheme] = useState('dark')
   const lenis = useStore(({ lenis }) => lenis)
 
-  useControls(
-    'lenis',
-    () => ({
-      stop: button(() => {
-        lenis.stop()
-      }),
-      start: button(() => {
-        lenis.start()
-      }),
-    }),
-    [lenis]
-  )
-
-  useControls(
-    'scrollTo',
-    () => ({
-      immediate: button(() => {
-        lenis.scrollTo(30000, { immediate: true })
-      }),
-      smoothDuration: button(() => {
-        lenis.scrollTo(30000, { lock: true, duration: 10 })
-      }),
-      smooth: button(() => {
-        lenis.scrollTo(30000)
-      }),
-      forceScrollTo: button(() => {
-        lenis.scrollTo(30000, { force: true })
-      }),
-    }),
-    [lenis]
-  )
-
   useEffect(() => {
     if (!lenis) return
 
     function onClassNameChange(lenis) {
-      console.log(lenis.className)
+      // Class name change handler
     }
 
     lenis.on('className change', onClassNameChange)
@@ -159,6 +126,12 @@ export default function Home() {
       id: 'why-end',
       value: top + whyRect.height,
     })
+    
+    // Add more thresholds for the advanced 3D model transitions
+    addThreshold({ id: 'model-transition-1', value: top + (whyRect.height * 0.2) })
+    addThreshold({ id: 'model-transition-2', value: top + (whyRect.height * 0.4) })
+    addThreshold({ id: 'model-transition-3', value: top + (whyRect.height * 0.6) })
+    addThreshold({ id: 'model-transition-4', value: top + (whyRect.height * 0.8) })
   }, [whyRect])
 
   useEffect(() => {
@@ -169,16 +142,27 @@ export default function Home() {
       id: 'red-end',
       value: top + cardsRect.height + windowHeight,
     })
+    
+    // Add more thresholds for the advanced 3D model transitions
+    addThreshold({ id: 'model-transition-5', value: top + (cardsRect.height * 0.25) })
+    addThreshold({ id: 'model-transition-6', value: top + (cardsRect.height * 0.5) })
+    addThreshold({ id: 'model-transition-7', value: top + (cardsRect.height * 0.75) })
   }, [cardsRect])
 
   useEffect(() => {
     const top = whiteRect.top - windowHeight
     addThreshold({ id: 'light-start', value: top })
+    
+    // Add more thresholds for the advanced 3D model transitions
+    addThreshold({ id: 'model-transition-8', value: top + (windowHeight * 0.5) })
   }, [whiteRect])
 
   useEffect(() => {
     const top = featuresRect.top
     addThreshold({ id: 'features', value: top })
+    
+    // Add more thresholds for the final 3D model transitions
+    addThreshold({ id: 'model-transition-9', value: top + (featuresRect.height * 0.5) })
   }, [featuresRect])
 
   useEffect(() => {
@@ -190,14 +174,6 @@ export default function Home() {
     const top = lenis?.limit
     addThreshold({ id: 'end', value: top })
   }, [lenis?.limit])
-
-  useScroll((e) => {
-    console.log(window.scrollY, e.scroll, e.isScrolling, e.velocity, e.isLocked)
-  })
-
-  useFrame(() => {
-    console.log('frame', window.scrollY, lenis?.scroll, lenis?.isScrolling)
-  }, 1)
 
   const inUseRef = useRef()
 
@@ -289,7 +265,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className={s.why} data-lenis-scroll-snap-align="start">
+      <section className={s.why}>
         <div className="layout-grid">
           <h2 className={cn(s.sticky, 'h2')}>
             <AppearTitle>Who we are</AppearTitle>
@@ -329,7 +305,7 @@ export default function Home() {
       </section>
       <section className={s.rethink}>
         <div className={cn('layout-grid', s.pre)}>
-          <div className={s.highlight} data-lenis-scroll-snap-align="start">
+          <div className={s.highlight}>
             <Parallax speed={-0.5}>
               <p className="h2">
                 <AppearTitle>Our Services</AppearTitle>
@@ -476,6 +452,6 @@ export async function getStaticProps() {
   return {
     props: {
       id: 'home',
-    }, // will be passed to the page component as props
+    },
   }
 }

@@ -1,0 +1,23 @@
+[33mcommit 50647699910fc014093164f6557fd64c253dc8e4[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mnew-feature-branch[m[33m, [m[1;32mmaster[m[33m)[m
+Author: Marwenrb <rbmarwenrb@gmail.com>
+Date:   Sat Apr 19 11:01:17 2025 +0200
+
+    Add premium 3D model animation with dynamic transformations and effects
+
+[33mcommit c63a9ba8a97ea500e125d7526569df7cffde2640[m
+Author: Marwenrb <rbmarwenrb@gmail.com>
+Date:   Sat Apr 19 10:48:34 2025 +0200
+
+    Add premium Necib Nexus typing animation loader
+
+[33mcommit 751d3c4077db0466695c894a38c0acde11c77c25[m
+Author: Marwenrb <rbmarwenrb@gmail.com>
+Date:   Sat Apr 19 10:29:38 2025 +0200
+
+    Fix: added 'pink' color to colors map for backward compatibility
+
+[33mcommit e2d085ac144398a84c38a7b86e4f9054403887ff[m
+Author: Marwenrb <rbmarwenrb@gmail.com>
+Date:   Sat Apr 19 09:50:49 2025 +0200
+
+    Initial commit: Necib Nexus website based on Lenis template

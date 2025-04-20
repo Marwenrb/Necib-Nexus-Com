@@ -2,7 +2,7 @@ import { useFrame } from '@darkroom.engineering/hamo'
 import cn from 'clsx'
 import { CustomHead } from 'components/custom-head'
 import { Footer } from 'components/footer'
-import { Intro } from 'components/intro'
+import { Intro, Header, SponsorsSection } from 'components/intro'
 import { Scrollbar } from 'components/scrollbar'
 import Lenis from 'lenis'
 import { useStore } from 'lib/store'
@@ -29,6 +29,7 @@ export function Layout({
 }) {
   const [lenis, setLenis] = useStore((state) => [state.lenis, state.setLenis])
   const router = useRouter()
+  const introOut = useStore(({ introOut }) => introOut)
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -104,9 +105,13 @@ export function Layout({
       <div className={cn(`theme-${theme}`, s.layout, className)}>
         <PageTransition />
         <Intro />
+        {introOut && <Header />}
         <Cursor />
         <Scrollbar />
-        <main className={s.main}>{children}</main>
+        <main className={s.main}>
+          {children}
+          <SponsorsSection />
+        </main>
         <Footer />
       </div>
     </>

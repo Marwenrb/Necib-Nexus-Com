@@ -38,7 +38,7 @@
   "devDependencies": {
     "@builder.io/partytown": "^0.7.5",
     "@next/bundle-analyzer": "^13.2.4",
-    "@size-limit/preset-app": "^8.2.4",
+    "@size-limit/preset-app": "^11.0.0",
     "@svgr/webpack": "^6.5.1",
     "critters": "^0.0.16",
     "cross-env": "^7.0.3",
