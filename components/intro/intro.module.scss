@@ -6,7 +6,7 @@ $intro-out: 1500ms;
 .wrapper {
   height: 100vh;
   width: 100%;
-  background-color: var(--pink);
+  background-color: var(--black);
   position: fixed;
   top: 0;
   left: 0;
@@ -47,6 +47,84 @@ $intro-out: 1500ms;
   }
 }
 
+.typingContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100%;
+}
+
+.typingWrapper {
+  margin-bottom: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.typedText {
+  color: var(--pink);
+  font-size: desktop-vw(80px);
+  font-weight: 700;
+  letter-spacing: desktop-vw(10px);
+  text-transform: uppercase;
+  font-family: monospace;
+  text-shadow: 0 0 desktop-vw(10px) var(--pink);
+  
+  @include mobile {
+    font-size: mobile-vw(40px);
+    letter-spacing: mobile-vw(5px);
+    text-shadow: 0 0 mobile-vw(5px) var(--pink);
+  }
+}
+
+.cursor {
+  color: var(--pink);
+  font-size: desktop-vw(80px);
+  font-weight: 700;
+  margin-left: desktop-vw(5px);
+  animation: blink 0.75s infinite;
+  text-shadow: 0 0 desktop-vw(10px) var(--pink);
+  
+  @include mobile {
+    font-size: mobile-vw(40px);
+    margin-left: mobile-vw(3px);
+    text-shadow: 0 0 mobile-vw(5px) var(--pink);
+  }
+}
+
+.logoWrapper {
+  opacity: 0;
+  transform: scale(0.5);
+  transition: opacity 1s ease, transform 1s ease;
+  margin-top: desktop-vw(20px);
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  
+  &.showLogo {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.logoImage {
+  border-radius: 50%;
+  box-shadow: 0 0 desktop-vw(30px) var(--pink);
+  transition: transform 0.5s ease;
+  
+  @include mobile {
+    box-shadow: 0 0 mobile-vw(15px) var(--pink);
+  }
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
 .translate {
   @include desktop {
     transform: translate3d(0, -100%, 0);
@@ -57,5 +135,23 @@ $intro-out: 1500ms;
 .mobile {
   @include mobile {
     transform: translate3d(0, -105%, 0);
+  }
+}
+
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+@keyframes rotate3d {
+  0% {
+    transform: perspective(1000px) rotateY(0);
+  }
+  100% {
+    transform: perspective(1000px) rotateY(360deg);
   }
 }

@@ -1,7 +1,7 @@
 import { useMediaQuery } from '@darkroom.engineering/hamo'
 import cn from 'clsx'
 import { useStore } from 'lib/store'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import s from './intro.module.scss'
 import Image from 'next/image'
 
@@ -12,12 +12,81 @@ export const Intro = () => {
   const introOut = useStore(({ introOut }) => introOut)
   const setIntroOut = useStore(({ setIntroOut }) => setIntroOut)
   const lenis = useStore(({ lenis }) => lenis)
+  const [typedText, setTypedText] = useState('')
+  const fullText = "NECIB NEXUS"
+  const typingSpeed = 100 // ms per character
+  const typingRef = useRef(null)
+  const cursorRef = useRef(null)
+  const logoRef = useRef(null)
 
+  // Typing animation
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoaded(true)
-    }, 1000)
-  }, [])
+    let currentIndex = 0;
+    if (typingRef.current) clearTimeout(typingRef.current);
+    
+    const typeNextChar = () => {
+      if (currentIndex < fullText.length) {
+        setTypedText(fullText.substring(0, currentIndex + 1));
+        currentIndex++;
+        typingRef.current = setTimeout(typeNextChar, typingSpeed);
+      } else {
+        // Animation complete, start 3D animation
+        startLogoAnimation();
+        
+        // Then trigger loader completion after a delay
+        setTimeout(() => {
+          setIsLoaded(true);
+        }, 1500);
+      }
+    };
+    
+    // Start typing after a small delay
+    typingRef.current = setTimeout(typeNextChar, 500);
+    
+    // Cursor blink animation
+    let isVisible = true;
+    cursorRef.current = setInterval(() => {
+      const cursor = document.querySelector(`.${s.cursor}`);
+      if (cursor) {
+        cursor.style.opacity = isVisible ? 1 : 0;
+        isVisible = !isVisible;
+      }
+    }, 530);
+    
+    return () => {
+      if (typingRef.current) clearTimeout(typingRef.current);
+      if (cursorRef.current) clearInterval(cursorRef.current);
+    };
+  }, []);
+  
+  // 3D Animation for logo
+  const startLogoAnimation = () => {
+    if (!logoRef.current) return;
+    
+    const logo = logoRef.current;
+    logo.style.transform = 'scale(1)';
+    logo.style.opacity = '1';
+    
+    // Add 3D rotation effect
+    let frameId;
+    let angle = 0;
+    
+    const animate = () => {
+      angle += 0.5;
+      
+      // Create 3D rotation effect
+      logo.style.transform = `scale(1) rotateY(${angle}deg) perspective(1000px)`;
+      
+      // Continue animation until component unmounts
+      frameId = requestAnimationFrame(animate);
+    };
+    
+    animate();
+    
+    return () => {
+      cancelAnimationFrame(frameId);
+    };
+  };
 
   useEffect(() => {
     if (isMobile) {
@@ -58,14 +127,23 @@ export const Intro = () => {
       }}
     >
       <div className={cn(isLoaded && s.relative)}>
-        <div className={s.logo}>
-          <Image 
-            src="/images/Minimalist Pink Silhouette Globe on Black Stand Necib Nexus Logo.jpeg" 
-            alt="Necib Nexus Logo" 
-            width={300} 
-            height={300}
-            className={cn(s.logoImage, isLoaded && s.show)} 
-          />
+        <div className={s.typingContainer}>
+          <div className={s.typingWrapper}>
+            <span className={s.typedText}>{typedText}</span>
+            <span className={s.cursor}>|</span>
+          </div>
+          <div 
+            className={cn(s.logoWrapper, typedText === fullText && s.showLogo)}
+            ref={logoRef}
+          >
+            <Image 
+              src="/images/Minimalist Pink Silhouette Globe on Black Stand Necib Nexus Logo.jpeg" 
+              alt="Necib Nexus Logo" 
+              width={300} 
+              height={300}
+              className={cn(s.logoImage, isLoaded && s.show)} 
+            />
+          </div>
         </div>
       </div>
     </div>
