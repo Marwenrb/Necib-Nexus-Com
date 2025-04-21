@@ -1,0 +1,257 @@
+@import '../../styles/variables.scss';
+
+.container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.9);
+  pointer-events: auto;
+}
+
+.imagesContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.imageWrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  will-change: transform, opacity;
+  transform: scale(1.1);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  transform-style: preserve-3d;
+  perspective: 1000px;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.8) 70%);
+    z-index: 1;
+  }
+}
+
+.backgroundImage {
+  transform-style: preserve-3d;
+  transition: transform 20s ease-out;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.messageContainer {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  margin-bottom: 4rem;
+  
+  @media (max-width: 768px) {
+    margin-bottom: 3rem;
+  }
+}
+
+.message {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  color: white;
+  text-shadow: 0 0 20px rgba(0, 0, 255, 0.5);
+  opacity: 0;
+  transform: translateY(20px);
+  letter-spacing: 0.05em;
+  max-width: 80%;
+  margin: 0 auto;
+  
+  @media (max-width: 768px) {
+    font-size: clamp(1.5rem, 6vw, 2.5rem);
+  }
+}
+
+.buttonContainer {
+  position: relative;
+  z-index: 10;
+  margin-top: 2rem;
+  opacity: 0;
+  transform: scale(0.9);
+  will-change: transform, opacity;
+}
+
+.enterButton {
+  position: relative;
+  font-size: clamp(1rem, 3vw, 1.2rem);
+  padding: 1rem 2.5rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 50px;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+  overflow: hidden;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    width: calc(100% + 4px);
+    height: calc(100% + 4px);
+    background: linear-gradient(45deg, #00b3ff, #00f0e0, #00b3ff);
+    z-index: -1;
+    border-radius: 50px;
+    background-size: 300% 300%;
+    animation: gradientBorder 3s ease infinite;
+    opacity: 0.7;
+  }
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(0, 179, 255, 0.3);
+    
+    &::before {
+      animation: gradientBorder 2s ease infinite;
+    }
+  }
+  
+  &:active {
+    transform: translateY(-1px);
+  }
+}
+
+@keyframes gradientBorder {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+// 3D animation effects
+@keyframes float {
+  0% {
+    transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+  }
+  100% {
+    transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+  }
+}
+
+// Mobile optimizations
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .buttonContainer {
+    margin-top: 1.5rem;
+  }
+  
+  .enterButton {
+    padding: 0.8rem 2rem;
+  }
+}
+
+.canvasContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  opacity: 0;
+  pointer-events: none;
+}
+
+// Loading component styles
+.loadingContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  z-index: 1001;
+  overflow: hidden;
+}
+
+.loadingContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  max-width: 90%;
+  width: 400px;
+}
+
+.loadingText {
+  font-size: clamp(1.2rem, 4vw, 1.8rem);
+  font-weight: 500;
+  color: white;
+  margin-bottom: 2rem;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+
+.progressContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.progressBar {
+  width: 100%;
+  height: 3px;
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+
+.progressFill {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to right, #00b3ff, #00f0e0);
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+.progressCounter {
+  font-size: 1rem;
+  font-weight: 500;
+  color: white;
+  opacity: 0.8;
+} 

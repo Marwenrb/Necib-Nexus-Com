@@ -195,50 +195,11 @@ export const Header = () => {
 
 // Sponsors/Partners Section
 export const SponsorsSection = () => {
-  const sponsors = [
-    {
-      name: "TechVision",
-      image: "/images/sponsor1.png", // Replace with actual sponsor images
-      description: "Digital Innovation Partner"
-    },
-    {
-      name: "NexGen Solutions",
-      image: "/images/sponsor2.png",
-      description: "AI Technology Partner"
-    },
-    {
-      name: "BlueWave Media",
-      image: "/images/sponsor3.png",
-      description: "Marketing Excellence"
-    },
-    {
-      name: "Quantum Designs",
-      image: "/images/sponsor4.png",
-      description: "Creative Solutions"
-    }
-  ];
-  
   return (
     <section className={s.sponsorshipSection}>
       <h2 className={s.sponsorshipTitle}>Our Strategic Partners</h2>
-      <div className={s.sponsorshipGrid}>
-        {sponsors.map((sponsor, index) => (
-          <div key={index} className={s.sponsorItem}>
-            <div className={s.sponsorImageContainer}>
-              {/* Fallback icon if image doesn't exist */}
-              <div className={s.sponsorIcon}>
-                <svg width="64" height="64" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" 
-                    stroke="#00b3ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 16V12" stroke="#00b3ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  <path d="M12 8H12.01" stroke="#00b3ff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-              </div>
-            </div>
-            <h3 className={s.sponsorName}>{sponsor.name}</h3>
-            <p className={s.sponsorDescription}>{sponsor.description}</p>
-          </div>
-        ))}
+      <div className={s.sponsorshipWrapper}>
+        {/* This section will be replaced by the BrandMarquee in the footer */}
       </div>
     </section>
   );

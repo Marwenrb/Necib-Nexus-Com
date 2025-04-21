@@ -2,8 +2,9 @@ import { useFrame } from '@darkroom.engineering/hamo'
 import cn from 'clsx'
 import { CustomHead } from 'components/custom-head'
 import { Footer } from 'components/footer'
-import { Intro, Header, SponsorsSection } from 'components/intro'
+import { Intro, Header } from 'components/intro'
 import { Scrollbar } from 'components/scrollbar'
+import { BackToTop } from 'components/back-to-top'
 import Lenis from 'lenis'
 import { useStore } from 'lib/store'
 import dynamic from 'next/dynamic'
@@ -110,9 +111,9 @@ export function Layout({
         <Scrollbar />
         <main className={s.main}>
           {children}
-          <SponsorsSection />
         </main>
         <Footer />
+        <BackToTop />
       </div>
     </>
   )
