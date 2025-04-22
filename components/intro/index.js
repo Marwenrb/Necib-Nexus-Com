@@ -141,7 +141,10 @@ export const Intro = () => {
               alt="Necib Nexus Logo" 
               width={300} 
               height={300}
-              className={cn(s.logoImage, isLoaded && s.show)} 
+              className={cn(s.logoImage, isLoaded && s.show)}
+              priority 
+              loading="eager"
+              fetchPriority="high"
             />
           </div>
         </div>
@@ -161,7 +164,9 @@ export const Title = ({ className }) => {
           alt="Necib Nexus Logo" 
           width={200} 
           height={200}
-          className={cn(s.logoImage, introOut && s.translate, s.mobile)} 
+          className={cn(s.logoImage, introOut && s.translate, s.mobile)}
+          priority 
+          loading="eager"
         />
       </div>
     </div>

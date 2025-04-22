@@ -1,5 +1,6 @@
 import { useFrame, useRect } from '@darkroom.engineering/hamo'
 import cn from 'clsx'
+import { useWindowSize, useIntersection } from 'react-use'
 
 import { Button } from 'components/button'
 import { Card } from 'components/card'
@@ -14,7 +15,6 @@ import { clamp, mapRange } from 'lib/maths'
 import { useStore } from 'lib/store'
 import dynamic from 'next/dynamic'
 import { useEffect, useRef, useState } from 'react'
-import { useIntersection, useWindowSize } from 'react-use'
 import s from './home.module.scss'
 
 // const SFDR = dynamic(() => import('icons/sfdr.svg'), { ssr: false })
@@ -42,6 +42,11 @@ const WebGL = dynamic(
   { ssr: false }
 )
 
+const MobileWhoWeAre = dynamic(
+  () => import('components/mobile-who-we-are').then((mod) => mod.MobileWhoWeAre),
+  { ssr: false }
+)
+
 const HeroTextIn = ({ children, introOut }) => {
   return (
     <div className={cn(s['hide-text'], introOut && s['show-text'])}>
@@ -54,6 +59,159 @@ if (typeof window !== 'undefined') {
   window.history.scrollRestoration = 'manual'
   window.scrollTo(0, 0)
 }
+
+// Mobile-specific animation hooks for 'Who we are' section
+const useMobileWhoWeAreAnimation = () => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [featuresRef, setFeaturesRef] = useState(null);
+  const [titleRef, setTitleRef] = useState(null);
+  
+  // Check for mobile using window size instead of useMediaQuery
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 800);
+    };
+    
+    // Initial check
+    checkMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkMobile);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+    };
+  }, []);
+  
+  // Setup intersection observer for features
+  useEffect(() => {
+    if (!isMobile || !featuresRef) return;
+    
+    const features = featuresRef.querySelectorAll(`.${s.feature}`);
+    const titles = featuresRef.querySelectorAll(`.${s.title}`);
+    
+    // Add tilt effect class to features
+    features.forEach(feature => {
+      feature.classList.add('tilt-effect');
+    });
+    
+    // Create intersection observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        // When element enters viewport
+        if (entry.isIntersecting) {
+          // Add animated class with delay based on index
+          const index = Array.from(features).indexOf(entry.target);
+          setTimeout(() => {
+            entry.target.classList.add('animated');
+            
+            // Add index to all child elements for staggered animation
+            const children = entry.target.querySelectorAll('p, h3');
+            children.forEach((child, i) => {
+              child.style.setProperty('--index', i);
+            });
+          }, index * 150);
+          
+          // Unobserve after animation
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.15,
+      rootMargin: '0px 0px -10% 0px'
+    });
+    
+    // Observe all features
+    features.forEach(feature => {
+      observer.observe(feature);
+    });
+    
+    // Separate observer for titles with different animation
+    const titleObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('animated');
+          titleObserver.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.5
+    });
+    
+    // Observe all titles
+    titles.forEach(title => {
+      titleObserver.observe(title);
+    });
+    
+    return () => {
+      observer.disconnect();
+      titleObserver.disconnect();
+    };
+  }, [isMobile, featuresRef]);
+  
+  // Setup touch movement effects
+  useEffect(() => {
+    if (!isMobile || !featuresRef) return;
+    
+    const features = featuresRef.querySelectorAll(`.${s.feature}`);
+    let touchStartY = 0;
+    let touchStartX = 0;
+    
+    const handleTouchStart = (e) => {
+      touchStartY = e.touches[0].clientY;
+      touchStartX = e.touches[0].clientX;
+    };
+    
+    const handleTouchMove = (e) => {
+      if (!e.currentTarget.classList.contains('animated')) return;
+      
+      const touchY = e.touches[0].clientY;
+      const touchX = e.touches[0].clientX;
+      
+      const deltaY = touchStartY - touchY;
+      const deltaX = touchStartX - touchX;
+      
+      // Calculate tilt based on touch movement
+      const tiltY = deltaX * 0.05; // Max 5 degrees
+      const tiltX = -deltaY * 0.05; // Max 5 degrees
+      
+      // Apply 3D transformation
+      e.currentTarget.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateZ(10px)`;
+    };
+    
+    const handleTouchEnd = (e) => {
+      // Reset transform with transition
+      e.currentTarget.style.transition = 'transform 0.5s ease-out';
+      e.currentTarget.style.transform = '';
+      
+      // Remove transition after animation completes
+      setTimeout(() => {
+        e.currentTarget.style.transition = '';
+      }, 500);
+    };
+    
+    // Add touch event listeners to all features
+    features.forEach(feature => {
+      feature.addEventListener('touchstart', handleTouchStart);
+      feature.addEventListener('touchmove', handleTouchMove);
+      feature.addEventListener('touchend', handleTouchEnd);
+    });
+    
+    return () => {
+      features.forEach(feature => {
+        feature.removeEventListener('touchstart', handleTouchStart);
+        feature.removeEventListener('touchmove', handleTouchMove);
+        feature.removeEventListener('touchend', handleTouchEnd);
+      });
+    };
+  }, [isMobile, featuresRef]);
+  
+  return {
+    setFeaturesRef,
+    setTitleRef
+  };
+};
 
 export default function Home() {
   const [hasScrolled, setHasScrolled] = useState()
@@ -119,6 +277,26 @@ export default function Home() {
       setIsVisible(true)
     }
   }, [intersection])
+
+  const { setFeaturesRef, setTitleRef } = useMobileWhoWeAreAnimation();
+
+  const whoWeAreFeatures = [
+    {
+      content: "Necib Nexus is a global digital innovation company that transforms visions into immersive realities. With creative brilliance and technical expertise, we deliver unforgettable experiences for leading brands worldwide."
+    },
+    {
+      title: "Create immersive digital experiences",
+      content: "Unlock the creative potential and impact of your digital presence. Our innovative approach pulls users into an immersive flow that transforms ordinary interactions into extraordinary experiences."
+    },
+    {
+      title: "Tailor solutions for every platform",
+      content: "Give all your users the same exceptional experience whether they're on desktop, mobile, or immersive platforms. With our expertise, you control how engaging, intuitive, and responsive your digital presence becomes."
+    },
+    {
+      title: "Seamless integration of technology",
+      content: "We seamlessly blend cutting-edge technologies with creative design to create flawless digital experiences. Our team ensures perfect synchronization between visuals, interactions, and performance across all platforms."
+    }
+  ];
 
   return (
     <Layout
@@ -196,12 +374,15 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Mobile-specific Who We Are section with enhanced animations */}
+      <MobileWhoWeAre features={whoWeAreFeatures} />
+
       <section className={s.why}>
         <div className="layout-grid">
-          <h2 className={cn(s.sticky, 'h2')}>
+          <h2 className={cn(s.sticky, 'h2')} ref={setTitleRef}>
             <AppearTitle>Who we are</AppearTitle>
           </h2>
-          <aside className={s.features} ref={whyRectRef}>
+          <aside className={s.features} ref={setFeaturesRef}>
             <div className={s.feature}>
               <p className="p">
                 Necib Nexus is a global digital innovation company that transforms visions into immersive realities. With creative brilliance and technical expertise, we deliver unforgettable experiences for leading brands worldwide.

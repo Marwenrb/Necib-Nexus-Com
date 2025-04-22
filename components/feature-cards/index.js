@@ -5,7 +5,7 @@ import { Card } from 'components/card'
 import { useScroll } from 'hooks/use-scroll'
 import { clamp, mapRange } from 'lib/maths'
 import dynamic from 'next/dynamic'
-import { useRef, useState } from 'react'
+import { useRef, useState, useCallback } from 'react'
 import { useWindowSize } from 'react-use'
 
 const AppearTitle = dynamic(
@@ -16,8 +16,14 @@ const AppearTitle = dynamic(
 import s from './feature-cards.module.scss'
 
 const cards = [
-  { text: 'Digital Culture Immersion' },
-  { text: 'E-Tourism Solutions' },
+  { 
+    text: 'Digital Culture Immersion',
+    image: '/images/FeatureCards-Images/Digital-culture-F.jpeg'
+  },
+  { 
+    text: 'E-Tourism Solutions',
+    image: '/images/FeatureCards-Images/E-Tourism-f1.jpeg'
+  },
   {
     text: (
       <>
@@ -25,13 +31,32 @@ const cards = [
         Production
       </>
     ),
+    image: '/images/FeatureCards-Images/Digital-7.jpeg'
   },
-  { text: 'Web & App Development' },
-  { text: 'DIGITAL MARKETING STRATEGIES' },
-  { text: 'Innovation Lab & AR/VR Experiences' },
-  { text: 'Multilingual Support' },
-  { text: 'Cultural Heritage Preservation' },
-  { text: 'Immersive storytelling' },
+  { 
+    text: 'Web & App Development',
+    image: '/images/FeatureCards-Images/APP-DEV-F1.jpeg'
+  },
+  { 
+    text: 'DIGITAL MARKETING STRATEGIES',
+    image: '/images/FeatureCards-Images/Digital Marketing-F3.jpeg'
+  },
+  { 
+    text: 'Innovation Lab & AR/VR Experiences',
+    image: '/images/FeatureCards-Images/AR_VR-F1.png'
+  },
+  { 
+    text: 'Events Organization',
+    image: '/images/FeatureCards-Images/Events-F1.jpeg'
+  },
+  { 
+    text: 'Cultural Heritage Preservation',
+    image: '/images/FeatureCards-Images/Digital-10.jpeg'
+  },
+  { 
+    text: 'Immersive storytelling',
+    image: '/images/FeatureCards-Images/Emerssion-1.jpeg'
+  },
 ]
 
 export const FeatureCards = () => {
@@ -81,7 +106,7 @@ export const FeatureCards = () => {
               key={index}
               index={index}
               text={card.text}
-              number={index + 1}
+              image={card.image}
               current={index <= current - 1}
             />
           ))}
@@ -91,10 +116,40 @@ export const FeatureCards = () => {
   )
 }
 
-const SingleCard = ({ text, number, index, current }) => {
+const SingleCard = ({ text, image, index, current }) => {
+  const cardRef = useRef(null);
+  
+  const handleMouseMove = useCallback((e) => {
+    if (!cardRef.current) return;
+    
+    const card = cardRef.current;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const rotateY = (x - centerX) / 20;
+    const rotateX = (centerY - y) / 20;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+  }, []);
+  
+  const handleMouseLeave = useCallback(() => {
+    if (!cardRef.current) return;
+    cardRef.current.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
+  }, []);
+
   return (
-    <div className={cn(s.card, current && s.current)} style={{ '--i': index }}>
-      <Card background="rgba(239, 239, 239, 0.8)" number={number} text={text} />
+    <div 
+      ref={cardRef}
+      className={cn(s.card, current && s.current)} 
+      style={{ '--i': index }}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+    >
+      <Card background="rgba(239, 239, 239, 0.8)" text={text} image={image} />
     </div>
   )
 }

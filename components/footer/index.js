@@ -2,8 +2,11 @@ import React, { useRef, useState, useEffect } from 'react'
 import cn from 'clsx'
 import { Button } from 'components/button'
 import { Link } from 'components/link'
+import Icon from 'components/icons/Icon'
 import { FiMail, FiPhone } from 'react-icons/fi'
-import { FaTwitter, FaLinkedin, FaGlobe, FaHeart } from 'react-icons/fa'
+import { FaTwitter, FaLinkedin, FaDiscord, FaInstagram, FaTiktok, FaGithub } from 'react-icons/fa'
+import { RiRocketLine } from 'react-icons/ri'
+import { FaHeart } from 'react-icons/fa'
 import s from './footer.module.scss'
 import { BrandMarquee } from './components/BrandMarquee'
 import { ParticleBackground } from './components/ParticleBackground'
@@ -15,6 +18,12 @@ export const Footer = () => {
   const lenis = useStore(({ lenis }) => lenis)
   const footerRef = useRef(null)
   const [showCustomCursor, setShowCustomCursor] = useState(false)
+  const [isMounted, setIsMounted] = useState(false)
+  
+  // Set mounted state on client-side to prevent hydration issues
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
   
   // Detect mouse enter on footer to show custom cursor
   useEffect(() => {
@@ -35,10 +44,11 @@ export const Footer = () => {
     }
   }, [footerRef.current])
   
-  // Scroll-triggered animations
+  // Scroll-triggered animations with layoutEffect: false to prevent hydration issues
   const { scrollYProgress } = useScroll({
     target: footerRef,
-    offset: ["start end", "end end"]
+    offset: ["start end", "end end"],
+    layoutEffect: false // Prevent hydration warnings
   })
   
   // Spring animations for smoother motion
@@ -115,11 +125,14 @@ export const Footer = () => {
       
       <motion.div 
         className={s.partners}
-        style={{ opacity: marqueeOpacity }}
+        style={{ opacity: isMounted ? marqueeOpacity : 0 }}
       >
         <motion.h2 
           className={s.partnersTitle}
-          style={{ opacity: titleOpacity, y: titleY }}
+          style={{ 
+            opacity: isMounted ? titleOpacity : 0, 
+            y: isMounted ? titleY : 30 
+          }}
         >
           Our Strategic Partners
         </motion.h2>
@@ -216,7 +229,7 @@ export const Footer = () => {
             <motion.div
               whileHover={{ scale: 1.2, rotate: 15, transition: { duration: 0.3 } }}
             >
-              <FiMail className={s.contactIcon} />
+              <Icon name="fi:mail" className={s.contactIcon} />
             </motion.div>
             <a href="mailto:contact@necibnexus.com" className={s.contactText}>contact@necibnexus.com</a>
           </motion.div>
@@ -231,7 +244,7 @@ export const Footer = () => {
             <motion.div
               whileHover={{ scale: 1.2, rotate: 15, transition: { duration: 0.3 } }}
             >
-              <FiPhone className={s.contactIcon} />
+              <Icon name="fi:phone" className={s.contactIcon} />
             </motion.div>
             <a href="tel:+213079696895" className={s.contactText}>+213 07 96 96 98 95</a>
           </motion.div>
@@ -250,9 +263,24 @@ export const Footer = () => {
             rel="noreferrer" 
             className={s.socialIcon}
             variants={childVariants}
-            whileHover={logoVariants.hover}
+            whileHover={{
+              scale: 1.2, 
+              y: -8,
+              boxShadow: "0 10px 20px rgba(29, 161, 242, 0.4)",
+              backgroundColor: "#1DA1F2",
+              color: "#ffffff",
+              transition: { type: "spring", stiffness: 500, damping: 10 }
+            }}
           >
-            <FaTwitter />
+            <Icon name="ri:twitter-x-fill" animated={true} />
+            <motion.span 
+              className={s.socialTooltip}
+              initial={{ opacity: 0, y: 10 }}
+              whileHover={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              X (Twitter)
+            </motion.span>
           </motion.a>
           <motion.a 
             href="https://linkedin.com/company/necibnexus" 
@@ -260,9 +288,49 @@ export const Footer = () => {
             rel="noreferrer" 
             className={s.socialIcon}
             variants={childVariants}
-            whileHover={logoVariants.hover}
+            whileHover={{
+              scale: 1.2,
+              y: -8,
+              boxShadow: "0 10px 20px rgba(0, 119, 181, 0.4)",
+              backgroundColor: "#0077B5",
+              color: "#ffffff", 
+              transition: { type: "spring", stiffness: 500, damping: 10 }
+            }}
           >
-            <FaLinkedin />
+            <Icon name="ri:linkedin-fill" animated={true} />
+            <motion.span 
+              className={s.socialTooltip}
+              initial={{ opacity: 0, y: 10 }}
+              whileHover={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              LinkedIn
+            </motion.span>
+          </motion.a>
+          <motion.a 
+            href="https://instagram.com/necibnexus" 
+            target="_blank" 
+            rel="noreferrer" 
+            className={s.socialIcon}
+            variants={childVariants}
+            whileHover={{
+              scale: 1.2,
+              y: -8,
+              boxShadow: "0 10px 20px rgba(225, 48, 108, 0.4)",
+              background: "radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%)",
+              color: "#ffffff",
+              transition: { type: "spring", stiffness: 500, damping: 10 }
+            }}
+          >
+            <Icon name="ri:instagram-fill" animated={true} />
+            <motion.span 
+              className={s.socialTooltip}
+              initial={{ opacity: 0, y: 10 }}
+              whileHover={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              Instagram
+            </motion.span>
           </motion.a>
           <motion.a 
             href="https://necibnexus.com" 
@@ -270,9 +338,24 @@ export const Footer = () => {
             rel="noreferrer" 
             className={s.socialIcon}
             variants={childVariants}
-            whileHover={logoVariants.hover}
+            whileHover={{
+              scale: 1.2,
+              y: -8,
+              boxShadow: "0 10px 20px rgba(83, 82, 237, 0.4)",
+              backgroundColor: "#5352ED",
+              color: "#ffffff",
+              transition: { type: "spring", stiffness: 500, damping: 10 }
+            }}
           >
-            <FaGlobe />
+            <Icon name="ri:rocket-2-fill" animated={true} />
+            <motion.span 
+              className={s.socialTooltip}
+              initial={{ opacity: 0, y: 10 }}
+              whileHover={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.2 }}
+            >
+              Website
+            </motion.span>
           </motion.a>
         </motion.div>
       </motion.div>

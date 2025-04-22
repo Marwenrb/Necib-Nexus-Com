@@ -2,6 +2,7 @@
 
 .features {
   height: 1600vh;
+  position: relative;
 
   @include desktop {
     min-height: desktop-vw(1310px);
@@ -14,9 +15,9 @@
     will-change: transform;
     transition-duration: 1.2s;
     transition-property: opacity, transform;
-    transition-timing-function: var(--ease-out-expo);
-    // transform: translate3d(0, calc(var(--progress) * -1 * var(--d)), 0);
-    // transform: translateY(calc(var(--progress) * -1 * var(--d)));
+    transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+    transform-origin: center center;
+    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
 
     @include mobile {
       @for $i from 0 through 8 {
@@ -55,19 +56,44 @@
     }
 
     &:not(.current) {
-      transform: translate3d(100%, 100%, 0);
+      transform: translate3d(100%, 100%, 0) scale(0.8);
       opacity: 0;
+      filter: blur(5px);
+    }
+
+    &.current {
+      animation: fadeInScalePremium 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
     }
   }
 
   .title {
     text-align: end;
     padding-bottom: var(--layout-margin);
+    position: relative;
+    z-index: 10;
 
     @include desktop {
       padding: 0;
       position: absolute;
       right: var(--layout-margin);
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      bottom: var(--layout-margin);
+      right: 0;
+      width: 60px;
+      height: 3px;
+      background: var(--theme-contrast);
+      transform-origin: right;
+      transform: scaleX(0);
+      animation: lineReveal 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+      animation-delay: 0.5s;
+
+      @include desktop {
+        bottom: -20px;
+      }
     }
   }
 }
@@ -80,9 +106,48 @@
   padding: var(--layout-margin);
 
   @include desktop {
+    &:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 70% 50%, rgba(83, 82, 237, 0.03) 0%, rgba(255, 255, 255, 0) 70%);
+      z-index: -1;
+      opacity: 0.7;
+    }
   }
 
   > * {
     position: relative;
   }
+}
+
+@keyframes fadeInScalePremium {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+    filter: blur(5px);
+  }
+  50% {
+    opacity: 0.8;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes zoomIn {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1.05); }
+}
+
+@keyframes lineReveal {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
 }
