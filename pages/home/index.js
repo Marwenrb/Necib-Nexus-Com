@@ -222,6 +222,44 @@ export default function Home() {
 
   const [theme, setTheme] = useState('dark')
   const lenis = useStore(({ lenis }) => lenis)
+  const featuresRef = useRef(null)
+  const [featuresAnimated, setFeaturesAnimated] = useState(false)
+
+  // Add Intersection Observer for features section
+  useEffect(() => {
+    if (!featuresRef.current) return;
+    
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setFeaturesAnimated(true);
+          observer.unobserve(entry.target);
+        }
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -10% 0px"
+      }
+    );
+    
+    observer.observe(featuresRef.current);
+    
+    return () => {
+      if (featuresRef.current) {
+        observer.unobserve(featuresRef.current);
+      }
+    };
+  }, []);
+
+  // Add item-index for staggered animations in desktop view
+  useEffect(() => {
+    if (featuresRef.current) {
+      const features = featuresRef.current.querySelectorAll(`.${s.feature}`);
+      features.forEach((feature, index) => {
+        feature.style.setProperty('--item-index', index);
+      });
+    }
+  }, []);
 
   useEffect(() => {
     if (!lenis) return
@@ -382,7 +420,10 @@ export default function Home() {
           <h2 className={cn(s.sticky, 'h2')} ref={setTitleRef}>
             <AppearTitle>Who we are</AppearTitle>
           </h2>
-          <aside className={s.features} ref={setFeaturesRef}>
+          <aside className={cn(s.features, featuresAnimated && s.animated)} ref={(el) => {
+            setFeaturesRef(el);
+            featuresRef.current = el;
+          }}>
             <div className={s.feature}>
               <p className="p">
                 Necib Nexus is a global digital innovation company that transforms visions into immersive realities. With creative brilliance and technical expertise, we deliver unforgettable experiences for leading brands worldwide.

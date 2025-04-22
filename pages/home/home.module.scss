@@ -309,36 +309,74 @@ $intro-duration: 2050ms;
   }
 
   .features {
-    display: flex;
-    flex-direction: column;
-    gap: desktop-vw(128px);
-    position: relative;
-    padding-top: desktop-vw(30px);
+    @include mobile {
+      display: flex;
+      flex-direction: column;
+      gap: mobile-vw(40px);
+    }
     
     @include desktop {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: desktop-vw(30px);
+      position: relative;
+      padding-top: desktop-vw(30px);
       will-change: transform;
       transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+      
+      /* Add horizontal animation for features */
+      &.animated {
+        animation: slideInFromRight 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+      }
+      
+      @keyframes slideInFromRight {
+        0% {
+          transform: translateX(100px);
+          opacity: 0;
+        }
+        100% {
+          transform: translateX(0);
+          opacity: 1;
+        }
+      }
     }
   }
 
   .feature {
-    grid-column: 1 / -1;
     position: relative;
     transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1), 
                 opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1),
                 box-shadow 0.6s cubic-bezier(0.19, 1, 0.22, 1);
     border-radius: desktop-vw(16px);
-    padding: desktop-vw(40px);
+    padding: desktop-vw(30px);
     background-color: rgba(255, 255, 255, 0.01);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.03);
     box-shadow: 0 desktop-vw(10px) desktop-vw(30px) rgba(0, 0, 0, 0.03);
     overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    @include mobile {
+      grid-column: 1 / -1;
+      margin-bottom: mobile-vw(30px);
+    }
 
     @include desktop {
-      grid-column: 3 / -3;
-      margin-bottom: desktop-vw(30px);
+      opacity: 0;
+      animation: fadeIn 0.6s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+      animation-delay: calc(var(--item-index, 0) * 0.1s);
+      
+      /* First feature spans across for the intro text */
+      &:first-child {
+        grid-column: span 2;
+      }
+      
+      &:not(:first-child) {
+        grid-column: span 1;
+      }
       
       &:hover {
         transform: translateY(-desktop-vw(10px));
@@ -348,7 +386,18 @@ $intro-duration: 2050ms;
         border-color: rgba(83, 82, 237, 0.1);
       }
       
-      // Alternating side decorative elements
+      @keyframes fadeIn {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        100% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      
+      // Alternating decorative elements
       &:nth-child(odd)::before {
         content: '';
         position: absolute;
@@ -384,7 +433,7 @@ $intro-duration: 2050ms;
       letter-spacing: -0.01em;
       
       @include desktop {
-        margin-bottom: desktop-vw(32px);
+        margin-bottom: desktop-vw(20px);
         transition: color 0.4s ease, transform 0.4s ease;
         
         &::after {
@@ -413,7 +462,7 @@ $intro-duration: 2050ms;
     p {
       line-height: 1.6;
       color: var(--theme-secondary);
-      max-width: 90%;
+      max-width: 100%;
       
       @include desktop {
         transition: transform 0.4s ease 0.1s;
