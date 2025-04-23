@@ -16,12 +16,18 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "resolutions": {
+    "react-is": "18.2.0",
+    "scheduler": "0.23.2",
+    "zustand": "5.0.3"
+  },
   "dependencies": {
     "@darkroom.engineering/hamo": "^0.6.46",
     "@darkroom.engineering/tempus": "^0.0.46",
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
     "@react-three/postprocessing": "^3.0.4",
+    "@studio-freight/lenis": "^1.0.42",
     "classnames": "^2.5.1",
     "clsx": "^1.2.1",
     "framer-motion": "^12.7.4",
@@ -80,11 +86,6 @@
       "throttle-debounce": "5.0.0",
       "zustand": "4.3.6"
     }
-  },
-  "resolutions": {
-    "react-is": "18.2.0",
-    "scheduler": "0.23.0",
-    "zustand": "4.3.6"
   },
   "overrides": {
     "react-is": "18.2.0",
