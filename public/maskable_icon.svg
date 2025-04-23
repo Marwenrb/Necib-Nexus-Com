@@ -1,0 +1,12 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" fill="#6441A5" />
+  
+  <!-- "NN" Text -->
+  <g transform="scale(0.8) translate(64, 64)">
+    <path d="M152 180V330M152 180L208 330M152 180H208M208 180V330" 
+          stroke="white" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M302 180V330M302 180L358 330M302 180H358M358 180V330" 
+          stroke="white" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg> 

@@ -1,7 +1,7 @@
 {
   "name": "Necib Nexus",
   "short_name": "NN",
-  "description": "How smooth scroll should be.",
+  "description": "Global digital innovation transforming visions into immersive realities",
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -14,16 +14,40 @@
       "type": "image/png"
     },
     {
-      "src": "/maskable_icon.png",
+      "src": "/maskable_icon.svg",
       "sizes": "512x512",
-      "type": "image/png",
+      "type": "image/svg+xml",
       "purpose": "maskable"
     }
   ],
-  "theme_color": "#5352ED",
-  "background_color": "#ffffff",
+  "theme_color": "#6441A5",
+  "background_color": "#FFFFFF",
   "start_url": "/",
-  "scope": ".",
+  "scope": "/",
   "display": "standalone",
-  "orientation": "portrait"
+  "orientation": "portrait",
+  "lang": "en-US",
+  "dir": "ltr",
+  "categories": ["business", "technology", "design"],
+  "shortcuts": [
+    {
+      "name": "Contact Us",
+      "short_name": "Contact",
+      "description": "Get in touch with Necib Nexus",
+      "url": "/contact",
+      "icons": [
+        {
+          "src": "/android-chrome-192x192.png",
+          "sizes": "192x192"
+        }
+      ]
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/og.png",
+      "sizes": "1200x630",
+      "type": "image/png"
+    }
+  ]
 }

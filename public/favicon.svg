@@ -1,6 +1,31 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="256" cy="256" r="240" fill="#5352ED" fill-opacity="0.1" stroke="#5352ED" stroke-width="8" />
-  <circle cx="256" cy="256" r="200" fill="#5352ED" fill-opacity="0.05" />
-  <path d="M175 170V342M175 170L230 342M175 170H230M230 170V342" stroke="#5352ED" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" />
-  <path d="M280 170V342M280 170L335 342M280 170H335M335 170V342" stroke="#5352ED" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" />
+  <!-- Gradient background -->
+  <defs>
+    <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6441A5" />
+      <stop offset="100%" stop-color="#41BEC8" />
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#F2F2F6" />
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Main circle with gradient -->
+  <circle cx="256" cy="256" r="240" fill="url(#backgroundGradient)" />
+  
+  <!-- Inner circle accent -->
+  <circle cx="256" cy="256" r="220" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-opacity="0.2" />
+  
+  <!-- "NN" Text -->
+  <g filter="url(#glow)">
+    <path d="M152 180V330M152 180L208 330M152 180H208M208 180V330" 
+          stroke="url(#textGradient)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M302 180V330M302 180L358 330M302 180H358M358 180V330" 
+          stroke="url(#textGradient)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
 </svg> 

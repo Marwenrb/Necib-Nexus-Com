@@ -1,0 +1,37 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Gradient background -->
+  <defs>
+    <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6441A5" />
+      <stop offset="100%" stop-color="#41BEC8" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="20" result="blur" />
+      <feComposite in="SourceGraphic" in2="blur" operator="over" />
+    </filter>
+  </defs>
+  
+  <!-- Background with gradient -->
+  <rect width="1200" height="630" fill="url(#backgroundGradient)" />
+  
+  <!-- Decorative elements -->
+  <circle cx="300" cy="315" r="200" fill="white" fill-opacity="0.03" />
+  <circle cx="900" cy="315" r="200" fill="white" fill-opacity="0.03" />
+  
+  <!-- Logo -->
+  <g transform="translate(480, 180)" filter="url(#glow)">
+    <circle cx="120" cy="120" r="100" fill="none" stroke="white" stroke-width="2" stroke-opacity="0.3" />
+    <g transform="scale(0.7) translate(50, 50)">
+      <path d="M152 180V330M152 180L208 330M152 180H208M208 180V330" 
+            stroke="white" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" />
+      <path d="M302 180V330M302 180L358 330M302 180H358M358 180V330" 
+            stroke="white" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" />
+    </g>
+  </g>
+  
+  <!-- Company name -->
+  <text x="600" y="450" font-family="Arial, sans-serif" font-size="60" font-weight="bold" fill="white" text-anchor="middle">NECIB NEXUS</text>
+  
+  <!-- Tagline -->
+  <text x="600" y="510" font-family="Arial, sans-serif" font-size="28" fill="white" text-anchor="middle" fill-opacity="0.9">Global Digital Innovation</text>
+</svg> 
