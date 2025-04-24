@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useMediaQuery } from '@darkroom.engineering/hamo';
 import s from './who-we-are.module.scss';
+import Image from 'next/image';
 
 export const WhoWeAre = ({ features }) => {
   const sectionRef = useRef(null);
@@ -24,10 +25,16 @@ export const WhoWeAre = ({ features }) => {
   // Apply parallax effect to background
   useEffect(() => {
     if (bgParallaxRef.current) {
+      // Use CSS animations for mobile instead of JS parallax
+      if (isMobile) {
+        bgParallaxRef.current.style.transform = '';
+        return;
+      }
+      
       const translateY = scrollY * 0.15; // Parallax coefficient
       bgParallaxRef.current.style.transform = `translateY(${translateY}px)`;
     }
-  }, [scrollY]);
+  }, [scrollY, isMobile]);
 
   // Initialize ScrollMagic and GSAP animations
   useEffect(() => {
@@ -89,7 +96,7 @@ export const WhoWeAre = ({ features }) => {
         { 
           y: -30, 
           opacity: 0,
-          rotationX: 45,
+          rotationX: isMobile ? 15 : 45,
           transformPerspective: 800,
           transformOrigin: "center bottom"
         },
@@ -97,15 +104,15 @@ export const WhoWeAre = ({ features }) => {
           y: 0, 
           opacity: 1,
           rotationX: 0,
-          duration: 1.2, 
+          duration: isMobile ? 0.8 : 1.2,
           ease: "power3.out" 
         }
       );
     
-    // Title Scene
+    // Title Scene with adjusted trigger hook for mobile
     new ScrollMagic.Scene({
       triggerElement: titleRef.current,
-      triggerHook: 0.85,
+      triggerHook: isMobile ? 0.9 : 0.85,
       reverse: false
     })
     .setTween(titleTimeline)
@@ -121,25 +128,26 @@ export const WhoWeAre = ({ features }) => {
       // Create basic fade-in animation that works without TextPlugin
       const paraTimeline = gsap.timeline();
       
-      // Initial reveal animation
+      // Initial reveal animation - faster on mobile
       paraTimeline.fromTo(
         para,
         { 
-          y: 20, 
+          y: isMobile ? 10 : 20, 
           opacity: 0,
-          filter: 'blur(4px)'
+          filter: isMobile ? 'blur(2px)' : 'blur(4px)'
         },
         { 
           y: 0, 
           opacity: 1,
           filter: 'blur(0px)',
-          duration: 0.6,
+          duration: isMobile ? 0.4 : 0.6,
           ease: "power2.out"
         }
       );
       
       // If TextPlugin is available, add typing effect
-      if (gsap.TextPlugin) {
+      if (gsap.TextPlugin && !isMobile) {
+        // Only use typing effect on non-mobile devices
         // First clear the text
         para.textContent = '';
         
@@ -161,7 +169,7 @@ export const WhoWeAre = ({ features }) => {
       // Create scene for each paragraph
       new ScrollMagic.Scene({
         triggerElement: para,
-        triggerHook: 0.75,
+        triggerHook: isMobile ? 0.8 : 0.75,
         reverse: false
       })
       .setTween(paraTimeline)
@@ -173,24 +181,26 @@ export const WhoWeAre = ({ features }) => {
         
         new ScrollMagic.Scene({
           triggerElement: featureItem,
-          triggerHook: 0.7,
+          triggerHook: isMobile ? 0.75 : 0.7,
           reverse: false
         })
         .setTween(
           gsap.fromTo(
             featureItem,
             { 
-              x: index % 2 === 0 ? -20 : 20,
+              x: isMobile ? 0 : (index % 2 === 0 ? -20 : 20),
+              y: isMobile ? 20 : 0,
               opacity: 0,
               boxShadow: '0 5px 15px rgba(0, 0, 0, 0.05)'
             },
             { 
               x: 0,
+              y: 0,
               opacity: 1,
               boxShadow: '0 15px 40px rgba(83, 82, 237, 0.15)',
-              duration: 0.8,
+              duration: isMobile ? 0.6 : 0.8,
               ease: "power2.out",
-              delay: index * 0.15
+              delay: isMobile ? index * 0.1 : index * 0.15
             }
           )
         )
@@ -204,11 +214,26 @@ export const WhoWeAre = ({ features }) => {
 
   return (
     <section id="who-we-are" className={s.whoWeAre} ref={sectionRef}>
-      {/* Parallax background elements */}
+      {/* Enhanced parallax background elements */}
       <div className={s.parallaxBackground} ref={bgParallaxRef}>
         <div className={s.bgCircle1}></div>
         <div className={s.bgCircle2}></div>
         <div className={s.bgGrid}></div>
+        
+        {/* Background image with overlay */}
+        <div className={s.backgroundImage}>
+          <Image 
+            src="/images/FeatureCards-Images/Immersive storytelling.jpeg" 
+            alt="Immersive storytelling"
+            layout="fill"
+            objectFit="cover"
+            quality={95}
+            priority
+          />
+        </div>
+        
+        {/* New premium design elements */}
+        <div className={s.designElements}></div>
       </div>
       
       <div className={s.container}>

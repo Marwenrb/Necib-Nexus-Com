@@ -3,7 +3,9 @@
   position: relative;
   padding: 120px 0 100px;
   overflow: hidden;
-  background: linear-gradient(135deg, rgba(249, 250, 255, 0.95), rgba(255, 255, 255, 0.97));
+  background: linear-gradient(135deg, rgba(249, 250, 255, 0.85), rgba(255, 255, 255, 0.9));
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
   
   // Main container
   .container {
@@ -11,10 +13,10 @@
     margin: 0 auto;
     padding: 0 30px;
     position: relative;
-    z-index: 2;
+    z-index: 5;
   }
   
-  // Parallax background elements
+  // Enhanced parallax background elements
   .parallaxBackground {
     position: absolute;
     top: 0;
@@ -25,43 +27,136 @@
     z-index: 1;
     will-change: transform;
     
+    &::before {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 20%, rgba(83, 82, 237, 0.05), transparent 50%);
+      z-index: 2;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 70% 80%, rgba(72, 149, 239, 0.05), transparent 50%);
+      z-index: 2;
+    }
+    
+    // Background image with overlay
+    .backgroundImage {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      opacity: 0.22;
+      
+      &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, rgba(83, 82, 237, 0.2), rgba(255, 255, 255, 0.85));
+        z-index: 2;
+      }
+      
+      img {
+        object-position: center;
+        filter: saturate(0.8) brightness(1.1) contrast(1.1);
+      }
+    }
+    
     .bgCircle1 {
       position: absolute;
-      width: 400px;
-      height: 400px;
+      width: 600px;
+      height: 600px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(83, 82, 237, 0.07) 0%, transparent 70%);
-      top: -100px;
-      left: -80px;
-      animation: floatAnimation 18s infinite ease-in-out alternate;
+      background: radial-gradient(circle, rgba(83, 82, 237, 0.08) 0%, transparent 70%);
+      top: -150px;
+      left: -100px;
+      filter: blur(30px);
+      animation: floatAnimation 24s infinite ease-in-out alternate;
+      opacity: 0.8;
+      z-index: 3;
     }
     
     .bgCircle2 {
       position: absolute;
-      width: 300px;
-      height: 300px;
+      width: 500px;
+      height: 500px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(83, 82, 237, 0.05) 0%, transparent 70%);
-      bottom: 0;
-      right: -50px;
-      animation: floatAnimation 15s infinite ease-in-out alternate-reverse;
+      background: radial-gradient(circle, rgba(83, 82, 237, 0.06) 0%, transparent 70%);
+      bottom: -50px;
+      right: -80px;
+      filter: blur(25px);
+      animation: floatAnimation 20s infinite ease-in-out alternate-reverse;
+      opacity: 0.7;
+      z-index: 3;
     }
     
     .bgGrid {
       position: absolute;
       width: 100%;
-      height: 100%;
+      height: 150%;
       background-image: 
-        linear-gradient(to right, rgba(83, 82, 237, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(83, 82, 237, 0.03) 1px, transparent 1px);
-      background-size: 40px 40px;
+        linear-gradient(to right, rgba(83, 82, 237, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(83, 82, 237, 0.04) 1px, transparent 1px);
+      background-size: 50px 50px;
+      opacity: 0.6;
+      transform: perspective(1000px) rotateX(5deg);
+      animation: gridPulse 15s infinite linear;
+      z-index: 3;
+    }
+    
+    // Add premium design elements
+    .designElements {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
       opacity: 0.5;
+      mix-blend-mode: overlay;
+      z-index: 4;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(83, 82, 237, 0.2), rgba(72, 149, 239, 0.1));
+        top: 20%;
+        left: 15%;
+        filter: blur(50px);
+        animation: breathe 15s infinite alternate;
+      }
+      
+      &::after {
+        content: '';
+        position: absolute;
+        width: 250px;
+        height: 250px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, rgba(72, 149, 239, 0.15), rgba(83, 82, 237, 0.1));
+        bottom: 15%;
+        right: 10%;
+        filter: blur(40px);
+        animation: breathe 12s infinite alternate-reverse;
+      }
     }
   }
   
   // Section title with 3D effect
   .sectionTitle {
-    font-size: 3.5rem;
+    font-size: 3.8rem;
     text-align: center;
     margin-bottom: 70px;
     position: relative;
@@ -69,10 +164,12 @@
     letter-spacing: 1px;
     perspective: 1000px;
     color: #333;
+    filter: drop-shadow(0 10px 20px rgba(83, 82, 237, 0.1));
     
     .titleFirstPart {
       color: #333;
       margin-right: 15px;
+      text-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
     }
     
     .titleSecondPart {
@@ -81,6 +178,7 @@
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       color: transparent;
+      text-shadow: none;
     }
     
     &::after {
@@ -93,10 +191,11 @@
       border-radius: 2px;
       transform-origin: center;
       animation: pulseWidth 3s infinite ease-in-out;
+      box-shadow: 0 3px 10px rgba(83, 82, 237, 0.2);
     }
   }
   
-  // Features grid layout
+  // Features grid layout with improved card design
   .content {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -105,28 +204,32 @@
     // First feature spanning full width
     .mainFeature {
       grid-column: 1 / -1;
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.95));
-      box-shadow: 0 15px 50px rgba(83, 82, 237, 0.1);
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.85), rgba(255, 255, 255, 0.9));
+      box-shadow: 0 20px 60px rgba(83, 82, 237, 0.15);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
       
       p {
         font-size: 1.25rem;
         line-height: 1.7;
         font-weight: 400;
+        letter-spacing: 0.02em;
       }
     }
   }
   
-  // Feature card styling
+  // Feature card styling with glass morphism
   .featureItem {
-    background-color: white;
-    border-radius: 16px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(83, 82, 237, 0.1);
     padding: 35px;
     transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     position: relative;
     overflow: hidden;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.8);
     
     &::before {
@@ -139,25 +242,27 @@
       background: linear-gradient(to bottom, rgba(83, 82, 237, 0.8), rgba(72, 149, 239, 0.6));
       transition: height 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
       border-radius: 2px;
+      box-shadow: 0 0 15px rgba(83, 82, 237, 0.3);
     }
     
     &:hover {
       transform: translateY(-10px);
-      box-shadow: 0 20px 40px rgba(83, 82, 237, 0.15);
+      box-shadow: 0 25px 50px rgba(83, 82, 237, 0.18);
+      background: rgba(255, 255, 255, 0.9);
       
       &::before {
         height: 100%;
       }
       
       .featureDecoration {
-        transform: scale(1.2) rotate(45deg);
-        opacity: 0.2;
+        transform: scale(1.3) rotate(45deg);
+        opacity: 0.25;
       }
     }
     
     .featureTitle {
       font-size: 1.6rem;
-      color: #333;
+      color: #222;
       margin-bottom: 20px;
       font-weight: 600;
       position: relative;
@@ -175,9 +280,10 @@
     
     .featureContent {
       font-size: 1.1rem;
-      color: #666;
+      color: #555;
       line-height: 1.6;
       font-weight: 400;
+      letter-spacing: 0.015em;
       margin: 0;
       will-change: opacity, transform;
     }
@@ -186,37 +292,60 @@
       position: absolute;
       bottom: -40px;
       right: -40px;
-      width: 180px;
-      height: 180px;
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(83, 82, 237, 0.1) 0%, transparent 70%);
-      opacity: 0.1;
+      background: radial-gradient(circle, rgba(83, 82, 237, 0.15) 0%, transparent 70%);
+      opacity: 0.15;
       transition: all 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
       transform: scale(1) rotate(0deg);
       z-index: -1;
+      filter: blur(10px);
     }
   }
 }
 
-// Keyframe animations
+// Enhanced keyframe animations
 @keyframes floatAnimation {
   0% {
     transform: translateY(0) translateX(0);
   }
   50% {
-    transform: translateY(-20px) translateX(10px);
+    transform: translateY(-30px) translateX(15px);
   }
   100% {
-    transform: translateY(20px) translateX(-15px);
+    transform: translateY(30px) translateX(-20px);
   }
 }
 
 @keyframes pulseWidth {
   0%, 100% {
     width: 100px;
+    opacity: 0.9;
   }
   50% {
     width: 150px;
+    opacity: 1;
+  }
+}
+
+@keyframes breathe {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes gridPulse {
+  0%, 100% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 0.7;
   }
 }
 
@@ -244,6 +373,13 @@
       .featureContent {
         font-size: 1rem;
       }
+    }
+    
+    // Slightly reduced parallax effect for tablets
+    .parallaxBackground {
+      will-change: transform;
+      transform: translateY(0) !important;
+      animation: gentleFloat 15s infinite alternate ease-in-out;
     }
   }
 }
@@ -284,22 +420,33 @@
       }
     }
     
-    // Adjust parallax elements for mobile
+    // Improved parallax elements for mobile
     .parallaxBackground {
+      will-change: transform;
+      transform: translateY(0) !important;
+      animation: mobileFloat 12s infinite alternate cubic-bezier(0.25, 0.1, 0.25, 1);
+      
       .bgCircle1 {
-        width: 250px;
-        height: 250px;
+        width: 300px;
+        height: 300px;
         top: -50px;
         left: -100px;
+        animation: floatAnimation 18s infinite ease-in-out alternate;
       }
       
       .bgCircle2 {
-        width: 200px;
-        height: 200px;
+        width: 250px;
+        height: 250px;
+        animation: floatAnimation 15s infinite ease-in-out alternate-reverse;
       }
       
       .bgGrid {
         background-size: 30px 30px;
+        animation: gridPulse 10s infinite ease-in-out;
+      }
+      
+      .backgroundImage {
+        opacity: 0.15;
       }
     }
   }
@@ -347,5 +494,24 @@
         height: 120px;
       }
     }
+  }
+}
+
+// Add new keyframe animations for mobile
+@keyframes gentleFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-15px);
+  }
+}
+
+@keyframes mobileFloat {
+  0% {
+    transform: translateY(0px);
+  }
+  100% {
+    transform: translateY(-10px);
   }
 } 
