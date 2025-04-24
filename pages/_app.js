@@ -267,6 +267,12 @@ function MyApp({ Component, pageProps, router }) {
         title="Necib Nexus" 
         description="Innovation et excellence en développement web"
       />
+      {/* Script to ensure favicon is refreshed */}
+      <Script
+        id="favicon-refresh"
+        strategy="afterInteractive"
+        src="/favicon-cache-refresh.js"
+      />
       {/* Google Tag Manager - Global base code */}
       {process.env.NODE_ENV !== 'development' && (
         <>
