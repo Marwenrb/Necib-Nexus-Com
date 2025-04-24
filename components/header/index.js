@@ -2,6 +2,7 @@ import { forwardRef } from 'react'
 import s from './header.module.scss'
 import Image from 'next/image'
 import { Link } from 'components/link'
+import { Button } from 'components/button'
 
 export const Header = forwardRef((_, ref) => {
   return (
@@ -16,6 +17,18 @@ export const Header = forwardRef((_, ref) => {
               height={50} 
             />
           </Link>
+        </div>
+        <div className={s.navigation}>
+          <Link href="/" className={s.navLink}>Home</Link>
+          <Link href="/services" className={s.navLink}>Services</Link>
+          <Link href="/contact" className={s.navLink}>Contact</Link>
+          <Button
+            className={s.contactButton}
+            arrow
+            href="/contact"
+          >
+            Get in touch
+          </Button>
         </div>
       </div>
     </header>
