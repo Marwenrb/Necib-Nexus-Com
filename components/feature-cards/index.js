@@ -18,11 +18,11 @@ import s from './feature-cards.module.scss'
 const cards = [
   { 
     text: 'Digital Culture Immersion',
-    image: '/images/FeatureCards-Images/Digital-culture-F.jpeg'
+    image: '/images/FeatureCards-Images/Digital Culture Immersion.jpeg'
   },
   { 
     text: 'E-Tourism Solutions',
-    image: '/images/FeatureCards-Images/E-Tourism-f1.jpeg'
+    image: '/images/FeatureCards-Images/E-Tourism-sOLUTIONS.jpeg'
   },
   {
     text: (
@@ -31,31 +31,31 @@ const cards = [
         Production
       </>
     ),
-    image: '/images/FeatureCards-Images/Digital-7.jpeg'
+    image: '/images/FeatureCards-Images/AUDIOVISUAL PRODUCTION.jpeg'
   },
   { 
     text: 'Web & App Development',
-    image: '/images/FeatureCards-Images/APP-DEV-F1.jpeg'
+    image: '/images/FeatureCards-Images/WEB & APP DEVLOPMENT.jpeg'
   },
   { 
     text: 'DIGITAL MARKETING STRATEGIES',
-    image: '/images/FeatureCards-Images/Digital Marketing-F3.jpeg'
+    image: '/images/FeatureCards-Images/DIGITAL MARKETING STRATEGIES.jpeg'
   },
   { 
     text: 'Innovation Lab & AR/VR Experiences',
-    image: '/images/FeatureCards-Images/AR_VR-F1.png'
+    image: '/images/FeatureCards-Images/Innovation Lab & ARVR Experiences.jpeg'
   },
   { 
     text: 'Events Organization',
-    image: '/images/FeatureCards-Images/Events-F1.jpeg'
+    image: '/images/FeatureCards-Images/Events-F3.jpeg'
   },
   { 
     text: 'Cultural Heritage Preservation',
-    image: '/images/FeatureCards-Images/Digital-10.jpeg'
+    image: '/images/FeatureCards-Images/Cultural Heritage Preservation.jpg'
   },
   { 
     text: 'Immersive storytelling',
-    image: '/images/FeatureCards-Images/Emerssion-1.jpeg'
+    image: '/images/FeatureCards-Images/Immersive storytelling.jpeg'
   },
 ]
 
