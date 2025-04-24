@@ -42,11 +42,6 @@ const WebGL = dynamic(
   { ssr: false }
 )
 
-const MobileWhoWeAre = dynamic(
-  () => import('components/mobile-who-we-are').then((mod) => mod.MobileWhoWeAre),
-  { ssr: false }
-)
-
 const WhoWeAre = dynamic(() => import('components/who-we-are').then((mod) => mod.WhoWeAre), {
   ssr: false,
 });
@@ -63,21 +58,6 @@ if (typeof window !== 'undefined') {
   window.history.scrollRestoration = 'manual'
   window.scrollTo(0, 0)
 }
-
-const useMobileWhoWeAreAnimation = () => {
-  const featuresRef = useRef(null);
-  const titleRef = useRef(null);
-
-  const setFeaturesRef = (el) => {
-    featuresRef.current = el;
-  };
-
-  const setTitleRef = (el) => {
-    titleRef.current = el;
-  };
-
-  return { setFeaturesRef, setTitleRef };
-};
 
 export default function Home() {
   const [hasScrolled, setHasScrolled] = useState()
@@ -170,8 +150,6 @@ export default function Home() {
       setIsVisible(true)
     }
   }, [intersection])
-
-  const { setFeaturesRef, setTitleRef } = useMobileWhoWeAreAnimation();
 
   const whoWeAreFeatures = [
     {
@@ -267,7 +245,6 @@ export default function Home() {
         </div>
       </section>
 
-      <MobileWhoWeAre features={whoWeAreFeatures} />
       <WhoWeAre features={whoWeAreFeatures} />
 
       <section className={s.rethink}>

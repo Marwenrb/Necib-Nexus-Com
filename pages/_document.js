@@ -63,6 +63,10 @@ export default function Document() {
           strategy="beforeInteractive"
         ></script>
         <script
+          src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/animation.gsap.min.js"
+          strategy="beforeInteractive"
+        ></script>
+        <script
           src="/js/gsap-scrollmagic.js"
           strategy="beforeInteractive"
         ></script>

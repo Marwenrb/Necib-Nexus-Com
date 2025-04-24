@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useMediaQuery } from '@darkroom.engineering/hamo';
 import s from './who-we-are.module.scss';
 
@@ -6,120 +6,220 @@ export const WhoWeAre = ({ features }) => {
   const sectionRef = useRef(null);
   const titleRef = useRef(null);
   const paragraphRefs = useRef([]);
+  const bgParallaxRef = useRef(null);
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const [scrollY, setScrollY] = useState(0);
+  const [animationsInitialized, setAnimationsInitialized] = useState(false);
 
+  // Handle scroll for parallax effect
   useEffect(() => {
-    // Importation dynamique de ScrollMagic et GSAP pour éviter les problèmes de SSR
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Apply parallax effect to background
+  useEffect(() => {
+    if (bgParallaxRef.current) {
+      const translateY = scrollY * 0.15; // Parallax coefficient
+      bgParallaxRef.current.style.transform = `translateY(${translateY}px)`;
+    }
+  }, [scrollY]);
+
+  // Initialize ScrollMagic and GSAP animations
+  useEffect(() => {
+    if (animationsInitialized) return;
+
+    // Dynamically import dependencies to avoid SSR issues
     const importDependencies = async () => {
       try {
-        // Créer un élément script pour GSAP
-        const gsapScript = document.createElement('script');
-        gsapScript.src = 'https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js';
-        gsapScript.async = true;
-        
-        // Créer un élément script pour ScrollMagic
-        const scrollMagicScript = document.createElement('script');
-        scrollMagicScript.src = '//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js';
-        scrollMagicScript.async = true;
-        
-        // Créer un élément script pour le plugin ScrollMagic GSAP
-        const scrollMagicGSAPScript = document.createElement('script');
-        scrollMagicGSAPScript.src = '//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/animation.gsap.min.js';
-        scrollMagicGSAPScript.async = true;
-        
-        // Ajouter les scripts au document
-        document.head.appendChild(gsapScript);
-        document.head.appendChild(scrollMagicScript);
-        document.head.appendChild(scrollMagicGSAPScript);
-        
-        // Attendre le chargement des scripts
-        await Promise.all([
-          new Promise(resolve => gsapScript.onload = resolve),
-          new Promise(resolve => scrollMagicScript.onload = resolve),
-          new Promise(resolve => scrollMagicGSAPScript.onload = resolve)
-        ]);
-        
-        // Initialiser les animations une fois les scripts chargés
-        initAnimations();
+        // Check if libraries are already loaded globally
+        if (typeof window !== 'undefined') {
+          // Make sure we have access to the window object (client-side only)
+          if (window.gsap && window.ScrollMagic) {
+            // Ensure TextPlugin is registered correctly
+            if (window.gsap.TextPlugin) {
+              window.gsap.registerPlugin(window.gsap.TextPlugin);
+              initAnimations(window.gsap, window.ScrollMagic);
+              return;
+            }
+          }
+          
+          // If libraries not available or TextPlugin not registered, wait a bit
+          // to ensure scripts from _document.js have loaded
+          setTimeout(() => {
+            if (window.gsap && window.ScrollMagic) {
+              // Safe registration of TextPlugin
+              try {
+                if (window.gsap.TextPlugin) {
+                  window.gsap.registerPlugin(window.gsap.TextPlugin);
+                }
+                initAnimations(window.gsap, window.ScrollMagic);
+              } catch (err) {
+                console.warn("Could not register TextPlugin:", err);
+                // Still try to initialize with basic animations
+                initAnimations(window.gsap, window.ScrollMagic);
+              }
+            }
+          }, 500); // Increased timeout for script loading
+        }
       } catch (error) {
-        console.error('Erreur lors du chargement des dépendances:', error);
+        console.error('Error loading animation dependencies:', error);
       }
     };
 
-    // Fonction d'initialisation des animations
-    const initAnimations = () => {
-      const { gsap } = window;
-      const ScrollMagic = window.ScrollMagic;
+    importDependencies();
+  }, [animationsInitialized]);
+
+  // Initialize all animations
+  const initAnimations = (gsap, ScrollMagic) => {
+    if (!sectionRef.current || !titleRef.current) return;
+    
+    // Create ScrollMagic controller
+    const controller = new ScrollMagic.Controller();
+    
+    // 3D Title Animation
+    const titleTimeline = gsap.timeline();
+    titleTimeline
+      .fromTo(
+        titleRef.current,
+        { 
+          y: -30, 
+          opacity: 0,
+          rotationX: 45,
+          transformPerspective: 800,
+          transformOrigin: "center bottom"
+        },
+        { 
+          y: 0, 
+          opacity: 1,
+          rotationX: 0,
+          duration: 1.2, 
+          ease: "power3.out" 
+        }
+      );
+    
+    // Title Scene
+    new ScrollMagic.Scene({
+      triggerElement: titleRef.current,
+      triggerHook: 0.85,
+      reverse: false
+    })
+    .setTween(titleTimeline)
+    .addTo(controller);
+    
+    // Animate each paragraph with typing effect 
+    paragraphRefs.current.forEach((para, index) => {
+      if (!para) return;
       
-      // Créer un contrôleur ScrollMagic
-      const controller = new ScrollMagic.Controller();
+      // Store original text
+      const originalText = para.textContent;
       
-      // Animation du titre
-      gsap.fromTo(
-        titleRef.current, 
-        { y: -50, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 1, ease: "power2.out" }
+      // Create basic fade-in animation that works without TextPlugin
+      const paraTimeline = gsap.timeline();
+      
+      // Initial reveal animation
+      paraTimeline.fromTo(
+        para,
+        { 
+          y: 20, 
+          opacity: 0,
+          filter: 'blur(4px)'
+        },
+        { 
+          y: 0, 
+          opacity: 1,
+          filter: 'blur(0px)',
+          duration: 0.6,
+          ease: "power2.out"
+        }
       );
       
-      // Scène ScrollMagic pour le titre
-      new ScrollMagic.Scene({
-        triggerElement: titleRef.current,
-        triggerHook: 0.8,
-        reverse: false
-      })
-      .setTween(gsap.fromTo(
-        titleRef.current, 
-        { y: -50, opacity: 0 }, 
-        { y: 0, opacity: 1, duration: 1, ease: "power2.out" }
-      ))
-      .addTo(controller);
-      
-      // Animation et scènes pour chaque paragraphe
-      paragraphRefs.current.forEach((para, index) => {
-        if (!para) return;
-        
-        // Texte original pour l'effet de typewriter
-        const originalText = para.textContent;
+      // If TextPlugin is available, add typing effect
+      if (gsap.TextPlugin) {
+        // First clear the text
         para.textContent = '';
         
-        // Animation de typewriter pour chaque paragraphe
-        const typewriterTween = gsap.to(para, {
-          duration: 2,
-          text: {
-            value: originalText,
-            delimiter: ""
+        // Then add typing effect
+        paraTimeline.to(
+          para,
+          {
+            duration: 1.8 - (index * 0.1),
+            text: {
+              value: originalText,
+              delimiter: ""
+            },
+            ease: "none"
           },
-          ease: "none",
-          delay: index * 0.5
-        });
+          "-=0.2"
+        );
+      }
+      
+      // Create scene for each paragraph
+      new ScrollMagic.Scene({
+        triggerElement: para,
+        triggerHook: 0.75,
+        reverse: false
+      })
+      .setTween(paraTimeline)
+      .addTo(controller);
+      
+      // Add feature highlight effect
+      if (para.parentNode) {
+        const featureItem = para.parentNode;
         
-        // Scène ScrollMagic pour chaque paragraphe
         new ScrollMagic.Scene({
-          triggerElement: para,
-          triggerHook: isMobile ? 0.9 : 0.8,
+          triggerElement: featureItem,
+          triggerHook: 0.7,
           reverse: false
         })
-        .setTween(typewriterTween)
+        .setTween(
+          gsap.fromTo(
+            featureItem,
+            { 
+              x: index % 2 === 0 ? -20 : 20,
+              opacity: 0,
+              boxShadow: '0 5px 15px rgba(0, 0, 0, 0.05)'
+            },
+            { 
+              x: 0,
+              opacity: 1,
+              boxShadow: '0 15px 40px rgba(83, 82, 237, 0.15)',
+              duration: 0.8,
+              ease: "power2.out",
+              delay: index * 0.15
+            }
+          )
+        )
         .addTo(controller);
-      });
-    };
-
-    // Importer les dépendances
-    importDependencies();
-
-    // Nettoyage
-    return () => {
-      // Nettoyage si nécessaire
-    };
-  }, [isMobile]);
+      }
+    });
+    
+    // Mark animations as initialized
+    setAnimationsInitialized(true);
+  };
 
   return (
     <section id="who-we-are" className={s.whoWeAre} ref={sectionRef}>
+      {/* Parallax background elements */}
+      <div className={s.parallaxBackground} ref={bgParallaxRef}>
+        <div className={s.bgCircle1}></div>
+        <div className={s.bgCircle2}></div>
+        <div className={s.bgGrid}></div>
+      </div>
+      
       <div className={s.container}>
-        <h2 id="section-title" className={s.sectionTitle} ref={titleRef}>Who We Are</h2>
+        <h2 id="section-title" className={s.sectionTitle} ref={titleRef}>
+          <span className={s.titleFirstPart}>Who</span> 
+          <span className={s.titleSecondPart}>We Are</span>
+        </h2>
+        
         <div id="content" className={s.content}>
           {features && features.map((feature, index) => (
-            <div key={index} className={s.featureItem}>
+            <div key={index} className={`${s.featureItem} ${index === 0 ? s.mainFeature : ''}`}>
               {feature.title && <h3 className={s.featureTitle}>{feature.title}</h3>}
               <p 
                 id={`paragraph${index+1}`} 
@@ -128,6 +228,7 @@ export const WhoWeAre = ({ features }) => {
               >
                 {feature.content}
               </p>
+              <div className={s.featureDecoration}></div>
             </div>
           ))}
         </div>
