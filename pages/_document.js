@@ -48,6 +48,28 @@ export default function Document() {
           type="font/woff2"
           crossOrigin="anonymous"
         />
+        
+        {/* Scripts pour ScrollMagic et GSAP */}
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"
+          strategy="beforeInteractive"
+        ></script>
+        <script
+          src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/TextPlugin.min.js"
+          strategy="beforeInteractive"
+        ></script>
+        <script
+          src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/ScrollMagic.min.js"
+          strategy="beforeInteractive"
+        ></script>
+        <script
+          src="/js/gsap-scrollmagic.js"
+          strategy="beforeInteractive"
+        ></script>
+        <script
+          src="//cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.7/plugins/debug.addIndicators.min.js"
+          strategy="beforeInteractive"
+        ></script>
       </Head>
       <body>
         <Main />

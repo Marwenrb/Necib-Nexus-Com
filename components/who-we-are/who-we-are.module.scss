@@ -1,0 +1,148 @@
+// Styles for the Who We Are section
+.whoWeAre {
+  padding: 80px 0;
+  background-color: #f5f5f5;
+  background-image: linear-gradient(135deg, rgba(245, 245, 245, 0.9), rgba(255, 255, 255, 0.95));
+  position: relative;
+  overflow: hidden;
+  
+  // Decorative elements
+  &::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(83, 82, 237, 0.1) 0%, transparent 70%);
+    top: -50px;
+    left: -50px;
+    z-index: 0;
+  }
+  
+  &::after {
+    content: '';
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(83, 82, 237, 0.05) 0%, transparent 70%);
+    bottom: -50px;
+    right: -50px;
+    z-index: 0;
+  }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.sectionTitle {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 50px;
+  text-align: center;
+  position: relative;
+  letter-spacing: 1px;
+  
+  &::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, rgba(83, 82, 237, 0.8), rgba(83, 82, 237, 0.4));
+    margin: 20px auto 0;
+    border-radius: 2px;
+  }
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+}
+
+.featureItem {
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  padding: 30px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 0;
+    background: linear-gradient(to bottom, rgba(83, 82, 237, 0.8), rgba(83, 82, 237, 0.4));
+    transition: height 0.6s ease;
+    border-radius: 2px;
+  }
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    
+    &::before {
+      height: 100%;
+    }
+  }
+}
+
+.featureTitle {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.featureContent {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  opacity: 1;
+}
+
+// Media queries for responsive design
+@media (min-width: 768px) {
+  .content {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+  }
+  
+  .featureItem:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 767px) {
+  .whoWeAre {
+    padding: 60px 0;
+  }
+  
+  .sectionTitle {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+  }
+  
+  .featureItem {
+    padding: 20px;
+  }
+  
+  .featureTitle {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+  
+  .featureContent {
+    font-size: 1rem;
+  }
+} 
