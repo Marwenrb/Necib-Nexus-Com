@@ -258,7 +258,7 @@ const createModelMaterial = (color = '#0042ff', roughness = 0.3, metalness = 1.0
 
 // Basic material for wireframe effect
 const wireMaterial = new MeshPhysicalMaterial({
-  color: new Color('#00B3FF'),
+  color: new Color('#5352ED'),
   metalness: 1,
   roughness: 0.4,
   wireframe: true,
@@ -306,11 +306,11 @@ export function Arm() {
   // Apply materials to models
   useEffect(() => {
     // Create model-specific materials
-    const roboticMaterial = createModelMaterial('#0042ff', 0.25, 1.0)
-    const maskMaterial = createModelMaterial('#0042ff', 0.2, 0.9)
-    const computerMaterial = createModelMaterial('#0042ff', 0.3, 0.8)
-    const armMaterial = createModelMaterial('#0042ff', 0.25, 1.0)
-    const arm2Material = createModelMaterial('#0042ff', 0.25, 1.0)
+    const roboticMaterial = createModelMaterial('#5352ED', 0.25, 1.0)
+    const maskMaterial = createModelMaterial('#5352ED', 0.2, 0.9)
+    const computerMaterial = createModelMaterial('#5352ED', 0.3, 0.8)
+    const armMaterial = createModelMaterial('#5352ED', 0.25, 1.0)
+    const arm2Material = createModelMaterial('#5352ED', 0.25, 1.0)
     
     // Apply materials to each model
     if (roboticGlow) {

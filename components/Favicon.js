@@ -9,7 +9,7 @@ const Favicon = ({
   // Logo path
   logoSvg = '/favicon.svg',
   // Necib Nexus premium brand colors
-  themeColor = '#6441A5',
+  themeColor = '#5352ED',
   backgroundColor = '#ffffff',
   // Brand information
   title = 'Necib Nexus',

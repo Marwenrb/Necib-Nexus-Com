@@ -109,7 +109,7 @@ const PortalEffect = ({ active, imageUrl }) => {
         transparent
         opacity={0.9}
         side={THREE.DoubleSide}
-        emissive="#00b3ff"
+        emissive="#5352ED"
         emissiveIntensity={0.5}
       />
     </mesh>
