@@ -26,51 +26,202 @@ if (typeof window !== 'undefined') {
   }, 0)
 }
 
-// Loader component
+// Cube Loader component
 const PageLoader = () => {
+  const [progress, setProgress] = useState(15);
+  
+  // Simulate loading progress
+  useEffect(() => {
+    let startTime = performance.now();
+    let animationFrame;
+    
+    const simulateProgress = (timestamp) => {
+      const elapsed = timestamp - startTime;
+      
+      // Accelerate initial progress, then slow down
+      let newProgress;
+      if (elapsed < 500) {
+        // Start fast (15-50% in first 500ms)
+        newProgress = 15 + Math.min(35, (elapsed / 500) * 35);
+      } else if (elapsed < 1500) {
+        // Slow down in middle (50-85% in next 1000ms)
+        newProgress = 50 + Math.min(35, ((elapsed - 500) / 1000) * 35);
+      } else {
+        // Very slow at end (85-95% in remaining time)
+        newProgress = 85 + Math.min(10, ((elapsed - 1500) / 1000) * 10);
+      }
+      
+      setProgress(newProgress);
+      
+      // Continue animation until we hit 95%
+      if (newProgress < 95) {
+        animationFrame = requestAnimationFrame(simulateProgress);
+      }
+    };
+    
+    // Start progress animation
+    animationFrame = requestAnimationFrame(simulateProgress);
+    
+    return () => {
+      cancelAnimationFrame(animationFrame);
+    };
+  }, []);
+  
   return (
     <div className="page-loader">
-      <div className="loader-circle"></div>
-      <div className="loader-logo">
-        <svg width="120" height="120" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="256" cy="256" r="200" fill="#5352ED" fillOpacity="0.05" />
-          <path d="M175 170V342M175 170L230 342M175 170H230M230 170V342" stroke="#5352ED" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round" />
-          <path d="M280 170V342M280 170L335 342M280 170H335M335 170V342" stroke="#5352ED" strokeWidth="24" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
+      <div className="loader-content">
+        <div className="cube-container">
+          <div className="cube-loader">
+            <div className="cube-top"></div>
+            <div className="cube-wrapper">
+              <span style={{ '--i': 0 }} className="cube-span"></span>
+              <span style={{ '--i': 1 }} className="cube-span"></span>
+              <span style={{ '--i': 2 }} className="cube-span"></span>
+              <span style={{ '--i': 3 }} className="cube-span"></span>
+            </div>
+          </div>
+        </div>
+        <div className="progress-container">
+          <div className="progress-bar" style={{ width: `${progress}%` }}></div>
+        </div>
+        <p className="loading-text">Loading experience</p>
       </div>
       <style jsx>{`
         .page-loader {
           position: fixed;
           top: 0;
           left: 0;
-          width: 100%;
+          width: 100vw;
           height: 100vh;
-          background: var(--theme-primary);
-          z-index: 9999;
+          background-color: var(--theme-primary, #000);
           display: flex;
           justify-content: center;
           align-items: center;
+          z-index: 9999;
+          transition: opacity 0.5s ease;
         }
-        .loader-circle {
-          position: absolute;
-          width: 150px;
+        
+        .loader-content {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 2rem;
+        }
+        
+        .cube-container {
+          display: flex;
+          justify-content: center;
+          align-items: center;
           height: 150px;
-          border-radius: 50%;
-          border: 3px solid rgba(83, 82, 237, 0.1);
-          border-top: 3px solid #5352ED;
-          animation: spin 1s linear infinite;
         }
-        .loader-logo {
-          opacity: 0.95;
-          animation: pulse 1.5s ease-in-out infinite alternate;
+        
+        .cube-loader {
+          position: relative;
+          width: 75px;
+          height: 75px;
+          transform-style: preserve-3d;
+          transform: rotateX(-30deg);
+          animation: animate 4s linear infinite;
         }
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
+        
+        @keyframes animate {
+          0% {
+            transform: rotateX(-30deg) rotateY(0);
+          }
+          100% {
+            transform: rotateX(-30deg) rotateY(360deg);
+          }
         }
+        
+        .cube-wrapper {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          transform-style: preserve-3d;
+        }
+        
+        .cube-span {
+          position: absolute;
+          width: 100%;
+          height: 100%;
+          transform: rotateY(calc(90deg * var(--i))) translateZ(37.5px);
+          background: linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0.9) 0%,
+            rgba(83, 82, 237, 0.3) 5.5%,
+            rgba(83, 82, 237, 0.4) 12.1%,
+            rgba(83, 82, 237, 0.5) 19.6%,
+            rgba(83, 82, 237, 0.6) 27.9%,
+            rgba(83, 82, 237, 0.7) 36.6%,
+            rgba(83, 82, 237, 0.75) 45.6%,
+            rgba(83, 82, 237, 0.8) 54.6%,
+            rgba(83, 82, 237, 0.85) 63.4%,
+            rgba(83, 82, 237, 0.9) 71.7%,
+            rgba(83, 82, 237, 0.95) 79.4%,
+            rgba(83, 82, 237, 1) 86.2%,
+            rgba(83, 82, 237, 1) 91.9%,
+            rgba(83, 82, 237, 1) 96.3%,
+            rgba(83, 82, 237, 1) 99%,
+            rgba(83, 82, 237, 1) 100%
+          );
+        }
+        
+        .cube-top {
+          position: absolute;
+          width: 75px;
+          height: 75px;
+          background: #000;
+          transform: rotateX(90deg) translateZ(37.5px);
+          transform-style: preserve-3d;
+        }
+        
+        .cube-top::before {
+          content: '';
+          position: absolute;
+          width: 75px;
+          height: 75px;
+          background: #5352ED;
+          transform: translateZ(-90px);
+          filter: blur(10px);
+          box-shadow: 0 0 10px #000,
+                      0 0 20px #5352ED,
+                      0 0 30px #000,
+                      0 0 40px rgba(83, 82, 237, 0.7);
+        }
+        
+        .progress-container {
+          width: 200px;
+          height: 2px;
+          background-color: rgba(255, 255, 255, 0.1);
+          border-radius: 4px;
+          overflow: hidden;
+        }
+        
+        .progress-bar {
+          height: 100%;
+          background: linear-gradient(90deg, 
+            rgba(83, 82, 237, 0.7) 0%, 
+            rgba(83, 82, 237, 1) 100%
+          );
+          transition: width 0.3s ease;
+          box-shadow: 0 0 8px rgba(83, 82, 237, 0.7);
+        }
+        
+        .loading-text {
+          font-size: 14px;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          color: #5352ED;
+          animation: pulse 2s infinite;
+        }
+        
         @keyframes pulse {
-          0% { transform: scale(0.95); opacity: 0.8; }
-          100% { transform: scale(1.05); opacity: 1; }
+          0%, 100% {
+            opacity: 0.7;
+          }
+          50% {
+            opacity: 1;
+          }
         }
       `}</style>
     </div>

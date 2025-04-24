@@ -66,11 +66,16 @@ export function PageLoader() {
   return (
     <div className={s.loader} style={{ opacity: progress === 100 ? 0 : 1 }}>
       <div className={s.content}>
-        <div className={s.logo}>
-          <svg width="50" height="50" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="50" cy="50" r="45" stroke="#5352ED" strokeWidth="2" />
-            <path d="M30 40L50 60L70 40" stroke="#5352ED" strokeWidth="2" strokeLinecap="round" />
-          </svg>
+        <div className={s.cubeContainer}>
+          <div className={s.cubeLoader}>
+            <div className={s.cubeTop}></div>
+            <div className={s.cubeWrapper}>
+              <span style={{ '--i': 0 }} className={s.cubeSpan}></span>
+              <span style={{ '--i': 1 }} className={s.cubeSpan}></span>
+              <span style={{ '--i': 2 }} className={s.cubeSpan}></span>
+              <span style={{ '--i': 3 }} className={s.cubeSpan}></span>
+            </div>
+          </div>
         </div>
         <div className={s.progressContainer}>
           <div className={s.progressBar} style={{ width: `${progress}%` }} />
