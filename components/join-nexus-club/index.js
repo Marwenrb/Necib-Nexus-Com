@@ -5,13 +5,11 @@ import { Button } from 'components/button'
 import { useInView } from 'react-intersection-observer'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger'
-import { ScrollSmoother } from 'gsap/dist/ScrollSmoother'
-import { SplitText } from 'gsap/dist/SplitText'
 import s from './join-nexus-club.module.scss'
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger, ScrollSmoother, SplitText)
+  gsap.registerPlugin(ScrollTrigger)
 }
 
 export const JoinNexusClubSection = () => {
@@ -143,28 +141,19 @@ export const JoinNexusClubSection = () => {
     
     if (!section || !image || !text || !title) return
     
-    // Create text split animation
-    let splitTitle
-    try {
-      splitTitle = new SplitText(title, { type: "chars, words" })
-      
-      // Main title animation
-      gsap.from(splitTitle.chars, {
-        opacity: 0,
-        y: 80,
-        rotateX: -90,
-        stagger: 0.02,
-        duration: 1.2,
-        ease: "power4.out",
-        scrollTrigger: {
-          trigger: title,
-          start: "top 80%",
-          toggleActions: "play none none reverse"
-        }
-      })
-    } catch (err) {
-      console.error("SplitText error:", err)
-    }
+    // Title animation using standard GSAP
+    gsap.from(title.querySelectorAll('.char'), {
+      opacity: 0,
+      y: 80,
+      stagger: 0.02,
+      duration: 1.2,
+      ease: "power4.out",
+      scrollTrigger: {
+        trigger: title,
+        start: "top 80%",
+        toggleActions: "play none none reverse"
+      }
+    })
     
     // 3D parallax effect on scroll
     gsap.to(image, {
@@ -211,18 +200,6 @@ export const JoinNexusClubSection = () => {
       })
     }
     
-    // Create scroll smoother instance
-    try {
-      const smoother = ScrollSmoother.create({
-        wrapper: section,
-        content: text,
-        smooth: 1,
-        effects: true
-      })
-    } catch (err) {
-      console.error("ScrollSmoother error:", err)
-    }
-    
     // Particle effect
     const createParticles = () => {
       const particleContainer = document.createElement("div")
@@ -257,10 +234,6 @@ export const JoinNexusClubSection = () => {
     return () => {
       if (ScrollTrigger) {
         ScrollTrigger.getAll().forEach(trigger => trigger.kill())
-      }
-      
-      if (splitTitle) {
-        splitTitle.revert()
       }
       
       floatingAnimation.kill()
@@ -312,7 +285,7 @@ export const JoinNexusClubSection = () => {
   }
 
   return (
-    <section className={s.section} ref={sectionRef} data-scroll-section>
+    <section className={s.section} ref={sectionRef}>
       <div className={s.container} ref={ref}>
         <motion.div 
           className={s.content}
@@ -388,11 +361,15 @@ export const JoinNexusClubSection = () => {
             variants={textVariants}
             initial="hidden"
             animate={inView ? "visible" : "hidden"}
-            data-scroll
-            data-scroll-speed="0.2"
           >
             <h2 className={s.title} ref={titleRef}>
-              Join <span className={s.highlight}>NEXUS</span> Club
+              <span className="char-wrapper">
+                {Array.from("Join NEXUS Club").map((char, i) => (
+                  <span key={i} className="char">
+                    {char === " " ? "\u00A0" : char}
+                  </span>
+                ))}
+              </span>
             </h2>
             
             <motion.p 
@@ -410,8 +387,6 @@ export const JoinNexusClubSection = () => {
               className={s.buttonWrapper}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.98 }}
-              data-scroll
-              data-scroll-speed="0.1"
             >
               <Button 
                 onClick={toggleForm} 

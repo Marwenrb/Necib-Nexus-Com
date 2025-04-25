@@ -342,23 +342,28 @@ $highlight-glow: 0 0 15px rgba($accent-color, 0.5);
   letter-spacing: 0;
   text-transform: uppercase;
   display: inline-block;
-  
-  .highlight {
-    position: relative;
-    color: $accent-color;
-    text-shadow: $highlight-glow;
-    display: inline-block;
+
+  .char-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
     
-    &::after {
-      content: '';
-      position: absolute;
-      left: -5%;
-      bottom: -5px;
-      width: 110%;
-      height: 4px;
-      background: $accent-color;
-      border-radius: 2px;
-      box-shadow: $highlight-glow;
+    @media (max-width: 992px) {
+      justify-content: center;
+    }
+  }
+  
+  .char {
+    display: inline-block;
+    position: relative;
+    white-space: pre;
+    transform-origin: 50% 100%;
+    
+    &:hover {
+      color: $accent-color;
+      text-shadow: $highlight-glow;
+      transform: translateY(-2px);
+      transition: all 0.2s ease-out;
     }
   }
   
