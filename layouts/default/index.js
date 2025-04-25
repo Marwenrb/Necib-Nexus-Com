@@ -2,7 +2,7 @@ import { useFrame } from '@darkroom.engineering/hamo'
 import cn from 'clsx'
 import { CustomHead } from 'components/custom-head'
 import { Footer } from 'components/footer'
-import { Intro, Header } from 'components/intro'
+import { Header } from 'components/intro'
 import { Scrollbar } from 'components/scrollbar'
 import { BackToTop } from 'components/back-to-top'
 import Lenis from 'lenis'
@@ -17,10 +17,11 @@ const Cursor = dynamic(
   { ssr: false }
 )
 
-const PageTransition = dynamic(
-  () => import('components/page-transition').then((mod) => mod.PageTransition),
-  { ssr: false }
-)
+// Disable PageTransition for immediate loading
+// const PageTransition = dynamic(
+//   () => import('components/page-transition').then((mod) => mod.PageTransition),
+//   { ssr: false }
+// )
 
 export function Layout({
   seo = { title: '', description: '', image: '', keywords: '' },
@@ -30,7 +31,13 @@ export function Layout({
 }) {
   const [lenis, setLenis] = useStore((state) => [state.lenis, state.setLenis])
   const router = useRouter()
-  const introOut = useStore(({ introOut }) => introOut)
+  // Force introOut to true to skip intro animation
+  const setIntroOut = useStore(({ setIntroOut }) => setIntroOut)
+  
+  useEffect(() => {
+    // Force introOut to true to skip intro animation
+    setIntroOut(true)
+  }, []);
 
   useEffect(() => {
     window.scrollTo(0, 0)
@@ -42,8 +49,7 @@ export function Layout({
     })
     window.lenis = lenis
     setLenis(lenis)
-
-    // new ScrollSnap(lenis, { type: 'proximity' })
+    lenis.start() // Always start lenis immediately
 
     return () => {
       lenis.destroy()
@@ -104,9 +110,11 @@ export function Layout({
     <>
       <CustomHead {...seo} />
       <div className={cn(`theme-${theme}`, s.layout, className)}>
-        <PageTransition />
-        <Intro />
-        {introOut && <Header />}
+        {/* Remove PageTransition */}
+        {/* <PageTransition /> */}
+        {/* Remove Intro */}
+        {/* <Intro /> */}
+        <Header />
         <Cursor />
         <Scrollbar />
         <main className={s.main}>{children}</main>
