@@ -4,6 +4,7 @@ import { useStore } from 'lib/store'
 import { useEffect, useState, useRef } from 'react'
 import s from './intro.module.scss'
 import Image from 'next/image'
+import Link from 'next/link'
 
 export const Intro = () => {
   const isMobile = useMediaQuery('(max-width: 800px)')
@@ -188,7 +189,9 @@ export const Header = () => {
       </div>
       <div className={s.headerControls}>
         <button className={s.headerButton}>Explore</button>
-        <button className={s.headerButton}>Connect</button>
+        <Link href="/contact">
+          <button className={s.headerButton}>Connect</button>
+        </Link>
       </div>
     </header>
   )

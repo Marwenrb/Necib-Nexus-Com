@@ -1,23 +1,16 @@
 import { Layout } from 'layouts/default'
-import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
-import { useMediaQuery } from 'react-responsive'
 import { useInView } from 'react-intersection-observer'
 import emailjs from '@emailjs/browser'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import styles from '../styles/contact.module.scss'
-import { FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa'
-import { FaCheckCircle } from 'react-icons/fa'
+import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaCheckCircle, FaArrowRight, FaLinkedin, FaTwitter, FaInstagram } from 'react-icons/fa'
+import { motion, AnimatePresence } from 'framer-motion'
 
-// Dynamic imports to avoid SSR issues
+// Static import of WebGL for better performance
 const WebGL = dynamic(
   () => import('components/webgl').then(({ WebGL }) => WebGL),
-  { ssr: false }
-)
-
-const AppearTitle = dynamic(
-  () => import('components/appear-title').then((mod) => mod.AppearTitle),
   { ssr: false }
 )
 
@@ -26,7 +19,7 @@ const MapboxMap = dynamic(() => import('../components/MapboxMap'), { ssr: false 
 
 // Map token - should be moved to environment variables in production
 const MAPBOX_TOKEN =
-  'pk.eyJ1IjoibmVjaWJuZXh1cyIsImEiOiJjbHYxZnhxMWUwMGdsMnFvNWZwOXY0aDBsIn0.yJNHYAEzUb_cZJM1ggLpGw'
+  process.env.NEXT_PUBLIC_MAPBOX_TOKEN || 'pk.eyJ1IjoibmVjaWJuZXh1cyIsImEiOiJjbHYxZnhxMWUwMGdsMnFvNWZwOXY0aDBsIn0.yJNHYAEzUb_cZJM1ggLpGw'
 
 export default function Contact() {
   const formRef = useRef(null)
@@ -41,7 +34,7 @@ export default function Contact() {
   const [errors, setErrors] = useState({})
   const [submitted, setSubmitted] = useState(false)
   const [submitting, setSubmitting] = useState(false)
-  const [mapLoaded, setMapLoaded] = useState(false)
+  const [mapLoaded, setMapLoaded] = useState(true)
 
   // Replace viewport with viewState for newer react-map-gl versions
   const [viewState, setViewState] = useState({
@@ -52,26 +45,14 @@ export default function Contact() {
     pitch: 0,
   })
 
-  // Use ref for parallax effect but set to 0 initially to avoid wait
-  const [parallaxOffset, setParallaxOffset] = useState(0)
   const { ref: inViewRef, inView } = useInView({
     threshold: 0.1,
-    triggerOnce: true, // Changed to true to trigger once and remain
+    triggerOnce: false,
   })
 
   // Check if window is defined before mounting map
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      setMapLoaded(true)
-    }
-
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY
-      setParallaxOffset(scrollPosition * 0.3) // Adjust speed as needed
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
+    setMapLoaded(true)
   }, [])
 
   const handleChange = (e) => {
@@ -143,6 +124,16 @@ export default function Contact() {
     }
   }
 
+  // Animation variants for elements
+  const fadeIn = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { duration: 0.6 }
+    }
+  }
+
   return (
     <Layout
       title="Contact Us | NeciB Nexus"
@@ -150,184 +141,249 @@ export default function Contact() {
       theme="dark"
       className={styles.contactPage}
     >
+      {/* Preserve WebGL background */}
       <div className={styles.canvasContainer} ref={webglRef}>
         <WebGL />
       </div>
 
-      <div
+      {/* Enhanced hero section */}
+      <motion.div 
         className={styles.heroSection}
-        style={{
-          transform: `translateY(${parallaxOffset}px)`,
-        }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1 }}
       >
-        <motion.div
-          className={styles.heroContent}
-          initial={{ opacity: 1, y: 0 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <h1>Contact Us</h1>
-          <p>Let's connect and explore possibilities together</p>
-        </motion.div>
-      </div>
+        <div className={styles.heroContent}>
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            Get in Touch
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+          >
+            Let's build something extraordinary together
+          </motion.p>
+        </div>
+      </motion.div>
 
-      <div className={styles.contactContainer} ref={inViewRef}>
-        <motion.div
-          className={styles.contactInfo}
-          initial={{ opacity: 1, x: 0 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          <h2>Get In Touch</h2>
-
-          <div className={styles.infoItem}>
-            <div className={styles.iconWrapper}>
-              <FaMapMarkerAlt />
-            </div>
-            <div>
-              <h3>Location</h3>
-              <p>Paris, France</p>
-            </div>
-          </div>
-
-          <div className={styles.infoItem}>
-            <div className={styles.iconWrapper}>
-              <FaPhone />
-            </div>
-            <div>
-              <h3>Phone</h3>
-              <p>+33 (0) 123 456 789</p>
-            </div>
-          </div>
-
-          <div className={styles.infoItem}>
-            <div className={styles.iconWrapper}>
-              <FaEnvelope />
-            </div>
-            <div>
-              <h3>Email</h3>
-              <p>contact@necibnexus.com</p>
-            </div>
-          </div>
-
-          <div className={styles.mapContainer}>
-            {mapLoaded && (
-              <div className={styles.mapWrapper}>
-                <MapboxMap
-                  initialViewState={viewState}
-                  onMove={(evt) => setViewState(evt.viewState)}
-                  mapStyle="mapbox://styles/mapbox/dark-v10"
-                  mapboxAccessToken={MAPBOX_TOKEN}
-                  style={{
-                    width: '100%',
-                    height: '100%',
-                    borderRadius: '12px',
-                  }}
-                />
+      {/* Premium contact container */}
+      <motion.div 
+        className={styles.contactContainer} 
+        ref={inViewRef}
+        variants={fadeIn}
+        initial="hidden"
+        animate={inView ? "visible" : "hidden"}
+      >
+        <div className={styles.contactContent}>
+          {/* Left column: Contact info */}
+          <motion.div 
+            className={styles.contactInfo}
+            variants={fadeIn}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            transition={{ delay: 0.2 }}
+          >
+            <h2 className={styles.contactInfoTitle}>Reach Out</h2>
+            
+            <div className={styles.infoItem}>
+              <div className={styles.iconWrapper}>
+                <FaMapMarkerAlt />
               </div>
-            )}
-          </div>
-        </motion.div>
-
-        <motion.div
-          className={styles.contactForm}
-          initial={{ opacity: 1, x: 0 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.3 }}
-        >
-          {!submitted ? (
-            <>
-              <h2>Send a Message</h2>
-
-              <form ref={formRef} onSubmit={handleSubmit}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="name">Full Name</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className={errors.name ? styles.error : ''}
-                  />
-                  {errors.name && (
-                    <span className={styles.errorText}>{errors.name}</span>
-                  )}
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label htmlFor="email">Email Address</label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className={errors.email ? styles.error : ''}
-                  />
-                  {errors.email && (
-                    <span className={styles.errorText}>{errors.email}</span>
-                  )}
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label htmlFor="subject">Subject</label>
-                  <input
-                    type="text"
-                    id="subject"
-                    name="subject"
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className={errors.subject ? styles.error : ''}
-                  />
-                  {errors.subject && (
-                    <span className={styles.errorText}>{errors.subject}</span>
-                  )}
-                </div>
-
-                <div className={styles.formGroup}>
-                  <label htmlFor="message">Message</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows="5"
-                    value={formData.message}
-                    onChange={handleChange}
-                    className={errors.message ? styles.error : ''}
-                  ></textarea>
-                  {errors.message && (
-                    <span className={styles.errorText}>{errors.message}</span>
-                  )}
-                </div>
-
-                {errors.submit && (
-                  <div className={styles.submitError}>{errors.submit}</div>
-                )}
-
-                <button
-                  type="submit"
-                  className={styles.submitBtn}
-                  disabled={submitting}
-                >
-                  {submitting ? 'Sending...' : 'Send Message'}
-                </button>
-              </form>
-            </>
-          ) : (
-            <div className={styles.successMessage}>
-              <FaCheckCircle />
-              <h2>Message Sent!</h2>
-              <p>Thank you for reaching out. We'll get back to you shortly.</p>
-              <button
-                onClick={() => setSubmitted(false)}
-                className={styles.sendAnotherBtn}
-              >
-                Send Another Message
-              </button>
+              <div>
+                <h3>Location</h3>
+                <p>Paris, France</p>
+              </div>
             </div>
-          )}
-        </motion.div>
-      </div>
+
+            <div className={styles.infoItem}>
+              <div className={styles.iconWrapper}>
+                <FaPhone />
+              </div>
+              <div>
+                <h3>Phone</h3>
+                <p>+33 (0) 123 456 789</p>
+              </div>
+            </div>
+
+            <div className={styles.infoItem}>
+              <div className={styles.iconWrapper}>
+                <FaEnvelope />
+              </div>
+              <div>
+                <h3>Email</h3>
+                <p>contact@necibnexus.com</p>
+              </div>
+            </div>
+
+            <div className={styles.socialLinks}>
+              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+                <FaLinkedin />
+              </a>
+              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer">
+                <FaTwitter />
+              </a>
+              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+                <FaInstagram />
+              </a>
+            </div>
+
+            <div className={styles.mapContainer}>
+              {mapLoaded && (
+                <div className={styles.mapWrapper}>
+                  <MapboxMap
+                    initialViewState={viewState}
+                    onMove={(evt) => setViewState(evt.viewState)}
+                    mapStyle="mapbox://styles/mapbox/dark-v10"
+                    mapboxAccessToken={MAPBOX_TOKEN}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '12px',
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          </motion.div>
+
+          {/* Right column: Contact form */}
+          <motion.div 
+            className={styles.contactForm}
+            variants={fadeIn}
+            initial="hidden"
+            animate={inView ? "visible" : "hidden"}
+            transition={{ delay: 0.4 }}
+          >
+            <div className={styles.formContainer}>
+              <h2 className={styles.formTitle}>Send a Message</h2>
+              
+              <AnimatePresence mode="wait">
+                {submitted ? (
+                  <motion.div 
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.8 }}
+                    className={styles.successMessage}
+                  >
+                    <div className={styles.checkmarkWrapper}>
+                      <FaCheckCircle className={styles.checkIcon} />
+                    </div>
+                    <h3>Message Sent!</h3>
+                    <p>Thank you for reaching out. We'll get back to you shortly.</p>
+                    <button 
+                      className={styles.resetButton}
+                      onClick={() => setSubmitted(false)}
+                    >
+                      Send Another Message
+                    </button>
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="form"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  >
+                    {errors.submit && (
+                      <div className={styles.errorMessage}>
+                        <p>{errors.submit}</p>
+                      </div>
+                    )}
+                    <form ref={formRef} onSubmit={handleSubmit}>
+                      <div className={styles.formRow}>
+                        <div className={styles.formGroup}>
+                          <label htmlFor="name">Name</label>
+                          <input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            placeholder="Your name"
+                            className={errors.name ? styles.error : styles.formControl}
+                            disabled={submitting}
+                          />
+                          {errors.name && <span className={styles.errorText}>{errors.name}</span>}
+                        </div>
+                        
+                        <div className={styles.formGroup}>
+                          <label htmlFor="email">Email</label>
+                          <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            placeholder="Your email address"
+                            className={errors.email ? styles.error : styles.formControl}
+                            disabled={submitting}
+                          />
+                          {errors.email && <span className={styles.errorText}>{errors.email}</span>}
+                        </div>
+                      </div>
+                      
+                      <div className={styles.formGroup}>
+                        <label htmlFor="subject">Subject</label>
+                        <input
+                          type="text"
+                          id="subject"
+                          name="subject"
+                          value={formData.subject}
+                          onChange={handleChange}
+                          placeholder="Message subject"
+                          className={errors.subject ? styles.error : styles.formControl}
+                          disabled={submitting}
+                        />
+                        {errors.subject && <span className={styles.errorText}>{errors.subject}</span>}
+                      </div>
+                      
+                      <div className={styles.formGroup}>
+                        <label htmlFor="message">Message</label>
+                        <textarea
+                          id="message"
+                          name="message"
+                          value={formData.message}
+                          onChange={handleChange}
+                          placeholder="Your message"
+                          className={errors.message ? styles.error : styles.formControl}
+                          disabled={submitting}
+                          rows={5}
+                        />
+                        {errors.message && <span className={styles.errorText}>{errors.message}</span>}
+                      </div>
+                      
+                      <button 
+                        type="submit" 
+                        className={styles.submitButton}
+                        disabled={submitting}
+                      >
+                        {submitting ? (
+                          <span className={styles.loadingIndicator}>
+                            <span className={styles.loadingDot}></span>
+                            <span className={styles.loadingDot}></span>
+                            <span className={styles.loadingDot}></span>
+                          </span>
+                        ) : (
+                          <>
+                            Send Message
+                            <FaArrowRight className={styles.buttonIcon} />
+                          </>
+                        )}
+                      </button>
+                    </form>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          </motion.div>
+        </div>
+      </motion.div>
     </Layout>
   )
 }
