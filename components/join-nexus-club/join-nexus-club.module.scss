@@ -4,11 +4,11 @@
 // Variables
 $primary-color: #E33D33;
 $secondary-color: #0D1117;
-$accent-color: #5B26D6;
+$accent-color: #5352ed;
 $text-color: #FFFFFF;
-$card-bg: rgba(15, 18, 25, 0.75);
+$card-bg: rgba(15, 18, 25, 0.85);
 $border-color: rgba(255, 255, 255, 0.15);
-$glow-color: rgba(91, 38, 214, 0.5);
+$glow-color: rgba(83, 82, 237, 0.6);
 
 // Mixins
 @mixin flex-center {
@@ -190,7 +190,7 @@ $glow-color: rgba(91, 38, 214, 0.5);
   align-items: center;
   justify-content: flex-start;
   padding-top: 15vh;
-  transition: opacity 0.5s ease, transform 0.5s ease;
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
   z-index: 5;
   will-change: transform, opacity;
   
@@ -352,7 +352,7 @@ $glow-color: rgba(91, 38, 214, 0.5);
   transform: translateY(80px);
   transition: opacity 0.6s ease, transform 0.6s ease;
   z-index: 4;
-  padding-top: 10vh;
+  padding-top: 8vh;
   
   &.visible {
     opacity: 1;
@@ -362,11 +362,11 @@ $glow-color: rgba(91, 38, 214, 0.5);
 
 // Form Container
 .formContainer {
-  width: clamp(320px, 90vw, 900px);
+  width: clamp(320px, 90vw, 800px);
   background: linear-gradient($secondary-color, $secondary-color) padding-box,
-              linear-gradient(145deg, transparent 35%, $accent-color, $primary-color) border-box;
+              linear-gradient(145deg, transparent 35%, $accent-color, darken($accent-color, 15%)) border-box;
   border: 2px solid transparent;
-  padding: 32px;
+  padding: 28px;
   font-size: 14px;
   color: $text-color;
   display: flex;
@@ -375,7 +375,7 @@ $glow-color: rgba(91, 38, 214, 0.5);
   border-radius: 16px;
   background-size: 200% 100%;
   animation: gradient 8s ease infinite;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba($accent-color, 0.15);
   z-index: 15;
   overflow: hidden;
   position: relative;
@@ -389,31 +389,31 @@ $glow-color: rgba(91, 38, 214, 0.5);
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba($accent-color, 0.1), transparent 80%);
+    background: linear-gradient(135deg, rgba($accent-color, 0.12), transparent 80%);
     z-index: 0;
     pointer-events: none;
   }
   
   @media (max-width: 768px) {
-    padding: 24px;
-    width: clamp(300px, 90vw, 500px);
+    padding: 20px;
+    width: clamp(300px, 92vw, 480px);
   }
 }
 
 .formGlow {
   position: absolute;
-  bottom: -50px;
+  bottom: -40px;
   left: 50%;
-  width: 70%;
-  height: 150px;
+  width: 80%;
+  height: 140px;
   transform: translateX(-50%);
   background: radial-gradient(
     ellipse at center,
-    rgba($accent-color, 0.4) 0%,
+    rgba($accent-color, 0.45) 0%,
     rgba($accent-color, 0) 70%
   );
-  opacity: 0.5;
-  filter: blur(40px);
+  opacity: 0.7;
+  filter: blur(30px);
   pointer-events: none;
   z-index: -1;
 }
@@ -442,7 +442,7 @@ $glow-color: rgba(91, 38, 214, 0.5);
 
 .formInner {
   display: flex;
-  gap: 30px;
+  gap: 25px;
   
   @media (max-width: 768px) {
     flex-direction: column;
@@ -451,8 +451,8 @@ $glow-color: rgba(91, 38, 214, 0.5);
 }
 
 .formDetails {
-  flex: 1;
-  padding-right: 20px;
+  flex: 5;
+  padding-right: 15px;
   
   @media (max-width: 768px) {
     padding-right: 0;
@@ -462,10 +462,10 @@ $glow-color: rgba(91, 38, 214, 0.5);
 }
 
 .formFields {
-  flex: 1;
+  flex: 4;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 16px;
   position: relative;
   
   &:before {
@@ -473,9 +473,9 @@ $glow-color: rgba(91, 38, 214, 0.5);
     position: absolute;
     top: 10%;
     bottom: 10%;
-    left: -15px;
+    left: -12px;
     width: 1px;
-    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1), transparent);
+    background: linear-gradient(to bottom, transparent, rgba($accent-color, 0.2), transparent);
     display: none;
     
     @media (min-width: 769px) {
@@ -485,60 +485,60 @@ $glow-color: rgba(91, 38, 214, 0.5);
 }
 
 .formHeader {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .formBadge {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 5px 10px;
   background: linear-gradient(135deg, rgba($accent-color, 0.8), rgba($accent-color, 0.2));
   border-radius: 30px;
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 1px;
   color: $text-color;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   align-self: flex-start;
   border: 1px solid rgba($accent-color, 0.3);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   text-transform: uppercase;
 }
 
 .clubTitle {
-  font-size: clamp(24px, 4vw, 34px);
+  font-size: clamp(22px, 4vw, 30px);
   font-weight: 700;
   color: $text-color;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   letter-spacing: -0.02em;
   @include text-shadow;
-  background: linear-gradient(to right, $text-color, rgba($accent-color, 0.8));
+  background: linear-gradient(to right, $text-color, $accent-color);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .clubDescription {
-  font-size: clamp(14px, 2vw, 16px);
+  font-size: clamp(13px, 2vw, 15px);
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 // Benefits section
 .formBenefits {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 20px;
+  gap: 10px;
+  margin-top: 16px;
 }
 
 .benefitItem {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 14px;
+  gap: 10px;
+  font-size: 13px;
   
   span {
     color: rgba(255, 255, 255, 0.85);
@@ -546,8 +546,8 @@ $glow-color: rgba(91, 38, 214, 0.5);
 }
 
 .benefitIcon {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -555,21 +555,21 @@ $glow-color: rgba(91, 38, 214, 0.5);
   color: $accent-color;
   
   svg {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 5px;
   position: relative;
 }
 
 .formGroup label {
   display: block;
-  margin-bottom: 5px;
+  margin-bottom: 4px;
   color: #717171;
   font-weight: 600;
   font-size: 12px;
@@ -577,7 +577,7 @@ $glow-color: rgba(91, 38, 214, 0.5);
 
 .formGroup input {
   width: 100%;
-  padding: 14px 16px;
+  padding: 12px 16px;
   border-radius: 8px;
   color: $text-color;
   font-family: inherit;
@@ -585,7 +585,7 @@ $glow-color: rgba(91, 38, 214, 0.5);
   border: 1px solid #414141;
   outline: none;
   transition: all 0.3s ease;
-  font-size: 15px;
+  font-size: 14px;
   
   &:focus {
     outline: none;
@@ -602,16 +602,16 @@ $glow-color: rgba(91, 38, 214, 0.5);
 
 .formGroup textarea {
   width: 100%;
-  padding: 14px 16px;
+  padding: 12px 16px;
   border-radius: 8px;
   resize: none;
   color: $text-color;
-  height: 100px;
+  height: 90px;
   border: 1px solid #414141;
   background-color: rgba(255, 255, 255, 0.03);
   font-family: inherit;
   transition: all 0.3s ease;
-  font-size: 15px;
+  font-size: 14px;
   
   &:focus {
     outline: none;
@@ -635,12 +635,12 @@ $glow-color: rgba(91, 38, 214, 0.5);
   color: #fff;
   font-weight: 600;
   width: auto;
-  min-width: 130px;
+  min-width: 120px;
   background: $accent-color;
   border: 1px solid rgba($accent-color, 0.6);
-  padding: 12px 20px;
-  font-size: 16px;
-  margin-top: 10px;
+  padding: 10px 18px;
+  font-size: 15px;
+  margin-top: 8px;
   cursor: pointer;
   border-radius: 8px;
   transition: all 0.3s ease;
@@ -651,7 +651,7 @@ $glow-color: rgba(91, 38, 214, 0.5);
   &:hover {
     background-color: lighten($accent-color, 5%);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3), 0 0 10px rgba($accent-color, 0.3);
     
     .buttonArrow {
       transform: translateX(3px);
@@ -681,16 +681,16 @@ $glow-color: rgba(91, 38, 214, 0.5);
   }
   
   .buttonArrow {
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     transition: transform 0.3s ease;
   }
 }
 
 .formDisclaimer {
-  font-size: 12px;
+  font-size: 11px;
   color: rgba(255, 255, 255, 0.5);
-  margin-top: 15px;
+  margin-top: 12px;
   
   a {
     color: rgba($accent-color, 0.8);
@@ -709,7 +709,7 @@ $glow-color: rgba(91, 38, 214, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 30px 20px;
+  padding: 25px 20px;
   text-align: center;
   animation: fadeIn 0.8s ease;
   z-index: 2;
@@ -719,28 +719,28 @@ $glow-color: rgba(91, 38, 214, 0.5);
   margin-top: 15px;
   
   h3 {
-    font-size: 24px;
+    font-size: 22px;
     font-weight: 700;
-    margin-bottom: 12px;
+    margin-bottom: 10px;
     color: $text-color;
-    background: linear-gradient(to right, $text-color, #52c41a);
+    background: linear-gradient(to right, $text-color, $accent-color);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
   }
   
   p {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.8);
   }
 }
 
 .successIcon {
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   border-radius: 50%;
-  background-color: rgba(82, 196, 26, 0.15);
+  background-color: rgba($accent-color, 0.15);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -755,14 +755,14 @@ $glow-color: rgba(91, 38, 214, 0.5);
     width: 120%;
     height: 120%;
     border-radius: 50%;
-    border: 1px solid rgba(82, 196, 26, 0.3);
+    border: 1px solid rgba($accent-color, 0.3);
     animation: pulse 2s infinite;
   }
   
   svg {
-    width: 40px;
-    height: 40px;
-    color: rgb(82, 196, 26);
+    width: 36px;
+    height: 36px;
+    color: $accent-color;
     stroke-dasharray: 30;
     stroke-dashoffset: 30;
     animation: 1s ease forwards 0.2s typing;

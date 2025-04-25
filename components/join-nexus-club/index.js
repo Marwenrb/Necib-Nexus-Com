@@ -11,7 +11,7 @@ if (typeof window !== 'undefined') {
 }
 
 // TypingText component for the animated typing effect
-const TypingText = ({ text, className, delay = 0, speed = 0.04, onComplete }) => {
+const TypingText = ({ text, className, delay = 0, speed = 0.035, onComplete }) => {
   const textRef = useRef(null)
   const cursorRef = useRef(null)
   const [displayedText, setDisplayedText] = useState('')
@@ -40,22 +40,31 @@ const TypingText = ({ text, className, delay = 0, speed = 0.04, onComplete }) =>
     // Reset
     setDisplayedText('')
     
+    // Precompute the typing timeline for better performance
+    const steps = []
+    for (let i = 0; i < totalChars; i++) {
+      steps.push(i + 1)
+    }
+    
     // Create typing timeline
     const typingTl = gsap.timeline({ 
       delay,
       onComplete: () => {
         setIsTyping(false)
-        if (onComplete) setTimeout(onComplete, 300)
+        if (onComplete) setTimeout(onComplete, 200)
       }
     })
 
-    // Type each character with a slight delay
-    for (let i = 0; i < totalChars; i++) {
-      typingTl.add(() => {
-        currentIndex = i + 1
-        setDisplayedText(text.substring(0, currentIndex))
-      }, i * speed)
-    }
+    // Type each character with a slight delay - optimized for performance
+    typingTl.to(textElement, {
+      duration: speed * totalChars,
+      onUpdate: function() {
+        const progress = this.progress()
+        const charIndex = Math.floor(progress * totalChars)
+        setDisplayedText(text.substring(0, charIndex + 1))
+      },
+      ease: "none"
+    })
 
     // Add blinking cursor after typing is complete
     typingTl.add(() => {
@@ -72,7 +81,7 @@ const TypingText = ({ text, className, delay = 0, speed = 0.04, onComplete }) =>
   }, [text, delay, speed, onComplete])
 
   return (
-    <div className={cn(s.typingContainer, className)}>
+    <div className={cn(s.typingContainer, className)} aria-live="polite">
       {/* Accessible text for screen readers */}
       <span className={s.srOnly}>{text}</span>
       
@@ -226,9 +235,9 @@ export const JoinNexusClubSection = () => {
     gsap.to(scrollPromptRef.current, {
       opacity: 1,
       y: 0,
-      duration: 1,
-      ease: "power3.out",
-      delay: 0.5
+      duration: 0.8,
+      ease: "power2.out",
+      delay: 0.2
     })
   }
 
@@ -289,50 +298,69 @@ export const JoinNexusClubSection = () => {
       }
     )
     
-    // Set up scroll-based animation
+    // Make sure typing text is visible initially
+    gsap.set(textContent, { opacity: 1, y: 0 })
+    
+    // Create a timeline for typing text exit to ensure it completes before the form appears
+    const typingExitTl = gsap.timeline({
+      paused: true,
+      defaults: {ease: "power2.inOut"}
+    })
+    
+    typingExitTl.to(textContent, {
+      y: "-30%",
+      opacity: 0,
+      duration: 0.4,
+    })
+    
+    // Set up scroll-based animation with better performance
     const scrollTl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
         start: "top top",
         end: "bottom top",
-        scrub: 0.5,
+        scrub: 0.1, // Smoother scrubbing for better performance
         pin: true,
         anticipatePin: 1,
+        fastScrollEnd: true, // Improve performance during fast scrolling
         onUpdate: (self) => {
           // Update scroll phase based on progress
           const progress = self.progress
-          if (progress < 0.25) {
-            setScrollPhase(0)
-          } else if (progress < 0.6) {
-            setScrollPhase(1)
+          if (progress < 0.1) {
+            if (scrollPhase !== 0) {
+              setScrollPhase(0)
+            }
+          } else if (progress < 0.3) {
+            // Trigger the exit animation at exactly this point for consistency
+            if (scrollPhase !== 1) {
+              setScrollPhase(1)
+              typingExitTl.progress(Math.min((progress - 0.1) * 5, 1)) // Normalize to 0-1
+            } else {
+              typingExitTl.progress(Math.min((progress - 0.1) * 5, 1)) // Update progress
+            }
           } else {
-            setScrollPhase(2)
+            if (scrollPhase !== 2) {
+              setScrollPhase(2)
+              typingExitTl.progress(1) // Ensure exit is complete
+            }
           }
         }
       },
     })
     
-    // Scale and rotate the image as user scrolls
+    // Scale and rotate the image as user scrolls - smoother with less extreme values
     scrollTl.to(image, {
-      scale: 1.3,
-      rotationZ: 3,
-      y: "5%",
-      filter: "brightness(0.7)",
+      scale: 1.15,
+      rotationZ: 1.5,
+      filter: "brightness(0.85)",
       ease: "none",
     }, 0)
     
-    // Parallax effect for text content - fade out earlier to prevent overlap
-    scrollTl.to(textContent, {
-      y: "-35%",
-      opacity: 0,
-      ease: "power2.in",
-    }, 0.1)
-    
-    // Reveal form/club content as user scrolls down
+    // Reveal form/club content as user scrolls down - appearing from bottom
     scrollTl.fromTo(formContent, 
       { y: "50%", opacity: 0 },
-      { y: "0%", opacity: 1, ease: "power2.out" },
-      0.25
+      { y: "0%", opacity: 1, ease: "power1.out", duration: 0.6 },
+      0.15
     )
     
     // Clean up animations on unmount
@@ -340,8 +368,9 @@ export const JoinNexusClubSection = () => {
       if (ScrollTrigger) {
         ScrollTrigger.getAll().forEach(trigger => trigger.kill())
       }
+      typingExitTl.kill()
     }
-  }, [])
+  }, [scrollPhase])
 
   return (
     <section ref={sectionRef} className={s.section}>
@@ -370,13 +399,13 @@ export const JoinNexusClubSection = () => {
             {/* Initial text content (visible first) */}
             <div 
               ref={textContentRef} 
-              className={cn(s.textContent, scrollPhase > 0 && s.hidden)}
+              className={s.textContent}
             >
               <TypingText 
                 text="Elevate Your Digital Presence | NEXUS" 
                 className={s.mainTitle}
-                delay={0.5}
-                speed={0.04}
+                delay={0.3}
+                speed={0.035}
                 onComplete={handleTypingComplete}
               />
               
@@ -403,41 +432,87 @@ export const JoinNexusClubSection = () => {
               <div className={s.formContainer}>
                 {!submitted ? (
                   <form className={s.form} onSubmit={handleSubmit}>
-                    <div className={s.formHeader}>
-                      <h2 className={s.clubTitle}>Join NEXUS Club</h2>
-                      <p className={s.clubDescription}>
-                        Become part of an exclusive community where innovation meets luxury. 
-                        The NEXUS Club offers unprecedented access to premium events, 
-                        personalized services, and a network of industry pioneers.
-                      </p>
+                    <div className={s.formInner}>
+                      <div className={s.formDetails}>
+                        <div className={s.formHeader}>
+                          <div className={s.formBadge}>Exclusive Access</div>
+                          <h2 className={s.clubTitle}>Join NEXUS Club</h2>
+                          <p className={s.clubDescription}>
+                            Become part of an exclusive community where innovation meets luxury. 
+                            The NEXUS Club offers unprecedented access to premium events, 
+                            personalized services, and a network of industry pioneers.
+                          </p>
+                        </div>
+                        
+                        <div className={s.formBenefits}>
+                          <div className={s.benefitItem}>
+                            <div className={s.benefitIcon}>
+                              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2"/>
+                              </svg>
+                            </div>
+                            <span>Premium Events & Networking</span>
+                          </div>
+                          <div className={s.benefitItem}>
+                            <div className={s.benefitIcon}>
+                              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2"/>
+                              </svg>
+                            </div>
+                            <span>Personalized Digital Solutions</span>
+                          </div>
+                          <div className={s.benefitItem}>
+                            <div className={s.benefitIcon}>
+                              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9 12L11 14L15 10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                                <path d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z" stroke="currentColor" strokeWidth="2"/>
+                              </svg>
+                            </div>
+                            <span>Early Access to New Features</span>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className={s.formFields}>
+                        <div className={s.formGroup}>
+                          <label htmlFor="email">Company Email</label>
+                          <input
+                            type="email"
+                            id="email"
+                            placeholder="yourname@company.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                            aria-label="Company Email address"
+                          />
+                        </div>
+                        <div className={s.formGroup}>
+                          <label htmlFor="message">How can we elevate your business?</label>
+                          <textarea
+                            id="message"
+                            placeholder="Tell us about your goals..."
+                            value={message}
+                            onChange={(e) => setMessage(e.target.value)}
+                            rows="3"
+                          ></textarea>
+                        </div>
+                        <button 
+                          ref={ctaButtonRef}
+                          type="submit" 
+                          className={s.formSubmitBtn}
+                        >
+                          <span>Join Now</span>
+                          <svg className={s.buttonArrow} viewBox="0 0 24 24" fill="none">
+                            <path d="M5 12H19M19 12L12 5M19 12L12 19" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                          </svg>
+                        </button>
+                        <p className={s.formDisclaimer}>
+                          By joining, you agree to our <a href="#">Terms of Service</a>
+                        </p>
+                      </div>
                     </div>
-                    <div className={s.formGroup}>
-                      <label htmlFor="email">Company Email</label>
-                      <input
-                        type="email"
-                        id="email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                        aria-label="Email address"
-                      />
-                    </div>
-                    <div className={s.formGroup}>
-                      <label htmlFor="message">How can we elevate your business?</label>
-                      <textarea
-                        id="message"
-                        value={message}
-                        onChange={(e) => setMessage(e.target.value)}
-                        rows="3"
-                      ></textarea>
-                    </div>
-                    <button 
-                      ref={ctaButtonRef}
-                      type="submit" 
-                      className={s.formSubmitBtn}
-                    >
-                      Join Now
-                    </button>
                   </form>
                 ) : (
                   <div className={s.successMessage}>
@@ -459,6 +534,7 @@ export const JoinNexusClubSection = () => {
                     </div>
                   </div>
                 )}
+                <div className={s.formGlow}></div>
               </div>
             </div>
           </div>
