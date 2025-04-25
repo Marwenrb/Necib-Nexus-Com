@@ -11,7 +11,7 @@ if (typeof window !== 'undefined') {
 }
 
 // TypingText component for the animated typing effect
-const TypingText = ({ text, className, delay = 0, speed = 0.05, onComplete }) => {
+const TypingText = ({ text, className, delay = 0, speed = 0.04, onComplete }) => {
   const textRef = useRef(null)
   const cursorRef = useRef(null)
   const [displayedText, setDisplayedText] = useState('')
@@ -45,7 +45,7 @@ const TypingText = ({ text, className, delay = 0, speed = 0.05, onComplete }) =>
       delay,
       onComplete: () => {
         setIsTyping(false)
-        if (onComplete) onComplete()
+        if (onComplete) setTimeout(onComplete, 300)
       }
     })
 
@@ -199,10 +199,11 @@ export const JoinNexusClubSection = () => {
   const scrollPromptRef = useRef(null)
   const [scrollPhase, setScrollPhase] = useState(0)
   const [email, setEmail] = useState('')
+  const [message, setMessage] = useState('')
   const [submitted, setSubmitted] = useState(false)
   const [typingComplete, setTypingComplete] = useState(false)
   
-  // Handle email submission
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault()
     if (email) {
@@ -300,9 +301,9 @@ export const JoinNexusClubSection = () => {
         onUpdate: (self) => {
           // Update scroll phase based on progress
           const progress = self.progress
-          if (progress < 0.33) {
+          if (progress < 0.25) {
             setScrollPhase(0)
-          } else if (progress < 0.66) {
+          } else if (progress < 0.6) {
             setScrollPhase(1)
           } else {
             setScrollPhase(2)
@@ -320,18 +321,18 @@ export const JoinNexusClubSection = () => {
       ease: "none",
     }, 0)
     
-    // Parallax effect for text content
+    // Parallax effect for text content - fade out earlier to prevent overlap
     scrollTl.to(textContent, {
-      y: "-30%",
+      y: "-35%",
       opacity: 0,
-      ease: "power1.in",
-    }, 0.2)
+      ease: "power2.in",
+    }, 0.1)
     
     // Reveal form/club content as user scrolls down
     scrollTl.fromTo(formContent, 
       { y: "50%", opacity: 0 },
       { y: "0%", opacity: 1, ease: "power2.out" },
-      0.3
+      0.25
     )
     
     // Clean up animations on unmount
@@ -374,8 +375,8 @@ export const JoinNexusClubSection = () => {
               <TypingText 
                 text="Elevate Your Digital Presence | NEXUS" 
                 className={s.mainTitle}
-                delay={0.8}
-                speed={0.06}
+                delay={0.5}
+                speed={0.04}
                 onComplete={handleTypingComplete}
               />
               
@@ -399,74 +400,66 @@ export const JoinNexusClubSection = () => {
               ref={formContentRef} 
               className={cn(s.formContent, scrollPhase > 0 && s.visible)}
             >
-              <TiltEffect className={s.clubCard}>
-                <div className={s.cardContent}>
-                  <div className={s.cardHeader}>
-                    <div className={s.cardBadge}>EXCLUSIVE</div>
-                    <h2 className={s.clubTitle}>Join NEXUS Club</h2>
-                  </div>
-                  <p className={s.clubDescription}>
-                    Become part of an exclusive community where innovation meets luxury. 
-                    The NEXUS Club offers unprecedented access to premium events, 
-                    personalized services, and a network of industry pioneers.
-                  </p>
-                  
-                  {!submitted ? (
-                    <form className={s.joinForm} onSubmit={handleSubmit}>
-                      <div className={s.formGroup}>
-                        <input
-                          type="email"
-                          className={s.emailInput}
-                          placeholder="Your email address"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          required
-                          aria-label="Email address"
-                        />
-                        <button 
-                          ref={ctaButtonRef}
-                          type="submit" 
-                          className={s.ctaButton}
-                        >
-                          <span className={s.buttonText}>Join Now</span>
-                          <span className={s.buttonHighlight}></span>
-                        </button>
-                      </div>
-                      <div className={s.formNote}>
-                        <svg className={s.secureIcon} viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                          <path d="M9 12l2 2 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                        </svg>
-                        <span>Early members get premium benefits</span>
-                      </div>
-                    </form>
-                  ) : (
-                    <div className={s.successMessage}>
-                      <div className={s.successIcon}>
-                        <svg viewBox="0 0 24 24">
-                          <path 
-                            d="M3,12 L9,18 L21,6" 
-                            fill="none" 
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </div>
-                      <p>Thank you for joining the NEXUS Club!</p>
-                      <p>We'll be in touch soon with exclusive access.</p>
+              <div className={s.formContainer}>
+                {!submitted ? (
+                  <form className={s.form} onSubmit={handleSubmit}>
+                    <div className={s.formHeader}>
+                      <h2 className={s.clubTitle}>Join NEXUS Club</h2>
+                      <p className={s.clubDescription}>
+                        Become part of an exclusive community where innovation meets luxury. 
+                        The NEXUS Club offers unprecedented access to premium events, 
+                        personalized services, and a network of industry pioneers.
+                      </p>
                     </div>
-                  )}
-                </div>
-                
-                <div className={s.cardDecoration}>
-                  <div className={s.cardGlow}></div>
-                  <div className={s.cardLines}></div>
-                  <div className={s.cardGradient}></div>
-                  <div className={s.cardDots}></div>
-                </div>
-              </TiltEffect>
+                    <div className={s.formGroup}>
+                      <label htmlFor="email">Company Email</label>
+                      <input
+                        type="email"
+                        id="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
+                        aria-label="Email address"
+                      />
+                    </div>
+                    <div className={s.formGroup}>
+                      <label htmlFor="message">How can we elevate your business?</label>
+                      <textarea
+                        id="message"
+                        value={message}
+                        onChange={(e) => setMessage(e.target.value)}
+                        rows="3"
+                      ></textarea>
+                    </div>
+                    <button 
+                      ref={ctaButtonRef}
+                      type="submit" 
+                      className={s.formSubmitBtn}
+                    >
+                      Join Now
+                    </button>
+                  </form>
+                ) : (
+                  <div className={s.successMessage}>
+                    <div className={s.successIcon}>
+                      <svg viewBox="0 0 24 24">
+                        <path 
+                          d="M3,12 L9,18 L21,6" 
+                          fill="none" 
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <div className={s.successContent}>
+                      <h3>Thank you for joining the NEXUS Club!</h3>
+                      <p>We'll be in touch soon with exclusive access to our premium services.</p>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

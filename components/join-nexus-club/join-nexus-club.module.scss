@@ -188,13 +188,14 @@ $glow-color: rgba(91, 38, 214, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
+  padding-top: 20vh;
   transition: opacity 0.8s ease, transform 0.8s ease;
   z-index: 5;
   
   &.hidden {
     opacity: 0;
-    transform: translateY(-10%);
+    transform: translateY(-20%);
     pointer-events: none;
   }
 }
@@ -347,6 +348,7 @@ $glow-color: rgba(91, 38, 214, 0.5);
   align-items: center;
   justify-content: center;
   opacity: 0;
+  transform: translateY(40px);
   transition: opacity 0.8s ease, transform 0.8s ease;
   z-index: 4;
   
@@ -356,115 +358,73 @@ $glow-color: rgba(91, 38, 214, 0.5);
   }
 }
 
-// 3D Tilt Card
-.tiltContainer {
-  position: relative;
-  transform-style: preserve-3d;
-  transition: transform 0.5s ease;
-  will-change: transform;
-  perspective: 1000px;
-}
-
-.clubCard {
-  position: relative;
-  width: clamp(280px, 90vw, 600px);
-  padding: 40px;
-  border-radius: 20px;
-  @include glass-effect;
-  transform-style: preserve-3d;
+// Form Container
+.formContainer {
+  width: clamp(320px, 90vw, 500px);
+  background: linear-gradient($secondary-color, $secondary-color) padding-box,
+              linear-gradient(145deg, transparent 35%, $accent-color, $primary-color) border-box;
+  border: 2px solid transparent;
+  padding: 32px 24px;
+  font-size: 14px;
+  color: $text-color;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  border-radius: 16px;
+  background-size: 200% 100%;
+  animation: gradient 5s ease infinite;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   z-index: 15;
   overflow: hidden;
+  position: relative;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba($accent-color, 0.1), transparent 80%);
+    z-index: 0;
+  }
   
   @media (max-width: 768px) {
-    padding: 30px 20px;
+    padding: 24px 16px;
   }
 }
 
-.cardContent {
-  position: relative;
-  z-index: 2;
-  transform: translateZ(20px);
+@keyframes gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
-.cardDecoration {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-}
-
-.cardGlow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 80%;
-  height: 200px;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(
-    ellipse at center,
-    $glow-color 0%,
-    rgba(91, 38, 214, 0) 70%
-  );
-  opacity: 0.5;
-  filter: blur(40px);
-  z-index: 1;
-}
-
-.cardLines {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: 
-    linear-gradient(
-      90deg, 
-      transparent 98%, 
-      rgba(255, 255, 255, 0.05) 99%
-    ),
-    linear-gradient(
-      180deg, 
-      transparent 98%, 
-      rgba(255, 255, 255, 0.05) 99%
-    );
-  background-size: 40px 40px;
-  opacity: 0.3;
-  z-index: 1;
-  animation: floatingLines 15s ease-in-out infinite;
-}
-
-// Card Header
-.cardHeader {
+.form {
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  gap: 20px;
+  position: relative;
+  z-index: 2;
 }
 
-.cardBadge {
-  display: inline-block;
-  padding: 6px 12px;
-  background: linear-gradient(135deg, rgba($accent-color, 0.8), rgba($accent-color, 0.2));
-  border-radius: 30px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: $text-color;
-  margin-bottom: 15px;
-  align-self: flex-start;
-  border: 1px solid rgba($accent-color, 0.3);
-  backdrop-filter: blur(5px);
-  -webkit-backdrop-filter: blur(5px);
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  text-transform: uppercase;
+.formHeader {
+  margin-bottom: 10px;
 }
 
 .clubTitle {
-  font-size: clamp(28px, 5vw, 48px);
+  font-size: clamp(26px, 5vw, 38px);
   font-weight: 700;
   color: $text-color;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   letter-spacing: -0.02em;
   @include text-shadow;
   background: linear-gradient(to right, $text-color, rgba($accent-color, 0.8));
@@ -473,131 +433,183 @@ $glow-color: rgba(91, 38, 214, 0.5);
   color: transparent;
 }
 
-// Club Content Styles
 .clubDescription {
-  font-size: clamp(16px, 3vw, 18px);
+  font-size: clamp(14px, 3vw, 16px);
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 30px;
-  max-width: 500px;
-}
-
-// Form Styles
-.joinForm {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 20px;
-  transition: all 0.3s ease;
+  margin-bottom: 15px;
+  max-width: 100%;
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
-  width: 100%;
-  gap: 15px;
+  gap: 4px;
   position: relative;
-  
-  @media (min-width: 480px) {
-    flex-direction: row;
-  }
 }
 
-.formNote {
-  display: flex;
-  align-items: center;
-  margin-top: 15px;
-  font-size: 14px;
-  color: rgba($text-color, 0.7);
-  
-  .secureIcon {
-    width: 16px;
-    height: 16px;
-    margin-right: 8px;
-    color: rgba($accent-color, 0.8);
-  }
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+  color: #717171;
+  font-weight: 600;
+  font-size: 12px;
 }
 
-.emailInput {
+.formGroup input {
   width: 100%;
-  height: 54px;
-  padding: 0 20px;
-  font-size: 16px;
-  background-color: rgba(255, 255, 255, 0.07);
-  border: 1px solid rgba($border-color, 0.5);
-  border-radius: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
   color: $text-color;
+  font-family: inherit;
+  background-color: transparent;
+  border: 1px solid #414141;
   outline: none;
   transition: all 0.3s ease;
   
   &:focus {
+    outline: none;
     border-color: $accent-color;
-    background-color: rgba(255, 255, 255, 0.1);
-    @include neon-glow(rgba($accent-color, 0.3));
+    box-shadow: 0 0 0 1px rgba($accent-color, 0.5);
   }
   
   &::placeholder {
-    color: rgba(255, 255, 255, 0.5);
-  }
-  
-  @media (min-width: 480px) {
-    border-radius: 12px;
+    opacity: 0.5;
   }
 }
 
-// Button Styles
-.ctaButton {
-  position: relative;
+.formGroup textarea {
   width: 100%;
-  height: 54px;
-  background: linear-gradient(135deg, $accent-color, darken($accent-color, 15%));
-  border: none;
-  border-radius: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  resize: none;
   color: $text-color;
-  font-size: 18px;
-  font-weight: 600;
-  cursor: pointer;
-  overflow: hidden;
+  height: 96px;
+  border: 1px solid #414141;
+  background-color: transparent;
+  font-family: inherit;
   transition: all 0.3s ease;
   
-  @media (min-width: 480px) {
-    width: 40%;
-    min-width: 140px;
+  &:focus {
+    outline: none;
+    border-color: $accent-color;
+    box-shadow: 0 0 0 1px rgba($accent-color, 0.5);
   }
+}
+
+.formSubmitBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  font-family: inherit;
+  color: #fff;
+  font-weight: 600;
+  width: 40%;
+  min-width: 120px;
+  background: $accent-color;
+  border: 1px solid rgba($accent-color, 0.6);
+  padding: 12px 16px;
+  font-size: 16px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
   
   &:hover {
+    background-color: lighten($accent-color, 5%);
     transform: translateY(-2px);
-    @include neon-glow(rgba($accent-color, 0.5));
-    
-    .buttonHighlight {
-      transform: translateX(100%);
-    }
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
   }
   
   &:active {
-    transform: scale(0.98);
+    transform: scale(0.97);
+  }
+  
+  &:after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: transform 0.5s ease, opacity 0.5s ease;
+  }
+  
+  &:hover:after {
+    opacity: 0.3;
+    transform: scale(1);
   }
 }
 
-.buttonText {
-  position: relative;
+// Success Message
+.successMessage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 10px;
+  text-align: center;
+  animation: fadeIn 0.8s ease;
   z-index: 2;
 }
 
-.buttonHighlight {
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.2),
-    transparent
-  );
-  transition: transform 0.6s ease;
-  z-index: 1;
+.successContent {
+  margin-top: 10px;
+  
+  h3 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: $text-color;
+    background: linear-gradient(to right, $text-color, #52c41a);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  p {
+    font-size: 16px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+.successIcon {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  background-color: rgba(82, 196, 26, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  position: relative;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: -10%;
+    left: -10%;
+    width: 120%;
+    height: 120%;
+    border-radius: 50%;
+    border: 1px solid rgba(82, 196, 26, 0.3);
+    animation: pulse 2s infinite;
+  }
+  
+  svg {
+    width: 35px;
+    height: 35px;
+    color: rgb(82, 196, 26);
+    stroke-dasharray: 30;
+    stroke-dashoffset: 30;
+    animation: 1s ease forwards 0.2s typing;
+  }
 }
 
 // Additional Card Decorations
@@ -631,37 +643,6 @@ $glow-color: rgba(91, 38, 214, 0.5);
   z-index: 1;
   pointer-events: none;
   transform: rotate(-5deg) translateZ(10px);
-}
-
-// Success Message
-.successMessage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-  text-align: center;
-  animation: fadeIn 0.8s ease;
-}
-
-.successIcon {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background-color: rgba(82, 196, 26, 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
-  
-  svg {
-    width: 30px;
-    height: 30px;
-    color: rgb(82, 196, 26);
-    stroke-dasharray: 30;
-    stroke-dashoffset: 30;
-    animation: 1s ease forwards 0.2s typing;
-  }
 }
 
 // Responsive adjustments
