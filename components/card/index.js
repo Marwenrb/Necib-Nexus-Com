@@ -17,11 +17,11 @@ export const Card = ({
     >
       {image && (
         <div className={s.imageContainer}>
-          <Image 
-            src={image} 
-            alt={text} 
-            width={400} 
-            height={300} 
+          <Image
+            src={image}
+            alt={text}
+            width={400}
+            height={300}
             className={s.image}
           />
         </div>

@@ -9,13 +9,13 @@ $mobile-width: 375px;
 $mobile-height: 650px;
 
 /* Colors */
-$neon-blue: #5352ED;
+$neon-blue: #5352ed;
 $neon-blue-glow: rgba(83, 82, 237, 0.7);
 $neon-blue-glow-light: rgba(83, 82, 237, 0.3);
 
-// We'll keep these variables but won't use them for the site
-$neon-pink: #ff69b4;
-$neon-pink-glow: rgba(255, 105, 180, 0.7);
-$neon-pink-glow-light: rgba(255, 105, 180, 0.3);
+// Changed pink values to match premium blue
+$neon-pink: #2979ff;
+$neon-pink-glow: rgba(41, 121, 255, 0.7);
+$neon-pink-glow-light: rgba(41, 121, 255, 0.3);
 
 // CSS variables will be defined in global.scss instead

@@ -16,6 +16,7 @@ import { useStore } from 'lib/store'
 import dynamic from 'next/dynamic'
 import { useEffect, useRef, useState } from 'react'
 import s from './home.module.scss'
+import { JoinNexusClubSection } from 'components/join-nexus-club'
 
 // const SFDR = dynamic(() => import('icons/sfdr.svg'), { ssr: false })
 const GitHub = dynamic(() => import('icons/github.svg'), { ssr: false })
@@ -42,9 +43,12 @@ const WebGL = dynamic(
   { ssr: false }
 )
 
-const WhoWeAre = dynamic(() => import('components/who-we-are').then((mod) => mod.WhoWeAre), {
-  ssr: false,
-});
+const WhoWeAre = dynamic(
+  () => import('components/who-we-are').then((mod) => mod.WhoWeAre),
+  {
+    ssr: false,
+  }
+)
 
 const HeroTextIn = ({ children, introOut }) => {
   return (
@@ -72,29 +76,29 @@ export default function Home() {
   const [featuresAnimated, setFeaturesAnimated] = useState(false)
 
   useEffect(() => {
-    if (!featuresRef.current) return;
-    
+    if (!featuresRef.current) return
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setFeaturesAnimated(true);
-          observer.unobserve(entry.target);
+          setFeaturesAnimated(true)
+          observer.unobserve(entry.target)
         }
       },
       {
         threshold: 0.2,
-        rootMargin: "0px 0px -10% 0px"
+        rootMargin: '0px 0px -10% 0px',
       }
-    );
-    
-    observer.observe(featuresRef.current);
-    
+    )
+
+    observer.observe(featuresRef.current)
+
     return () => {
       if (featuresRef.current) {
-        observer.unobserve(featuresRef.current);
+        observer.unobserve(featuresRef.current)
       }
-    };
-  }, []);
+    }
+  }, [])
 
   useEffect(() => {
     if (!lenis) return
@@ -153,21 +157,25 @@ export default function Home() {
 
   const whoWeAreFeatures = [
     {
-      content: "Necib Nexus is a global digital innovation company that transforms visions into immersive realities. With creative brilliance and technical expertise, we deliver unforgettable experiences for leading brands worldwide."
+      content:
+        'Necib Nexus is a global digital innovation company that transforms visions into immersive realities. With creative brilliance and technical expertise, we deliver unforgettable experiences for leading brands worldwide.',
     },
     {
-      title: "Create immersive digital experiences",
-      content: "Unlock the creative potential and impact of your digital presence. Our innovative approach pulls users into an immersive flow that transforms ordinary interactions into extraordinary experiences."
+      title: 'Create immersive digital experiences',
+      content:
+        'Unlock the creative potential and impact of your digital presence. Our innovative approach pulls users into an immersive flow that transforms ordinary interactions into extraordinary experiences.',
     },
     {
-      title: "Tailor solutions for every platform",
-      content: "Give all your users the same exceptional experience whether they're on desktop, mobile, or immersive platforms. With our expertise, you control how engaging, intuitive, and responsive your digital presence becomes."
+      title: 'Tailor solutions for every platform',
+      content:
+        "Give all your users the same exceptional experience whether they're on desktop, mobile, or immersive platforms. With our expertise, you control how engaging, intuitive, and responsive your digital presence becomes.",
     },
     {
-      title: "Seamless integration of technology",
-      content: "We seamlessly blend cutting-edge technologies with creative design to create flawless digital experiences. Our team ensures perfect synchronization between visuals, interactions, and performance across all platforms."
-    }
-  ];
+      title: 'Seamless integration of technology',
+      content:
+        'We seamlessly blend cutting-edge technologies with creative design to create flawless digital experiences. Our team ensures perfect synchronization between visuals, interactions, and performance across all platforms.',
+    },
+  ]
 
   return (
     <Layout
@@ -256,7 +264,10 @@ export default function Home() {
           </div>
           <div className={s.comparison}>
             <p className="p">
-              At Necib Nexus, we offer a comprehensive range of digital services designed to transform your vision into reality. From cultural immersion to cutting-edge technology, we have the expertise to elevate your digital presence.
+              At Necib Nexus, we offer a comprehensive range of digital services
+              designed to transform your vision into reality. From cultural
+              immersion to cutting-edge technology, we have the expertise to
+              elevate your digital presence.
             </p>
           </div>
         </div>
@@ -319,7 +330,10 @@ export default function Home() {
         <div className={s.inner}>
           <div className={cn('layout-block', s.intro)}>
             <p className="p-l">
-              Necib Nexus is committed to pushing the boundaries of digital innovation. Our multidisciplinary team combines technical expertise with creative vision to deliver solutions that stand out in today's crowded digital landscape.
+              Necib Nexus is committed to pushing the boundaries of digital
+              innovation. Our multidisciplinary team combines technical
+              expertise with creative vision to deliver solutions that stand out
+              in today's crowded digital landscape.
             </p>
           </div>
         </div>
@@ -384,6 +398,9 @@ export default function Home() {
           </ul>
         </div>
       </section>
+
+      <JoinNexusClubSection />
+      
     </Layout>
   )
 }

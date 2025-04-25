@@ -1,169 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Favicon Conversion Instructions</title>
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        h1 {
-            color: #007AFF;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-        }
-        code {
-            background: #f5f5f5;
-            padding: 2px 5px;
-            border-radius: 3px;
-            font-family: SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;
-        }
-        pre {
-            background: #f5f5f5;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-        .note {
-            background: #f8f8f8;
-            border-left: 4px solid #007AFF;
-            padding: 10px 15px;
-            margin: 20px 0;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px 12px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .button {
-            display: inline-block;
-            background: #007AFF;
-            color: white;
-            padding: 10px 20px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: 500;
-            margin-top: 10px;
-        }
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+          Helvetica, Arial, sans-serif;
+        line-height: 1.6;
+        color: #333;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1 {
+        color: #007aff;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+      }
+      code {
+        background: #f5f5f5;
+        padding: 2px 5px;
+        border-radius: 3px;
+        font-family: SFMono-Regular, Consolas, 'Liberation Mono', Menlo,
+          monospace;
+      }
+      pre {
+        background: #f5f5f5;
+        padding: 15px;
+        border-radius: 5px;
+        overflow-x: auto;
+      }
+      .note {
+        background: #f8f8f8;
+        border-left: 4px solid #007aff;
+        padding: 10px 15px;
+        margin: 20px 0;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 20px 0;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 8px 12px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+      }
+      .button {
+        display: inline-block;
+        background: #007aff;
+        color: white;
+        padding: 10px 20px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-weight: 500;
+        margin-top: 10px;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Necib Nexus Premium Favicon Conversion Instructions</h1>
-    
-    <p>This document provides instructions on converting the SVG favicon to various PNG sizes for optimal cross-browser compatibility.</p>
-    
+
+    <p>
+      This document provides instructions on converting the SVG favicon to
+      various PNG sizes for optimal cross-browser compatibility.
+    </p>
+
     <div class="note">
-        <strong>Note:</strong> The SVG favicon provides the best quality and supports dark mode, but some older browsers may require PNG versions as fallbacks.
+      <strong>Note:</strong> The SVG favicon provides the best quality and
+      supports dark mode, but some older browsers may require PNG versions as
+      fallbacks.
     </div>
-    
+
     <h2>Required Favicon Sizes</h2>
-    
+
     <table>
-        <tr>
-            <th>Size</th>
-            <th>Filename</th>
-            <th>Purpose</th>
-        </tr>
-        <tr>
-            <td>16×16</td>
-            <td>favicon-16x16.png</td>
-            <td>Standard favicon for most browsers</td>
-        </tr>
-        <tr>
-            <td>32×32</td>
-            <td>favicon-32x32.png</td>
-            <td>Standard favicon (higher resolution)</td>
-        </tr>
-        <tr>
-            <td>48×48</td>
-            <td>favicon-48x48.png</td>
-            <td>Windows site icons</td>
-        </tr>
-        <tr>
-            <td>57×57</td>
-            <td>apple-touch-icon-57x57.png</td>
-            <td>iOS home screen (older iPhones)</td>
-        </tr>
-        <tr>
-            <td>60×60</td>
-            <td>apple-touch-icon-60x60.png</td>
-            <td>iOS home screen (older iPhones)</td>
-        </tr>
-        <tr>
-            <td>72×72</td>
-            <td>apple-touch-icon-72x72.png</td>
-            <td>iOS home screen (older iPads)</td>
-        </tr>
-        <tr>
-            <td>76×76</td>
-            <td>apple-touch-icon-76x76.png</td>
-            <td>iOS home screen (older iPads)</td>
-        </tr>
-        <tr>
-            <td>114×114</td>
-            <td>apple-touch-icon-114x114.png</td>
-            <td>iOS home screen (Retina iPhone)</td>
-        </tr>
-        <tr>
-            <td>120×120</td>
-            <td>apple-touch-icon-120x120.png</td>
-            <td>iOS home screen (Retina iPhone)</td>
-        </tr>
-        <tr>
-            <td>144×144</td>
-            <td>apple-touch-icon-144x144.png</td>
-            <td>iOS home screen (Retina iPad)</td>
-        </tr>
-        <tr>
-            <td>152×152</td>
-            <td>apple-touch-icon-152x152.png</td>
-            <td>iOS home screen (Retina iPad)</td>
-        </tr>
-        <tr>
-            <td>180×180</td>
-            <td>apple-touch-icon.png</td>
-            <td>iOS home screen (iPhone 6 Plus)</td>
-        </tr>
-        <tr>
-            <td>192×192</td>
-            <td>android-chrome-192x192.png</td>
-            <td>Android home screen icon</td>
-        </tr>
-        <tr>
-            <td>512×512</td>
-            <td>android-chrome-512x512.png</td>
-            <td>Android home screen icon</td>
-        </tr>
+      <tr>
+        <th>Size</th>
+        <th>Filename</th>
+        <th>Purpose</th>
+      </tr>
+      <tr>
+        <td>16×16</td>
+        <td>favicon-16x16.png</td>
+        <td>Standard favicon for most browsers</td>
+      </tr>
+      <tr>
+        <td>32×32</td>
+        <td>favicon-32x32.png</td>
+        <td>Standard favicon (higher resolution)</td>
+      </tr>
+      <tr>
+        <td>48×48</td>
+        <td>favicon-48x48.png</td>
+        <td>Windows site icons</td>
+      </tr>
+      <tr>
+        <td>57×57</td>
+        <td>apple-touch-icon-57x57.png</td>
+        <td>iOS home screen (older iPhones)</td>
+      </tr>
+      <tr>
+        <td>60×60</td>
+        <td>apple-touch-icon-60x60.png</td>
+        <td>iOS home screen (older iPhones)</td>
+      </tr>
+      <tr>
+        <td>72×72</td>
+        <td>apple-touch-icon-72x72.png</td>
+        <td>iOS home screen (older iPads)</td>
+      </tr>
+      <tr>
+        <td>76×76</td>
+        <td>apple-touch-icon-76x76.png</td>
+        <td>iOS home screen (older iPads)</td>
+      </tr>
+      <tr>
+        <td>114×114</td>
+        <td>apple-touch-icon-114x114.png</td>
+        <td>iOS home screen (Retina iPhone)</td>
+      </tr>
+      <tr>
+        <td>120×120</td>
+        <td>apple-touch-icon-120x120.png</td>
+        <td>iOS home screen (Retina iPhone)</td>
+      </tr>
+      <tr>
+        <td>144×144</td>
+        <td>apple-touch-icon-144x144.png</td>
+        <td>iOS home screen (Retina iPad)</td>
+      </tr>
+      <tr>
+        <td>152×152</td>
+        <td>apple-touch-icon-152x152.png</td>
+        <td>iOS home screen (Retina iPad)</td>
+      </tr>
+      <tr>
+        <td>180×180</td>
+        <td>apple-touch-icon.png</td>
+        <td>iOS home screen (iPhone 6 Plus)</td>
+      </tr>
+      <tr>
+        <td>192×192</td>
+        <td>android-chrome-192x192.png</td>
+        <td>Android home screen icon</td>
+      </tr>
+      <tr>
+        <td>512×512</td>
+        <td>android-chrome-512x512.png</td>
+        <td>Android home screen icon</td>
+      </tr>
     </table>
-    
+
     <h2>Conversion Methods</h2>
-    
+
     <h3>Method 1: Using Online Tools</h3>
-    <p>The easiest way to convert the SVG to multiple PNG sizes is to use an online favicon generator:</p>
+    <p>
+      The easiest way to convert the SVG to multiple PNG sizes is to use an
+      online favicon generator:
+    </p>
     <ol>
-        <li>Go to <a href="https://realfavicongenerator.net/" target="_blank" rel="noopener noreferrer">RealFaviconGenerator</a> or <a href="https://favicon.io/favicon-converter/" target="_blank" rel="noopener noreferrer">favicon.io</a></li>
-        <li>Upload the <code>favicon.svg</code> file</li>
-        <li>Configure the options (ensure dark mode support is maintained)</li>
-        <li>Download the generated package</li>
-        <li>Replace the existing favicon files in the public directory</li>
+      <li>
+        Go to
+        <a
+          href="https://realfavicongenerator.net/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >RealFaviconGenerator</a
+        >
+        or
+        <a
+          href="https://favicon.io/favicon-converter/"
+          target="_blank"
+          rel="noopener noreferrer"
+          >favicon.io</a
+        >
+      </li>
+      <li>Upload the <code>favicon.svg</code> file</li>
+      <li>Configure the options (ensure dark mode support is maintained)</li>
+      <li>Download the generated package</li>
+      <li>Replace the existing favicon files in the public directory</li>
     </ol>
-    
+
     <h3>Method 2: Using Command Line</h3>
-    <p>If you have Inkscape and ImageMagick installed, you can use the following commands:</p>
+    <p>
+      If you have Inkscape and ImageMagick installed, you can use the following
+      commands:
+    </p>
     <pre>
 # Convert SVG to PNG using Inkscape
 inkscape -w 16 -h 16 favicon.svg -o favicon-16x16.png
@@ -185,31 +214,41 @@ inkscape -w 57 -h 57 favicon.svg -o apple-touch-icon-57x57.png
 
 # Create multi-resolution ICO file
 convert favicon-16x16.png favicon-32x32.png favicon-48x48.png favicon.ico
-</pre>
+</pre
+    >
 
     <h3>Method 3: Using Browser Developer Tools</h3>
-    <p>You can also use Chrome or Firefox to render the SVG and capture it as PNG:</p>
+    <p>
+      You can also use Chrome or Firefox to render the SVG and capture it as
+      PNG:
+    </p>
     <ol>
-        <li>Open the SVG file in Chrome or Firefox</li>
-        <li>Resize the window to match the target icon dimensions</li>
-        <li>Take a screenshot</li>
-        <li>Crop the image to the exact dimensions</li>
-        <li>Save as PNG with the appropriate filename</li>
+      <li>Open the SVG file in Chrome or Firefox</li>
+      <li>Resize the window to match the target icon dimensions</li>
+      <li>Take a screenshot</li>
+      <li>Crop the image to the exact dimensions</li>
+      <li>Save as PNG with the appropriate filename</li>
     </ol>
-    
+
     <div class="note">
-        <strong>Important:</strong> After generating all the favicon files, ensure they're placed in the correct locations in the <code>public</code> directory as referenced in the <code>Favicon.js</code> component.
+      <strong>Important:</strong> After generating all the favicon files, ensure
+      they're placed in the correct locations in the
+      <code>public</code> directory as referenced in the
+      <code>Favicon.js</code> component.
     </div>
-    
+
     <h2>Testing Your Favicons</h2>
     <p>To ensure your favicons display correctly across all platforms:</p>
     <ol>
-        <li>Test in multiple browsers (Chrome, Firefox, Safari, Edge)</li>
-        <li>Test in both light and dark modes</li>
-        <li>Add the site to the home screen on iOS and Android devices</li>
-        <li>Check how the favicon appears in bookmarks and tabs</li>
+      <li>Test in multiple browsers (Chrome, Firefox, Safari, Edge)</li>
+      <li>Test in both light and dark modes</li>
+      <li>Add the site to the home screen on iOS and Android devices</li>
+      <li>Check how the favicon appears in bookmarks and tabs</li>
     </ol>
-    
-    <p>The new premium Necib Nexus favicon features an elegant "N" design with premium gradients and responsive dark mode support.</p>
-</body>
-</html> 
+
+    <p>
+      The new premium Necib Nexus favicon features an elegant "N" design with
+      premium gradients and responsive dark mode support.
+    </p>
+  </body>
+</html>

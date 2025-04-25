@@ -2,12 +2,12 @@
 
 ScrollMagic is dual licensed under the terms of the MIT license (below) and the [GPL](http://www.gnu.org/licenses/gpl-3.0.html).
 
-__Plugin License Information:__
+**Plugin License Information:**
 
-* The Greensock Animation Platform (__GSAP__) is used per its ["No Charge" license](http://greensock.com/standard-license).  
-For some cases the extended ["Business Green" license](http://greensock.com/licensing/) will be necessary.
-* __Velocity.js__ is published under the terms of the [MIT license](https://github.com/julianshapiro/velocity/blob/master/LICENSE.md).
-* __jQuery__ is published under the terms of the [MIT license](https://jquery.org/license/).
+- The Greensock Animation Platform (**GSAP**) is used per its ["No Charge" license](http://greensock.com/standard-license).  
+  For some cases the extended ["Business Green" license](http://greensock.com/licensing/) will be necessary.
+- **Velocity.js** is published under the terms of the [MIT license](https://github.com/julianshapiro/velocity/blob/master/LICENSE.md).
+- **jQuery** is published under the terms of the [MIT license](https://jquery.org/license/).
 
 ---
 

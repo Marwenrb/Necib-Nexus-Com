@@ -37,71 +37,69 @@
  * 
  */
 ScrollMagic.Scene = function (options) {
+  /*
+   * ----------------------------------------------------------------
+   * settings
+   * ----------------------------------------------------------------
+   */
 
-	/*
-	 * ----------------------------------------------------------------
-	 * settings
-	 * ----------------------------------------------------------------
-	 */
+  var NAMESPACE = 'ScrollMagic.Scene',
+    SCENE_STATE_BEFORE = 'BEFORE',
+    SCENE_STATE_DURING = 'DURING',
+    SCENE_STATE_AFTER = 'AFTER',
+    DEFAULT_OPTIONS = SCENE_OPTIONS.defaults
 
-	var
-		NAMESPACE = 'ScrollMagic.Scene',
-		SCENE_STATE_BEFORE = 'BEFORE',
-		SCENE_STATE_DURING = 'DURING',
-		SCENE_STATE_AFTER = 'AFTER',
-		DEFAULT_OPTIONS = SCENE_OPTIONS.defaults;
+  /*
+   * ----------------------------------------------------------------
+   * private vars
+   * ----------------------------------------------------------------
+   */
 
-	/*
-	 * ----------------------------------------------------------------
-	 * private vars
-	 * ----------------------------------------------------------------
-	 */
+  var Scene = this,
+    _options = _util.extend({}, DEFAULT_OPTIONS, options),
+    _state = SCENE_STATE_BEFORE,
+    _progress = 0,
+    _scrollOffset = { start: 0, end: 0 }, // reflects the controllers's scroll position for the start and end of the scene respectively
+    _triggerPos = 0,
+    _enabled = true,
+    _durationUpdateMethod,
+    _controller
 
-	var
-		Scene = this,
-		_options = _util.extend({}, DEFAULT_OPTIONS, options),
-		_state = SCENE_STATE_BEFORE,
-		_progress = 0,
-		_scrollOffset = {start: 0, end: 0}, // reflects the controllers's scroll position for the start and end of the scene respectively
-		_triggerPos = 0,
-		_enabled = true,
-		_durationUpdateMethod,
-		_controller;
+  /**
+   * Internal constructor function of the ScrollMagic Scene
+   * @private
+   */
+  var construct = function () {
+    for (var key in _options) {
+      // check supplied options
+      if (!DEFAULT_OPTIONS.hasOwnProperty(key)) {
+        log(2, 'WARNING: Unknown option "' + key + '"')
+        delete _options[key]
+      }
+    }
+    // add getters/setters for all possible options
+    for (var optionName in DEFAULT_OPTIONS) {
+      addSceneOption(optionName)
+    }
+    // validate all options
+    validateOption()
+  }
 
-	/**
-	 * Internal constructor function of the ScrollMagic Scene
-	 * @private
-	 */
-	var construct = function () {
-		for (var key in _options) { // check supplied options
-			if (!DEFAULT_OPTIONS.hasOwnProperty(key)) {
-				log(2, "WARNING: Unknown option \"" + key + "\"");
-				delete _options[key];
-			}
-		}
-		// add getters/setters for all possible options
-		for (var optionName in DEFAULT_OPTIONS) {
-			addSceneOption(optionName);
-		}
-		// validate all options
-		validateOption();
-	};
-	
-	// @include('Scene/event-management.js')
+  // @include('Scene/event-management.js')
 
-	// @include('Scene/core.js')
+  // @include('Scene/core.js')
 
-	// @include('Scene/update-params.js')
+  // @include('Scene/update-params.js')
 
-	// @include('Scene/getters-setters.js')
-	
-	// @include('Scene/feature-pinning.js')
+  // @include('Scene/getters-setters.js')
 
-	// @include('Scene/feature-classToggles.js')
+  // @include('Scene/feature-pinning.js')
 
-	// INIT
-	construct();
-	return Scene;
-};
+  // @include('Scene/feature-classToggles.js')
+
+  // INIT
+  construct()
+  return Scene
+}
 
 // @include('Scene/_static.js')

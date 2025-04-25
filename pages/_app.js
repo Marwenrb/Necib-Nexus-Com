@@ -28,45 +28,45 @@ if (typeof window !== 'undefined') {
 
 // Cube Loader component
 const PageLoader = () => {
-  const [progress, setProgress] = useState(15);
-  
+  const [progress, setProgress] = useState(15)
+
   // Simulate loading progress
   useEffect(() => {
-    let startTime = performance.now();
-    let animationFrame;
-    
+    let startTime = performance.now()
+    let animationFrame
+
     const simulateProgress = (timestamp) => {
-      const elapsed = timestamp - startTime;
-      
+      const elapsed = timestamp - startTime
+
       // Accelerate initial progress, then slow down
-      let newProgress;
+      let newProgress
       if (elapsed < 500) {
         // Start fast (15-50% in first 500ms)
-        newProgress = 15 + Math.min(35, (elapsed / 500) * 35);
+        newProgress = 15 + Math.min(35, (elapsed / 500) * 35)
       } else if (elapsed < 1500) {
         // Slow down in middle (50-85% in next 1000ms)
-        newProgress = 50 + Math.min(35, ((elapsed - 500) / 1000) * 35);
+        newProgress = 50 + Math.min(35, ((elapsed - 500) / 1000) * 35)
       } else {
         // Very slow at end (85-95% in remaining time)
-        newProgress = 85 + Math.min(10, ((elapsed - 1500) / 1000) * 10);
+        newProgress = 85 + Math.min(10, ((elapsed - 1500) / 1000) * 10)
       }
-      
-      setProgress(newProgress);
-      
+
+      setProgress(newProgress)
+
       // Continue animation until we hit 95%
       if (newProgress < 95) {
-        animationFrame = requestAnimationFrame(simulateProgress);
+        animationFrame = requestAnimationFrame(simulateProgress)
       }
-    };
-    
+    }
+
     // Start progress animation
-    animationFrame = requestAnimationFrame(simulateProgress);
-    
+    animationFrame = requestAnimationFrame(simulateProgress)
+
     return () => {
-      cancelAnimationFrame(animationFrame);
-    };
-  }, []);
-  
+      cancelAnimationFrame(animationFrame)
+    }
+  }, [])
+
   return (
     <div className="page-loader">
       <div className="loader-content">
@@ -100,21 +100,21 @@ const PageLoader = () => {
           z-index: 9999;
           transition: opacity 0.5s ease;
         }
-        
+
         .loader-content {
           display: flex;
           flex-direction: column;
           align-items: center;
           gap: 2rem;
         }
-        
+
         .cube-container {
           display: flex;
           justify-content: center;
           align-items: center;
           height: 150px;
         }
-        
+
         .cube-loader {
           position: relative;
           width: 75px;
@@ -123,7 +123,7 @@ const PageLoader = () => {
           transform: rotateX(-30deg);
           animation: animate 4s linear infinite;
         }
-        
+
         @keyframes animate {
           0% {
             transform: rotateX(-30deg) rotateY(0);
@@ -132,14 +132,14 @@ const PageLoader = () => {
             transform: rotateX(-30deg) rotateY(360deg);
           }
         }
-        
+
         .cube-wrapper {
           position: absolute;
           width: 100%;
           height: 100%;
           transform-style: preserve-3d;
         }
-        
+
         .cube-span {
           position: absolute;
           width: 100%;
@@ -165,7 +165,7 @@ const PageLoader = () => {
             rgba(83, 82, 237, 1) 100%
           );
         }
-        
+
         .cube-top {
           position: absolute;
           width: 75px;
@@ -174,21 +174,19 @@ const PageLoader = () => {
           transform: rotateX(90deg) translateZ(37.5px);
           transform-style: preserve-3d;
         }
-        
+
         .cube-top::before {
           content: '';
           position: absolute;
           width: 75px;
           height: 75px;
-          background: #5352ED;
+          background: #5352ed;
           transform: translateZ(-90px);
           filter: blur(10px);
-          box-shadow: 0 0 10px #000,
-                      0 0 20px #5352ED,
-                      0 0 30px #000,
-                      0 0 40px rgba(83, 82, 237, 0.7);
+          box-shadow: 0 0 10px #000, 0 0 20px #5352ed, 0 0 30px #000,
+            0 0 40px rgba(83, 82, 237, 0.7);
         }
-        
+
         .progress-container {
           width: 200px;
           height: 2px;
@@ -196,27 +194,29 @@ const PageLoader = () => {
           border-radius: 4px;
           overflow: hidden;
         }
-        
+
         .progress-bar {
           height: 100%;
-          background: linear-gradient(90deg, 
-            rgba(83, 82, 237, 0.7) 0%, 
+          background: linear-gradient(
+            90deg,
+            rgba(83, 82, 237, 0.7) 0%,
             rgba(83, 82, 237, 1) 100%
           );
           transition: width 0.3s ease;
           box-shadow: 0 0 8px rgba(83, 82, 237, 0.7);
         }
-        
+
         .loading-text {
           font-size: 14px;
           letter-spacing: 1px;
           text-transform: uppercase;
-          color: #5352ED;
+          color: #5352ed;
           animation: pulse 2s infinite;
         }
-        
+
         @keyframes pulse {
-          0%, 100% {
+          0%,
+          100% {
             opacity: 0.7;
           }
           50% {
@@ -225,12 +225,12 @@ const PageLoader = () => {
         }
       `}</style>
     </div>
-  );
-};
+  )
+}
 
 function MyApp({ Component, pageProps, router }) {
   const lenis = useStore(({ lenis }) => lenis)
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true)
 
   useScroll((state) => {
     startTransition(() => {
@@ -249,22 +249,22 @@ function MyApp({ Component, pageProps, router }) {
 
   useEffect(() => {
     window.history.scrollRestoration = 'manual'
-    
+
     // Hide loader after a short delay to ensure all resources are loaded
     const timer = setTimeout(() => {
-      setLoading(false);
-    }, 1000);
-    
-    return () => clearTimeout(timer);
+      setLoading(false)
+    }, 1000)
+
+    return () => clearTimeout(timer)
   }, [])
 
   ScrollTrigger.defaults({ markers: false })
 
   return (
     <>
-      <Favicon 
-        themeColor="#5352ED" 
-        title="Necib Nexus" 
+      <Favicon
+        themeColor="#5352ED"
+        title="Necib Nexus"
         description="Innovation et excellence en développement web"
       />
       {/* Script to ensure favicon is refreshed */}
@@ -296,7 +296,9 @@ function MyApp({ Component, pageProps, router }) {
 
       <RealViewport />
       {loading && <PageLoader />}
-      <div style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.5s ease' }}>
+      <div
+        style={{ opacity: loading ? 0 : 1, transition: 'opacity 0.5s ease' }}
+      >
         <Component {...pageProps} key={router.route} />
       </div>
     </>

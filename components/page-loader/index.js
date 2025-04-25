@@ -4,20 +4,20 @@ import s from './page-loader.module.scss'
 export function PageLoader() {
   const [progress, setProgress] = useState(0)
   const [visible, setVisible] = useState(true)
-  
+
   // Optimize loader with faster initial appearance and smoother progress
   useEffect(() => {
     let startTime = performance.now()
     let animationFrame
     let timeoutId
-    
+
     // Immediately show initial progress
     setProgress(15)
-    
+
     // Simulate load progress with optimized animation
     const simulateProgress = (timestamp) => {
       const elapsed = timestamp - startTime
-      
+
       // Accelerate initial progress, then slow down
       let newProgress
       if (elapsed < 500) {
@@ -30,39 +30,39 @@ export function PageLoader() {
         // Very slow at end (85-95% in remaining time)
         newProgress = 85 + Math.min(10, ((elapsed - 1500) / 2000) * 10)
       }
-      
+
       setProgress(newProgress)
-      
+
       // Continue animation until we hit 95%
       if (newProgress < 95) {
         animationFrame = requestAnimationFrame(simulateProgress)
       }
     }
-    
+
     // Start progress animation
     animationFrame = requestAnimationFrame(simulateProgress)
-    
+
     // Force complete after maximum loading time (3.5s)
     timeoutId = setTimeout(() => {
       cancelAnimationFrame(animationFrame)
-      
+
       // Complete progress and fade out
       setProgress(100)
-      
+
       // Hide after animation completes
       setTimeout(() => {
         setVisible(false)
       }, 500)
     }, 3500)
-    
+
     return () => {
       cancelAnimationFrame(animationFrame)
       clearTimeout(timeoutId)
     }
   }, [])
-  
+
   if (!visible) return null
-  
+
   return (
     <div className={s.loader} style={{ opacity: progress === 100 ? 0 : 1 }}>
       <div className={s.content}>
@@ -84,4 +84,4 @@ export function PageLoader() {
       </div>
     </div>
   )
-} 
+}

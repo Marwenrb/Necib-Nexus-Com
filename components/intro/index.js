@@ -13,7 +13,7 @@ export const Intro = () => {
   const setIntroOut = useStore(({ setIntroOut }) => setIntroOut)
   const lenis = useStore(({ lenis }) => lenis)
   const [typedText, setTypedText] = useState('')
-  const fullText = "NECIB NEXUS"
+  const fullText = 'NECIB NEXUS'
   const typingSpeed = 100 // ms per character
   const typingRef = useRef(null)
   const cursorRef = useRef(null)
@@ -21,72 +21,72 @@ export const Intro = () => {
 
   // Typing animation
   useEffect(() => {
-    let currentIndex = 0;
-    if (typingRef.current) clearTimeout(typingRef.current);
-    
+    let currentIndex = 0
+    if (typingRef.current) clearTimeout(typingRef.current)
+
     const typeNextChar = () => {
       if (currentIndex < fullText.length) {
-        setTypedText(fullText.substring(0, currentIndex + 1));
-        currentIndex++;
-        typingRef.current = setTimeout(typeNextChar, typingSpeed);
+        setTypedText(fullText.substring(0, currentIndex + 1))
+        currentIndex++
+        typingRef.current = setTimeout(typeNextChar, typingSpeed)
       } else {
         // Animation complete, start 3D animation
-        startLogoAnimation();
-        
+        startLogoAnimation()
+
         // Then trigger loader completion after a delay
         setTimeout(() => {
-          setIsLoaded(true);
-        }, 1500);
+          setIsLoaded(true)
+        }, 1500)
       }
-    };
-    
+    }
+
     // Start typing after a small delay
-    typingRef.current = setTimeout(typeNextChar, 500);
-    
+    typingRef.current = setTimeout(typeNextChar, 500)
+
     // Cursor blink animation
-    let isVisible = true;
+    let isVisible = true
     cursorRef.current = setInterval(() => {
-      const cursor = document.querySelector(`.${s.cursor}`);
+      const cursor = document.querySelector(`.${s.cursor}`)
       if (cursor) {
-        cursor.style.opacity = isVisible ? 1 : 0;
-        isVisible = !isVisible;
+        cursor.style.opacity = isVisible ? 1 : 0
+        isVisible = !isVisible
       }
-    }, 530);
-    
+    }, 530)
+
     return () => {
-      if (typingRef.current) clearTimeout(typingRef.current);
-      if (cursorRef.current) clearInterval(cursorRef.current);
-    };
-  }, []);
-  
+      if (typingRef.current) clearTimeout(typingRef.current)
+      if (cursorRef.current) clearInterval(cursorRef.current)
+    }
+  }, [])
+
   // 3D Animation for logo
   const startLogoAnimation = () => {
-    if (!logoRef.current) return;
-    
-    const logo = logoRef.current;
-    logo.style.transform = 'scale(1)';
-    logo.style.opacity = '1';
-    
+    if (!logoRef.current) return
+
+    const logo = logoRef.current
+    logo.style.transform = 'scale(1)'
+    logo.style.opacity = '1'
+
     // Add 3D rotation effect
-    let frameId;
-    let angle = 0;
-    
+    let frameId
+    let angle = 0
+
     const animate = () => {
-      angle += 0.5;
-      
+      angle += 0.5
+
       // Create 3D rotation effect
-      logo.style.transform = `scale(1) rotateY(${angle}deg) perspective(1000px)`;
-      
+      logo.style.transform = `scale(1) rotateY(${angle}deg) perspective(1000px)`
+
       // Continue animation until component unmounts
-      frameId = requestAnimationFrame(animate);
-    };
-    
-    animate();
-    
+      frameId = requestAnimationFrame(animate)
+    }
+
+    animate()
+
     return () => {
-      cancelAnimationFrame(frameId);
-    };
-  };
+      cancelAnimationFrame(frameId)
+    }
+  }
 
   useEffect(() => {
     if (isMobile) {
@@ -132,17 +132,17 @@ export const Intro = () => {
             <span className={s.typedText}>{typedText}</span>
             <span className={s.cursor}>|</span>
           </div>
-          <div 
+          <div
             className={cn(s.logoWrapper, typedText === fullText && s.showLogo)}
             ref={logoRef}
           >
-            <Image 
-              src="/images/Black Minimal Necib Nexus Ads.png" 
-              alt="Necib Nexus Logo" 
-              width={300} 
+            <Image
+              src="/images/Black Minimal Necib Nexus Ads.png"
+              alt="Necib Nexus Logo"
+              width={300}
               height={300}
               className={cn(s.logoImage, isLoaded && s.show)}
-              priority 
+              priority
               loading="eager"
               fetchPriority="high"
             />
@@ -159,13 +159,13 @@ export const Title = ({ className }) => {
   return (
     <div className={className}>
       <div className={s.logo}>
-        <Image 
-          src="/images/Black Minimal Necib Nexus Ads.png" 
-          alt="Necib Nexus Logo" 
-          width={200} 
+        <Image
+          src="/images/Black Minimal Necib Nexus Ads.png"
+          alt="Necib Nexus Logo"
+          width={200}
           height={200}
           className={cn(s.logoImage, introOut && s.translate, s.mobile)}
-          priority 
+          priority
           loading="eager"
         />
       </div>
@@ -178,21 +178,17 @@ export const Header = () => {
   return (
     <header className={s.header}>
       <div className={s.headerLogo}>
-        <Image 
-          src="/images/Black Minimal Necib Nexus Ads.png" 
-          alt="Necib Nexus Logo" 
-          width={120} 
+        <Image
+          src="/images/Black Minimal Necib Nexus Ads.png"
+          alt="Necib Nexus Logo"
+          width={120}
           height={40}
-          className={s.headerLogoImage} 
+          className={s.headerLogoImage}
         />
       </div>
       <div className={s.headerControls}>
-        <button className={s.headerButton}>
-          Explore
-        </button>
-        <button className={s.headerButton}>
-          Connect
-        </button>
+        <button className={s.headerButton}>Explore</button>
+        <button className={s.headerButton}>Connect</button>
       </div>
     </header>
   )
@@ -207,8 +203,8 @@ export const SponsorsSection = () => {
         {/* This section will be replaced by the BrandMarquee in the footer */}
       </div>
     </section>
-  );
-};
+  )
+}
 
 // For backwards compatibility, keep these basic components but don't use unnecessary icons
 const LNS = ({ isLoaded, className, fill }) => {

@@ -10,23 +10,25 @@ export const Header = forwardRef((_, ref) => {
       <div className="layout-block">
         <div className={s.logo}>
           <Link href="/">
-            <Image 
-              src="/images/Minimalist Pink Silhouette Globe on Black Stand Necib Nexus Logo.jpeg" 
-              alt="Necib Nexus Logo" 
-              width={50} 
-              height={50} 
+            <Image
+              src="/images/Black Minimal Necib Nexus Ads.png"
+              alt="Necib Nexus Logo"
+              width={50}
+              height={50}
             />
           </Link>
         </div>
         <div className={s.navigation}>
-          <Link href="/" className={s.navLink}>Home</Link>
-          <Link href="/services" className={s.navLink}>Services</Link>
-          <Link href="/contact" className={s.navLink}>Contact</Link>
-          <Button
-            className={s.contactButton}
-            arrow
-            href="/contact"
-          >
+          <Link href="/" className={s.navLink}>
+            Home
+          </Link>
+          <Link href="/services" className={s.navLink}>
+            Services
+          </Link>
+          <Link href="/contact" className={s.navLink}>
+            Contact
+          </Link>
+          <Button className={s.contactButton} arrow href="/contact">
             Get in touch
           </Button>
         </div>

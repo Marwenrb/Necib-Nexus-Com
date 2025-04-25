@@ -17,42 +17,38 @@
  * limitations under the License.
  * ======================================================== */
 
+!(function ($) {
+  'use strict' // jshint ;_;
 
-!function ($) {
-
-  "use strict"; // jshint ;_;
-
-
- /* TAB CLASS DEFINITION
-  * ==================== */
+  /* TAB CLASS DEFINITION
+   * ==================== */
 
   var Tab = function (element) {
     this.element = $(element)
   }
 
   Tab.prototype = {
+    constructor: Tab,
 
-    constructor: Tab
-
-  , show: function () {
-      var $this = this.element
-        , $ul = $this.closest('ul:not(.dropdown-menu)')
-        , selector = $this.attr('data-target')
-        , previous
-        , $target
-        , e
+    show: function () {
+      var $this = this.element,
+        $ul = $this.closest('ul:not(.dropdown-menu)'),
+        selector = $this.attr('data-target'),
+        previous,
+        $target,
+        e
 
       if (!selector) {
         selector = $this.attr('href')
         selector = selector && selector.replace(/.*(?=#[^\s]*$)/, '') //strip for ie7
       }
 
-      if ( $this.parent('li').hasClass('active') ) return
+      if ($this.parent('li').hasClass('active')) return
 
       previous = $ul.find('.active:last a')[0]
 
       e = $.Event('show', {
-        relatedTarget: previous
+        relatedTarget: previous,
       })
 
       $this.trigger(e)
@@ -64,17 +60,16 @@
       this.activate($this.parent('li'), $ul)
       this.activate($target, $target.parent(), function () {
         $this.trigger({
-          type: 'shown'
-        , relatedTarget: previous
+          type: 'shown',
+          relatedTarget: previous,
         })
       })
-    }
+    },
 
-  , activate: function ( element, container, callback) {
-      var $active = container.find('> .active')
-        , transition = callback
-            && $.support.transition
-            && $active.hasClass('fade')
+    activate: function (element, container, callback) {
+      var $active = container.find('> .active'),
+        transition =
+          callback && $.support.transition && $active.hasClass('fade')
 
       function next() {
         $active
@@ -91,31 +86,28 @@
           element.removeClass('fade')
         }
 
-        if ( element.parent('.dropdown-menu') ) {
+        if (element.parent('.dropdown-menu')) {
           element.closest('li.dropdown').addClass('active')
         }
 
         callback && callback()
       }
 
-      transition ?
-        $active.one($.support.transition.end, next) :
-        next()
+      transition ? $active.one($.support.transition.end, next) : next()
 
       $active.removeClass('in')
-    }
+    },
   }
 
-
- /* TAB PLUGIN DEFINITION
-  * ===================== */
+  /* TAB PLUGIN DEFINITION
+   * ===================== */
 
   var old = $.fn.tab
 
-  $.fn.tab = function ( option ) {
+  $.fn.tab = function (option) {
     return this.each(function () {
-      var $this = $(this)
-        , data = $this.data('tab')
+      var $this = $(this),
+        data = $this.data('tab')
       if (!data) $this.data('tab', (data = new Tab(this)))
       if (typeof option == 'string') data[option]()
     })
@@ -123,22 +115,23 @@
 
   $.fn.tab.Constructor = Tab
 
-
- /* TAB NO CONFLICT
-  * =============== */
+  /* TAB NO CONFLICT
+   * =============== */
 
   $.fn.tab.noConflict = function () {
     $.fn.tab = old
     return this
   }
 
+  /* TAB DATA-API
+   * ============ */
 
- /* TAB DATA-API
-  * ============ */
-
-  $(document).on('click.tab.data-api', '[data-toggle="tab"], [data-toggle="pill"]', function (e) {
-    e.preventDefault()
-    $(this).tab('show')
-  })
-
-}(window.jQuery);
+  $(document).on(
+    'click.tab.data-api',
+    '[data-toggle="tab"], [data-toggle="pill"]',
+    function (e) {
+      e.preventDefault()
+      $(this).tab('show')
+    }
+  )
+})(window.jQuery)

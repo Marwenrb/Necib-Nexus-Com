@@ -11,7 +11,7 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   transition: background 0.3s ease, box-shadow 0.3s ease;
-  
+
   &:after {
     content: '';
     position: absolute;
@@ -19,21 +19,22 @@
     left: 0;
     right: 0;
     height: 1px;
-    background: linear-gradient(90deg, 
-      rgba(255, 255, 255, 0) 0%, 
-      rgba(255, 255, 255, 0.1) 25%, 
-      rgba(255, 255, 255, 0.1) 75%, 
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.1) 25%,
+      rgba(255, 255, 255, 0.1) 75%,
       rgba(255, 255, 255, 0) 100%
     );
     transform: scaleX(0.95);
     opacity: 0;
     transition: opacity 0.5s ease, transform 0.5s ease;
   }
-  
+
   &:hover {
     background: rgba(0, 0, 0, 0.5);
     box-shadow: 0 5px 30px rgba(0, 0, 0, 0.2);
-    
+
     &:after {
       opacity: 0.5;
       transform: scaleX(1);
@@ -54,17 +55,17 @@
   position: relative;
   display: flex;
   align-items: center;
-  
+
   a {
     display: flex;
     align-items: center;
     transition: transform 0.3s ease;
-    
+
     &:hover {
       transform: scale(1.05);
     }
   }
-  
+
   img {
     border-radius: 10px;
     box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
@@ -75,7 +76,7 @@
   display: flex;
   align-items: center;
   gap: 2rem;
-  
+
   @media (max-width: 768px) {
     display: none;
   }
@@ -87,12 +88,12 @@
   text-decoration: none;
   transition: color 0.3s ease, transform 0.3s ease;
   position: relative;
-  
+
   &:hover {
     color: rgba(255, 255, 255, 1);
     transform: translateY(-2px);
   }
-  
+
   &:after {
     content: '';
     position: absolute;
@@ -100,12 +101,16 @@
     left: 0;
     width: 100%;
     height: 2px;
-    background: linear-gradient(90deg, rgba(83, 82, 237, 1), rgba(72, 149, 239, 1));
+    background: linear-gradient(
+      90deg,
+      rgba(83, 82, 237, 1),
+      rgba(72, 149, 239, 1)
+    );
     transform: scaleX(0);
     transition: transform 0.3s ease;
     transform-origin: right;
   }
-  
+
   &:hover:after {
     transform: scaleX(1);
     transform-origin: left;
@@ -119,7 +124,7 @@
   border: 1px solid rgba(83, 82, 237, 0.3) !important;
   border-radius: 30px !important;
   transition: all 0.3s ease !important;
-  
+
   &:hover {
     background: rgba(83, 82, 237, 0.25) !important;
     transform: translateY(-2px) !important;

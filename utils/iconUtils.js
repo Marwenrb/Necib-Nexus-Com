@@ -8,8 +8,8 @@
  * @returns {string} Unique identifier
  */
 export const generateIconId = () => {
-  return `icon_${Math.random().toString(36).substr(2, 9)}`;
-};
+  return `icon_${Math.random().toString(36).substr(2, 9)}`
+}
 
 /**
  * Create a copy to clipboard function
@@ -18,13 +18,13 @@ export const generateIconId = () => {
  */
 export const copyToClipboard = async (text) => {
   try {
-    await navigator.clipboard.writeText(text);
-    return true;
+    await navigator.clipboard.writeText(text)
+    return true
   } catch (err) {
-    console.error('Failed to copy: ', err);
-    return false;
+    console.error('Failed to copy: ', err)
+    return false
   }
-};
+}
 
 /**
  * Generate usage example code for icons
@@ -33,9 +33,13 @@ export const copyToClipboard = async (text) => {
  * @param {string} color - Color of the icon
  * @returns {string} Example code
  */
-export const generateIconUsageExample = (iconName, size = '24', color = 'currentColor') => {
-  return `<Icon name="${iconName}" size={${size}} color="${color}" />`;
-};
+export const generateIconUsageExample = (
+  iconName,
+  size = '24',
+  color = 'currentColor'
+) => {
+  return `<Icon name="${iconName}" size={${size}} color="${color}" />`
+}
 
 /**
  * Filter icons based on search term
@@ -45,36 +49,34 @@ export const generateIconUsageExample = (iconName, size = '24', color = 'current
  */
 export const filterIcons = (icons, searchTerm) => {
   if (!searchTerm || searchTerm.trim() === '') {
-    return Object.keys(icons);
+    return Object.keys(icons)
   }
-  
-  const term = searchTerm.toLowerCase().trim();
-  return Object.keys(icons).filter(
-    name => name.toLowerCase().includes(term)
-  );
-};
+
+  const term = searchTerm.toLowerCase().trim()
+  return Object.keys(icons).filter((name) => name.toLowerCase().includes(term))
+}
 
 /**
  * Add haptic feedback for mobile devices
  * @param {string} type - Type of haptic feedback
  */
 export const hapticFeedback = (type = 'medium') => {
-  if (!window.navigator.vibrate) return;
-  
+  if (!window.navigator.vibrate) return
+
   switch (type) {
     case 'light':
-      window.navigator.vibrate(10);
-      break;
+      window.navigator.vibrate(10)
+      break
     case 'medium':
-      window.navigator.vibrate(15);
-      break;
+      window.navigator.vibrate(15)
+      break
     case 'strong':
-      window.navigator.vibrate([10, 30, 10]);
-      break;
+      window.navigator.vibrate([10, 30, 10])
+      break
     default:
-      window.navigator.vibrate(15);
+      window.navigator.vibrate(15)
   }
-};
+}
 
 /**
  * Create animation variants for icons
@@ -83,46 +85,46 @@ export const hapticFeedback = (type = 'medium') => {
  */
 export const createIconAnimationVariants = (delay = 0) => {
   return {
-    initial: { 
-      opacity: 0, 
+    initial: {
+      opacity: 0,
       scale: 0.8,
-      y: 20
+      y: 20,
     },
-    animate: { 
-      opacity: 1, 
+    animate: {
+      opacity: 1,
       scale: 1,
       y: 0,
       transition: {
         duration: 0.5,
         ease: [0.19, 1, 0.22, 1],
-        delay: 0.1 + (delay * 0.03)
-      }
+        delay: 0.1 + delay * 0.03,
+      },
     },
     hover: {
       scale: 1.05,
       y: -5,
       transition: {
         duration: 0.3,
-        ease: "easeOut"
-      }
+        ease: 'easeOut',
+      },
     },
     tap: {
       scale: 0.95,
       transition: {
         duration: 0.1,
-        ease: "easeIn"
-      }
+        ease: 'easeIn',
+      },
     },
     exit: {
       opacity: 0,
       scale: 0.8,
       transition: {
         duration: 0.3,
-        ease: "easeIn"
-      }
-    }
-  };
-};
+        ease: 'easeIn',
+      },
+    },
+  }
+}
 
 /**
  * Format icon name for display
@@ -132,6 +134,6 @@ export const createIconAnimationVariants = (delay = 0) => {
 export const formatIconName = (name) => {
   return name
     .replace(/([A-Z])/g, ' $1')
-    .replace(/^./, str => str.toUpperCase())
-    .trim();
-}; 
+    .replace(/^./, (str) => str.toUpperCase())
+    .trim()
+}

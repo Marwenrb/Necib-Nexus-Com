@@ -109,9 +109,7 @@ export function Layout({
         {introOut && <Header />}
         <Cursor />
         <Scrollbar />
-        <main className={s.main}>
-          {children}
-        </main>
+        <main className={s.main}>{children}</main>
         <Footer />
         <BackToTop />
       </div>

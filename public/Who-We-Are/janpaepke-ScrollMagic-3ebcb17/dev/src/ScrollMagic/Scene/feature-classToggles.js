@@ -1,13 +1,11 @@
-var 
-	_cssClasses,
-	_cssClassElems = [];
+var _cssClasses,
+  _cssClassElems = []
 
-Scene
-	.on("destroy.internal", function (e) {
-		Scene.removeClassToggle(e.reset);
-	});
+Scene.on('destroy.internal', function (e) {
+  Scene.removeClassToggle(e.reset)
+})
 /**
- * Define a css class modification while the scene is active.  
+ * Define a css class modification while the scene is active.
  * When the scene triggers the classes will be added to the supplied element and removed, when the scene is over.
  * If the scene duration is 0 the classes will only be removed if the user scrolls back past the start position.
  * @method ScrollMagic.Scene#setClassToggle
@@ -24,25 +22,30 @@ Scene
  * @returns {Scene} Parent object for chaining.
  */
 this.setClassToggle = function (element, classes) {
-	var elems = _util.get.elements(element);
-	if (elems.length === 0 || !_util.type.String(classes)) {
-		log(1, "ERROR calling method 'setClassToggle()': Invalid " + (elems.length === 0 ? "element" : "classes") + " supplied.");
-		return Scene;
-	}
-	if (_cssClassElems.length > 0) {
-		// remove old ones
-		Scene.removeClassToggle();
-	}
-	_cssClasses = classes;
-	_cssClassElems = elems;
-	Scene.on("enter.internal_class leave.internal_class", function (e) {
-		var toggle = e.type === "enter" ? _util.addClass : _util.removeClass;
-		_cssClassElems.forEach(function (elem, key) {
-			toggle(elem, _cssClasses);
-		});
-	});
-	return Scene;
-};
+  var elems = _util.get.elements(element)
+  if (elems.length === 0 || !_util.type.String(classes)) {
+    log(
+      1,
+      "ERROR calling method 'setClassToggle()': Invalid " +
+        (elems.length === 0 ? 'element' : 'classes') +
+        ' supplied.'
+    )
+    return Scene
+  }
+  if (_cssClassElems.length > 0) {
+    // remove old ones
+    Scene.removeClassToggle()
+  }
+  _cssClasses = classes
+  _cssClassElems = elems
+  Scene.on('enter.internal_class leave.internal_class', function (e) {
+    var toggle = e.type === 'enter' ? _util.addClass : _util.removeClass
+    _cssClassElems.forEach(function (elem, key) {
+      toggle(elem, _cssClasses)
+    })
+  })
+  return Scene
+}
 
 /**
  * Remove the class binding from the scene.
@@ -58,13 +61,13 @@ this.setClassToggle = function (element, classes) {
  * @returns {Scene} Parent object for chaining.
  */
 this.removeClassToggle = function (reset) {
-	if (reset) {
-		_cssClassElems.forEach(function (elem, key) {
-			_util.removeClass(elem, _cssClasses);
-		});
-	}
-	Scene.off("start.internal_class end.internal_class");
-	_cssClasses = undefined;
-	_cssClassElems = [];
-	return Scene;
-};
+  if (reset) {
+    _cssClassElems.forEach(function (elem, key) {
+      _util.removeClass(elem, _cssClasses)
+    })
+  }
+  Scene.off('start.internal_class end.internal_class')
+  _cssClasses = undefined
+  _cssClassElems = []
+  return Scene
+}

@@ -239,7 +239,11 @@ const steps = [
 ]
 
 // Premium material settings for models
-const createModelMaterial = (color = '#0042ff', roughness = 0.3, metalness = 1.0) => {
+const createModelMaterial = (
+  color = '#0042ff',
+  roughness = 0.3,
+  metalness = 1.0
+) => {
   return new MeshPhysicalMaterial({
     color: new Color(color),
     metalness: metalness,
@@ -272,7 +276,7 @@ export function Arm() {
   const { scene: computer } = useGLTF('/models/old_computer.glb')
   const { scene: arm } = useGLTF('/models/arm.glb')
   const { scene: arm2 } = useGLTF('/models/arm2.glb')
-  
+
   const [currentModel, setCurrentModel] = useState('roboticGlow')
 
   // Create refs for model groups
@@ -282,27 +286,27 @@ export function Arm() {
   const armRef = useRef()
   const arm2Ref = useRef()
   const parentRef = useRef()
-  
+
   // Target rotation values for smooth interpolation
   const targetRotation = useRef({
     x: 0,
     y: Math.PI * 0.5,
-    z: 0
+    z: 0,
   })
-  
+
   // Target position values for smooth interpolation
   const targetPosition = useRef({
-    x: 0, 
-    y: 0, 
-    z: 0
+    x: 0,
+    y: 0,
+    z: 0,
   })
-  
+
   // Target scale for smooth interpolation
   const targetScale = useRef(1)
-  
+
   // Easing function for smoother transitions
   const easeOutCubic = (x) => 1 - Math.pow(1 - x, 3)
-  
+
   // Apply materials to models
   useEffect(() => {
     // Create model-specific materials
@@ -311,54 +315,54 @@ export function Arm() {
     const computerMaterial = createModelMaterial('#5352ED', 0.3, 0.8)
     const armMaterial = createModelMaterial('#5352ED', 0.25, 1.0)
     const arm2Material = createModelMaterial('#5352ED', 0.25, 1.0)
-    
+
     // Apply materials to each model
     if (roboticGlow) {
       roboticGlow.traverse((node) => {
         if (node.isMesh) {
-          node.material = roboticMaterial;
-          node.castShadow = true;
-          node.receiveShadow = true;
+          node.material = roboticMaterial
+          node.castShadow = true
+          node.receiveShadow = true
         }
       })
     }
-    
+
     if (punkMask) {
       punkMask.traverse((node) => {
         if (node.isMesh) {
-          node.material = maskMaterial;
-          node.castShadow = true;
-          node.receiveShadow = true;
+          node.material = maskMaterial
+          node.castShadow = true
+          node.receiveShadow = true
         }
       })
     }
-    
+
     if (computer) {
       computer.traverse((node) => {
         if (node.isMesh) {
-          node.material = computerMaterial;
-          node.castShadow = true;
-          node.receiveShadow = true;
+          node.material = computerMaterial
+          node.castShadow = true
+          node.receiveShadow = true
         }
       })
     }
-    
+
     if (arm) {
       arm.traverse((node) => {
         if (node.isMesh) {
-          node.material = armMaterial;
-          node.castShadow = true;
-          node.receiveShadow = true;
+          node.material = armMaterial
+          node.castShadow = true
+          node.receiveShadow = true
         }
       })
     }
-    
+
     if (arm2) {
       arm2.traverse((node) => {
         if (node.isMesh) {
-          node.material = arm2Material;
-          node.castShadow = true;
-          node.receiveShadow = true;
+          node.material = arm2Material
+          node.castShadow = true
+          node.receiveShadow = true
         }
       })
     }
@@ -368,8 +372,8 @@ export function Arm() {
 
   // Create floating animation for models with improved rotation
   useFrame(({ clock }) => {
-    const t = clock.getElapsedTime();
-    
+    const t = clock.getElapsedTime()
+
     // Apply smooth lerping to parent group rotation, position and scale
     if (parentRef.current) {
       // Smooth rotation lerping with easing
@@ -378,72 +382,72 @@ export function Arm() {
         targetRotation.current.x,
         0.05
       )
-      
+
       parentRef.current.rotation.y = MathUtils.lerp(
         parentRef.current.rotation.y,
         targetRotation.current.y,
         0.05
       )
-      
+
       parentRef.current.rotation.z = MathUtils.lerp(
         parentRef.current.rotation.z,
         targetRotation.current.z,
         0.05
       )
-      
+
       // Smooth position lerping
       parentRef.current.position.x = MathUtils.lerp(
         parentRef.current.position.x,
         targetPosition.current.x,
         0.05
       )
-      
+
       parentRef.current.position.y = MathUtils.lerp(
         parentRef.current.position.y,
         targetPosition.current.y,
         0.05
       )
-      
+
       // Smooth scale lerping
       const currentScale = parentRef.current.scale.x
       const newScale = MathUtils.lerp(currentScale, targetScale.current, 0.05)
       parentRef.current.scale.setScalar(newScale)
     }
-    
+
     // Individual model rotations are now gentler and more continuous
     if (roboticRef.current) {
       // Smooth continuous rotation - slower and more elegant
-      roboticRef.current.rotation.y += 0.003;
-      roboticRef.current.rotation.x += Math.sin(t * 0.2) * 0.0005;
-      roboticRef.current.position.y = Math.sin(t * 0.5) * 0.05;
+      roboticRef.current.rotation.y += 0.003
+      roboticRef.current.rotation.x += Math.sin(t * 0.2) * 0.0005
+      roboticRef.current.position.y = Math.sin(t * 0.5) * 0.05
     }
-    
+
     if (maskRef.current) {
-      maskRef.current.rotation.y += 0.002;
-      maskRef.current.rotation.z += Math.sin(t * 0.2) * 0.0003;
-      maskRef.current.position.y = Math.sin(t * 0.4 + 1) * 0.05;
+      maskRef.current.rotation.y += 0.002
+      maskRef.current.rotation.z += Math.sin(t * 0.2) * 0.0003
+      maskRef.current.position.y = Math.sin(t * 0.4 + 1) * 0.05
     }
-    
+
     if (computerRef.current) {
-      computerRef.current.rotation.y += 0.0025;
-      computerRef.current.rotation.x += Math.cos(t * 0.3) * 0.0004;
-      computerRef.current.position.y = Math.sin(t * 0.6 + 2) * 0.05;
+      computerRef.current.rotation.y += 0.0025
+      computerRef.current.rotation.x += Math.cos(t * 0.3) * 0.0004
+      computerRef.current.position.y = Math.sin(t * 0.6 + 2) * 0.05
     }
-    
+
     if (armRef.current) {
-      armRef.current.rotation.y += 0.002;
-      armRef.current.rotation.x += Math.sin(t * 0.4) * 0.0005;
-      armRef.current.rotation.z += Math.cos(t * 0.3) * 0.0003;
-      armRef.current.position.y = Math.sin(t * 0.3 + 3) * 0.05;
+      armRef.current.rotation.y += 0.002
+      armRef.current.rotation.x += Math.sin(t * 0.4) * 0.0005
+      armRef.current.rotation.z += Math.cos(t * 0.3) * 0.0003
+      armRef.current.position.y = Math.sin(t * 0.3 + 3) * 0.05
     }
-    
+
     if (arm2Ref.current) {
-      arm2Ref.current.rotation.y += 0.0025;
-      arm2Ref.current.rotation.x += Math.cos(t * 0.5) * 0.0004;
-      arm2Ref.current.rotation.z += Math.sin(t * 0.3) * 0.0003;
-      arm2Ref.current.position.y = Math.sin(t * 0.7 + 4) * 0.05;
+      arm2Ref.current.rotation.y += 0.0025
+      arm2Ref.current.rotation.x += Math.cos(t * 0.5) * 0.0004
+      arm2Ref.current.rotation.z += Math.sin(t * 0.3) * 0.0003
+      arm2Ref.current.position.y = Math.sin(t * 0.7 + 4) * 0.05
     }
-  });
+  })
 
   // Enhanced scroll handler with smooth transitions
   useScroll(({ scroll }) => {
@@ -451,148 +455,144 @@ export function Arm() {
 
     // Get document height and calculate scroll percentage
     const docHeight = Math.max(
-      document.body.scrollHeight, 
+      document.body.scrollHeight,
       document.documentElement.scrollHeight,
       document.body.offsetHeight,
       document.documentElement.offsetHeight
-    );
-    
-    const scrollPercent = scroll / docHeight;
-    const viewportScale = viewport.height * 0.15;
-    
+    )
+
+    const scrollPercent = scroll / docHeight
+    const viewportScale = viewport.height * 0.15
+
     // Update target values based on scroll position - the animation frame will smoothly interpolate to these values
     if (scrollPercent < 0.2) {
-      setCurrentModel('roboticGlow');
-      
+      setCurrentModel('roboticGlow')
+
       // Set target values instead of directly applying them
-      targetScale.current = viewportScale;
+      targetScale.current = viewportScale
       targetPosition.current = {
         x: viewport.width * 0.1,
         y: viewport.height * -0.1,
-        z: 0
-      };
+        z: 0,
+      }
       targetRotation.current = {
         x: 0,
         y: Math.PI * 0.5,
-        z: 0
-      };
-      
+        z: 0,
+      }
     } else if (scrollPercent < 0.4) {
-      setCurrentModel('punkMask');
-      
-      targetScale.current = viewportScale;
+      setCurrentModel('punkMask')
+
+      targetScale.current = viewportScale
       targetPosition.current = {
         x: viewport.width * -0.1,
         y: viewport.height * -0.05,
-        z: 0
-      };
+        z: 0,
+      }
       targetRotation.current = {
         x: MathUtils.degToRad(-15),
         y: MathUtils.degToRad(-180),
-        z: MathUtils.degToRad(-15)
-      };
-      
+        z: MathUtils.degToRad(-15),
+      }
     } else if (scrollPercent < 0.6) {
-      setCurrentModel('computer');
-      
-      targetScale.current = viewportScale;
+      setCurrentModel('computer')
+
+      targetScale.current = viewportScale
       targetPosition.current = {
         x: viewport.width * -0.15,
         y: viewport.height * 0,
-        z: 0
-      };
+        z: 0,
+      }
       targetRotation.current = {
         x: MathUtils.degToRad(-30),
         y: MathUtils.degToRad(-270),
-        z: MathUtils.degToRad(-15)
-      };
-      
+        z: MathUtils.degToRad(-15),
+      }
     } else if (scrollPercent < 0.8) {
-      setCurrentModel('arm');
-      
-      targetScale.current = viewportScale;
+      setCurrentModel('arm')
+
+      targetScale.current = viewportScale
       targetPosition.current = {
         x: viewport.width * 0.05,
         y: viewport.height * 0.05,
-        z: 0
-      };
+        z: 0,
+      }
       targetRotation.current = {
         x: MathUtils.degToRad(10),
         y: MathUtils.degToRad(-360),
-        z: MathUtils.degToRad(10)
-      };
-      
+        z: MathUtils.degToRad(10),
+      }
     } else {
-      setCurrentModel('arm2');
-      
-      targetScale.current = viewportScale;
+      setCurrentModel('arm2')
+
+      targetScale.current = viewportScale
       targetPosition.current = {
         x: viewport.width * 0.2,
         y: viewport.height * 0.1,
-        z: 0
-      };
+        z: 0,
+      }
       targetRotation.current = {
         x: MathUtils.degToRad(20),
         y: MathUtils.degToRad(-450),
-        z: MathUtils.degToRad(15)
-      };
+        z: MathUtils.degToRad(15),
+      }
     }
-    
+
     // Instead of sharp transitions between models, fade them in/out
     // Set opacity based on how close we are to the model's scroll range
     if (roboticRef.current) {
-      const fadePoint = Math.abs(scrollPercent - 0.1) / 0.1;
-      const opacity = Math.max(0, 1 - fadePoint);
-      roboticRef.current.visible = opacity > 0.01;
+      const fadePoint = Math.abs(scrollPercent - 0.1) / 0.1
+      const opacity = Math.max(0, 1 - fadePoint)
+      roboticRef.current.visible = opacity > 0.01
       roboticRef.current.traverse((node) => {
         if (node.isMesh && node.material) {
-          node.material.opacity = opacity;
+          node.material.opacity = opacity
         }
-      });
+      })
     }
-    
+
     if (maskRef.current) {
-      const fadePoint = Math.abs(scrollPercent - 0.3) / 0.1;
-      const opacity = Math.max(0, 1 - fadePoint);
-      maskRef.current.visible = opacity > 0.01;
+      const fadePoint = Math.abs(scrollPercent - 0.3) / 0.1
+      const opacity = Math.max(0, 1 - fadePoint)
+      maskRef.current.visible = opacity > 0.01
       maskRef.current.traverse((node) => {
         if (node.isMesh && node.material) {
-          node.material.opacity = opacity;
+          node.material.opacity = opacity
         }
-      });
+      })
     }
-    
+
     if (computerRef.current) {
-      const fadePoint = Math.abs(scrollPercent - 0.5) / 0.1;
-      const opacity = Math.max(0, 1 - fadePoint);
-      computerRef.current.visible = opacity > 0.01;
+      const fadePoint = Math.abs(scrollPercent - 0.5) / 0.1
+      const opacity = Math.max(0, 1 - fadePoint)
+      computerRef.current.visible = opacity > 0.01
       computerRef.current.traverse((node) => {
         if (node.isMesh && node.material) {
-          node.material.opacity = opacity;
+          node.material.opacity = opacity
         }
-      });
+      })
     }
-    
+
     if (armRef.current) {
-      const fadePoint = Math.abs(scrollPercent - 0.7) / 0.1;
-      const opacity = Math.max(0, 1 - fadePoint);
-      armRef.current.visible = opacity > 0.01;
+      const fadePoint = Math.abs(scrollPercent - 0.7) / 0.1
+      const opacity = Math.max(0, 1 - fadePoint)
+      armRef.current.visible = opacity > 0.01
       armRef.current.traverse((node) => {
         if (node.isMesh && node.material) {
-          node.material.opacity = opacity;
+          node.material.opacity = opacity
         }
-      });
+      })
     }
-    
+
     if (arm2Ref.current) {
-      const fadePoint = Math.abs(scrollPercent - 0.9) / 0.1;
-      const opacity = Math.max(0, 1 - fadePoint);
-      arm2Ref.current.visible = opacity > 0.01;
+      const fadePoint = Math.abs(scrollPercent - 0.9) / 0.1
+      const opacity = Math.max(0, 1 - fadePoint)
+      arm2Ref.current.visible = opacity > 0.01
       arm2Ref.current.traverse((node) => {
         if (node.isMesh && node.material) {
-          node.material.opacity = opacity;
+          node.material.opacity = opacity
         }
-      });
+      })
     }
   })
 
@@ -600,17 +600,17 @@ export function Arm() {
     <>
       {/* Ambient and directional lights */}
       <ambientLight args={[new Color('#0042ff'), 0.5]} />
-      <directionalLight 
+      <directionalLight
         position={[-200, 150, 50]}
         args={[new Color('#0042ff'), 1.8]}
-        castShadow 
+        castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-bias={-0.0001}
       />
-      <directionalLight 
+      <directionalLight
         position={[300, -100, 150]}
         args={[new Color('#0042ff'), 1.2]}
-        castShadow 
+        castShadow
         shadow-mapSize={[2048, 2048]}
         shadow-bias={-0.0001}
       />
@@ -619,61 +619,57 @@ export function Arm() {
         args={[new Color('#0042ff'), 1.2, 500]}
         castShadow={false}
       />
-      
+
       {/* Environment for realistic reflections */}
       <Environment preset="city" background={false} blur={0.8} />
-      
+
       {/* Main container with floating animation */}
-      <Float 
+      <Float
         floatIntensity={0.8}
         rotationIntensity={0.5}
         speed={1.8}
         floatingRange={[-0.05, 0.05]}
       >
-        <group
-          ref={parentRef}
-          position={[0, 0, 0]}
-          rotation={[0, 0, 0]}
-        >
+        <group ref={parentRef} position={[0, 0, 0]} rotation={[0, 0, 0]}>
           {/* Robotic glow model */}
-          <group 
-            ref={roboticRef} 
+          <group
+            ref={roboticRef}
             visible={currentModel === 'roboticGlow'}
             scale={[1, 1, 1]}
           >
             {roboticGlow && <primitive object={roboticGlow} />}
           </group>
-          
+
           {/* Punk mask model */}
-          <group 
-            ref={maskRef} 
+          <group
+            ref={maskRef}
             visible={currentModel === 'punkMask'}
             scale={[1, 1, 1]}
           >
             {punkMask && <primitive object={punkMask} />}
           </group>
-          
+
           {/* Computer model */}
-          <group 
-            ref={computerRef} 
+          <group
+            ref={computerRef}
             visible={currentModel === 'computer'}
             scale={[1, 1, 1]}
           >
             {computer && <primitive object={computer} />}
           </group>
-          
+
           {/* Arm model */}
-          <group 
-            ref={armRef} 
+          <group
+            ref={armRef}
             visible={currentModel === 'arm'}
             scale={[1, 1, 1]}
           >
             {arm && <primitive object={arm} />}
           </group>
-          
+
           {/* Arm2 model */}
-          <group 
-            ref={arm2Ref} 
+          <group
+            ref={arm2Ref}
             visible={currentModel === 'arm2'}
             scale={[1, 1, 1]}
           >
@@ -715,12 +711,12 @@ export function WebGL({ render = true }) {
       frameloop="never"
       shadows
       orthographic
-      camera={{ 
-        near: 0.01, 
-        far: 10000, 
+      camera={{
+        near: 0.01,
+        far: 10000,
         position: [0, 0, 1000],
         zoom: 2.0,
-        fov: 50
+        fov: 50,
       }}
     >
       <Raf render={render} />

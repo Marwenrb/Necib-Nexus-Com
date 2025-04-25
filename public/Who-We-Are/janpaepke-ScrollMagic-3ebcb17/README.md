@@ -15,12 +15,12 @@
 ScrollMagic helps you to easily react to the user's current scroll position.  
 It's the perfect library for you, if you want to ...
 
--   animate based on scroll position – either trigger an animation or synchronize it to the scrollbar movement (like a playback scrub control).
--   pin an element starting at a specific scroll position – either indefinitely or for a limited amount of scroll progress (sticky elements).
--   toggle CSS classes of elements on and off based on scroll position.
--   effortlessly add parallax effects to your website.
--   create an infinitely scrolling page (ajax load of additional content).
--   add callbacks at specific scroll positions or while scrolling past a specific section, passing a progress parameter.
+- animate based on scroll position – either trigger an animation or synchronize it to the scrollbar movement (like a playback scrub control).
+- pin an element starting at a specific scroll position – either indefinitely or for a limited amount of scroll progress (sticky elements).
+- toggle CSS classes of elements on and off based on scroll position.
+- effortlessly add parallax effects to your website.
+- create an infinitely scrolling page (ajax load of additional content).
+- add callbacks at specific scroll positions or while scrolling past a specific section, passing a progress parameter.
 
 Check out [the demo page](http://scrollmagic.io), browse [the examples](http://scrollmagic.io/examples/index.html) or read [the documentation](http://scrollmagic.io/docs/index.html) to get started.  
 If you want to contribute please [get in touch](mailto:e-mail@janpaepke.de) and let me know about your specialty and experience.
@@ -37,19 +37,19 @@ The recommended solution is the [Greensock Animation Platform (GSAP)](http://www
 
 ScrollMagic was developed with these principles in mind:
 
--   optimized performance
--   lightweight (6KB gzipped)
--   flexibility and extendibility
--   mobile compatibility
--   event management
--   support for responsive web design
--   object-oriented programming and object chaining
--   readable, centralized code, and intuitive development
--   support for both x and y direction scrolling (even both on one page)
--   support for scrolling inside div containers (even multiple on one page)
--   extensive debugging and logging capabilities
--   detailed documentation
--   many application examples
+- optimized performance
+- lightweight (6KB gzipped)
+- flexibility and extendibility
+- mobile compatibility
+- event management
+- support for responsive web design
+- object-oriented programming and object chaining
+- readable, centralized code, and intuitive development
+- support for both x and y direction scrolling (even both on one page)
+- support for scrolling inside div containers (even multiple on one page)
+- extensive debugging and logging capabilities
+- detailed documentation
+- many application examples
 
 **Is ScrollMagic the right library for you?**  
 ScrollMagic takes an object-oriented approach using a controller for each scroll container and attaching multiple scenes defining what should happen at what part of the page. While this offers a great deal of control, it might be a little confusing, especially if you're just starting out with javascript.  
@@ -131,15 +131,15 @@ Here's a basic workflow example:
 
 ```javascript
 // init controller
-var controller = new ScrollMagic.Controller();
+var controller = new ScrollMagic.Controller()
 
 // create a scene
 new ScrollMagic.Scene({
-	duration: 100, // the scene should last for a scroll distance of 100px
-	offset: 50, // start this scene after scrolling for 50px
+  duration: 100, // the scene should last for a scroll distance of 100px
+  offset: 50, // start this scene after scrolling for 50px
 })
-	.setPin('#my-sticky-element') // pins the element for the the scene's duration
-	.addTo(controller); // assign the scene to the controller
+  .setPin('#my-sticky-element') // pins the element for the the scene's duration
+  .addTo(controller) // assign the scene to the controller
 ```
 
 To learn more about the ScrollMagic code structure, please [read here](https://github.com/janpaepke/ScrollMagic/wiki/Getting-Started-:-How-to-use-ScrollMagic).

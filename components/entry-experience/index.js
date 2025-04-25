@@ -40,27 +40,23 @@ const impactMessages = [
 const FloatingSphere = ({ position, imageUrl, scale = 1, speed = 1 }) => {
   const texture = useTexture(imageUrl)
   const meshRef = useRef()
-  
+
   useFrame((state) => {
     const time = state.clock.getElapsedTime()
-    
+
     if (meshRef.current) {
       meshRef.current.position.y = position[1] + Math.sin(time * speed) * 0.2
       meshRef.current.rotation.y = time * 0.2 * speed
       meshRef.current.rotation.z = time * 0.1 * speed
     }
   })
-  
+
   return (
-    <Float
-      speed={2}
-      rotationIntensity={0.5}
-      floatIntensity={0.5}
-    >
+    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
       <mesh ref={meshRef} position={position} scale={scale}>
         <sphereGeometry args={[1, 32, 32]} />
-        <meshStandardMaterial 
-          map={texture} 
+        <meshStandardMaterial
+          map={texture}
           roughness={0.4}
           metalness={0.8}
           envMapIntensity={1}
@@ -75,7 +71,7 @@ const PortalEffect = ({ active, imageUrl }) => {
   const { gl, scene, camera } = useThree()
   const portalRef = useRef()
   const texture = useTexture(imageUrl)
-  
+
   useEffect(() => {
     if (active && portalRef.current) {
       gsap.to(portalRef.current.scale, {
@@ -83,28 +79,28 @@ const PortalEffect = ({ active, imageUrl }) => {
         y: 4,
         z: 4,
         duration: 1.5,
-        ease: 'power3.in'
+        ease: 'power3.in',
       })
-      
+
       gsap.to(portalRef.current.rotation, {
         y: Math.PI * 2,
         duration: 1.5,
-        ease: 'power2.inOut'
+        ease: 'power2.inOut',
       })
-      
+
       gsap.to(portalRef.current.material, {
         opacity: 0,
         duration: 1,
         delay: 0.8,
-        ease: 'power2.in'
+        ease: 'power2.in',
       })
     }
   }, [active])
-  
+
   return (
     <mesh ref={portalRef} position={[0, 0, -3]}>
       <torusGeometry args={[2, 0.5, 16, 100]} />
-      <meshStandardMaterial 
+      <meshStandardMaterial
         map={texture}
         transparent
         opacity={0.9}
@@ -121,33 +117,30 @@ const Scene = ({ activeImage, portalActive }) => {
   return (
     <Suspense fallback={null}>
       <Environment preset="night" />
-      
-      <FloatingSphere 
-        position={[-3, 0, -5]} 
-        imageUrl={backgroundImages[0]} 
+
+      <FloatingSphere
+        position={[-3, 0, -5]}
+        imageUrl={backgroundImages[0]}
         scale={1.2}
         speed={0.8}
       />
-      
-      <FloatingSphere 
-        position={[3, 1, -7]} 
-        imageUrl={backgroundImages[1]} 
+
+      <FloatingSphere
+        position={[3, 1, -7]}
+        imageUrl={backgroundImages[1]}
         scale={1.5}
         speed={1.2}
       />
-      
-      <FloatingSphere 
-        position={[-2, -2, -4]} 
-        imageUrl={backgroundImages[2]} 
+
+      <FloatingSphere
+        position={[-2, -2, -4]}
+        imageUrl={backgroundImages[2]}
         scale={0.8}
         speed={1.5}
       />
-      
-      <PortalEffect 
-        active={portalActive} 
-        imageUrl={activeImage} 
-      />
-      
+
+      <PortalEffect active={portalActive} imageUrl={activeImage} />
+
       <ambientLight intensity={0.2} />
       <directionalLight position={[10, 10, 5]} intensity={0.5} />
     </Suspense>
@@ -172,20 +165,20 @@ const EntryExperience = () => {
 
   // Debug to ensure component is mounting and reset introOut if needed
   useEffect(() => {
-    console.log('EntryExperience mounted', {showLoading, isLoaded, introOut})
-    
+    console.log('EntryExperience mounted', { showLoading, isLoaded, introOut })
+
     // Force introOut to false on mount to ensure the component stays visible
     if (introOut) {
       console.log('Resetting introOut to false')
       setIntroOut(false)
     }
-    
+
     // Ensure we're not accidentally starting lenis
     if (lenis) {
       lenis.stop()
       document.documentElement.classList.toggle('intro', true)
     }
-    
+
     return () => {
       console.log('EntryExperience unmounted')
     }
@@ -194,15 +187,15 @@ const EntryExperience = () => {
   // Initialize the animations on load
   useEffect(() => {
     if (!isLoaded) return
-    
+
     console.log('EntryExperience loaded, initializing animations')
-    
+
     // Stop scrolling while in entry experience
     if (lenis) {
       lenis.stop()
       document.documentElement.classList.toggle('intro', true)
     }
-    
+
     // Setup GSAP animations
     const tl = gsap.timeline({
       defaults: { ease: 'power3.out' },
@@ -213,61 +206,65 @@ const EntryExperience = () => {
             opacity: 1,
             scale: 1,
             duration: 0.6,
-            ease: 'back.out(1.7)'
+            ease: 'back.out(1.7)',
           })
         }
-      }
+      },
     })
-    
+
     // Animate the first image to show
     tl.to(imagesRef.current[0], {
       opacity: 1,
       scale: 1.05,
       duration: 1.5,
-      delay: 0.5
+      delay: 0.5,
     })
-    
+
     // Animate the first message
-    tl.to(messageRef.current, {
-      opacity: 1,
-      y: 0,
-      duration: 0.8
-    }, '-=0.5')
-    
+    tl.to(
+      messageRef.current,
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+      },
+      '-=0.5'
+    )
+
     // Setup 3D Canvas
     if (canvasRef.current) {
       gsap.to(canvasRef.current, {
         opacity: 1,
-        duration: 1.5
+        duration: 1.5,
       })
     }
-    
+
     // Setup image rotation interval
     const imageInterval = setInterval(() => {
       if (hasEntered) {
         clearInterval(imageInterval)
         return
       }
-      
+
       const nextIndex = (currentImageIndex + 1) % backgroundImages.length
       setCurrentImageIndex(nextIndex)
-      
+
       // Crossfade to next image
       gsap.to(imagesRef.current[currentImageIndex], {
         opacity: 0,
         scale: 1,
-        duration: 1
+        duration: 1,
       })
-      
+
       gsap.to(imagesRef.current[nextIndex], {
         opacity: 1,
         scale: 1.05,
-        duration: 1.5
+        duration: 1.5,
       })
-      
+
       // Change message text
       const nextMessageIndex = (activeMessageIndex + 1) % impactMessages.length
-      
+
       gsap.to(messageRef.current, {
         opacity: 0,
         y: -20,
@@ -277,23 +274,22 @@ const EntryExperience = () => {
           gsap.to(messageRef.current, {
             opacity: 1,
             y: 0,
-            duration: 0.4
+            duration: 0.4,
           })
-        }
+        },
       })
-      
     }, 4000)
-    
+
     return () => {
       clearInterval(imageInterval)
     }
   }, [isLoaded, currentImageIndex, activeMessageIndex, hasEntered, lenis])
-  
+
   // Handle tap to enter
   const handleEnter = () => {
     setHasEntered(true)
     setPortalActive(true)
-    
+
     // Play audio cue if available - comment out until a real audio file is added
     /*
     try {
@@ -306,7 +302,7 @@ const EntryExperience = () => {
       // Handle browser audio restrictions
     }
     */
-    
+
     // Animate elements out
     gsap.to(containerRef.current, {
       opacity: 0,
@@ -319,54 +315,51 @@ const EntryExperience = () => {
           document.documentElement.classList.toggle('intro', false)
         }
         setIntroOut(true)
-      }
+      },
     })
-    
+
     // Create portal effect
     gsap.to(imagesRef.current[currentImageIndex], {
       scale: 1.5,
       opacity: 0,
-      duration: 1.2
+      duration: 1.2,
     })
-    
+
     gsap.to(buttonRef.current, {
       scale: 1.5,
       opacity: 0,
-      duration: 0.5
+      duration: 0.5,
     })
-    
+
     gsap.to(messageRef.current, {
       y: -50,
       opacity: 0,
-      duration: 0.5
+      duration: 0.5,
     })
   }
 
   return (
     <>
       {showLoading ? (
-        <Loading 
+        <Loading
           onComplete={() => {
             console.log('Loading complete, showing main experience')
             setShowLoading(false)
             setIsLoaded(true)
-          }} 
+          }}
         />
       ) : (
-        <div 
-          className={s.container} 
-          ref={containerRef}
-        >
+        <div className={s.container} ref={containerRef}>
           {/* Background Images */}
           <div className={s.imagesContainer}>
             {backgroundImages.map((src, index) => (
-              <div 
+              <div
                 key={index}
-                className={s.imageWrapper} 
-                ref={el => imagesRef.current[index] = el}
-                style={{ 
+                className={s.imageWrapper}
+                ref={(el) => (imagesRef.current[index] = el)}
+                style={{
                   opacity: index === 0 ? 0.5 : 0,
-                  zIndex: backgroundImages.length - index
+                  zIndex: backgroundImages.length - index,
                 }}
               >
                 <Image
@@ -381,30 +374,27 @@ const EntryExperience = () => {
               </div>
             ))}
           </div>
-          
+
           {/* 3D Canvas Overlay */}
           <div className={s.canvasContainer} ref={canvasRef}>
             <Canvas camera={{ position: [0, 0, 5], fov: 45 }}>
-              <Scene 
-                activeImage={backgroundImages[currentImageIndex]} 
+              <Scene
+                activeImage={backgroundImages[currentImageIndex]}
                 portalActive={portalActive}
               />
             </Canvas>
           </div>
-          
+
           {/* Message Overlay */}
           <div className={s.messageContainer}>
             <div className={s.message} ref={messageRef}>
               {impactMessages[activeMessageIndex]}
             </div>
           </div>
-          
+
           {/* Tap to Enter Button */}
           <div className={s.buttonContainer} ref={buttonRef}>
-            <Button 
-              className={s.enterButton}
-              onClick={handleEnter}
-            >
+            <Button className={s.enterButton} onClick={handleEnter}>
               Tap to Enter
             </Button>
           </div>
@@ -414,4 +404,4 @@ const EntryExperience = () => {
   )
 }
 
-export default EntryExperience 
+export default EntryExperience

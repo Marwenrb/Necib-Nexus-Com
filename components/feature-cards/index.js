@@ -16,13 +16,13 @@ const AppearTitle = dynamic(
 import s from './feature-cards.module.scss'
 
 const cards = [
-  { 
+  {
     text: 'Digital Culture Immersion',
-    image: '/images/FeatureCards-Images/Digital Culture Immersion.jpeg'
+    image: '/images/FeatureCards-Images/Digital Culture Immersion.jpeg',
   },
-  { 
+  {
     text: 'E-Tourism Solutions',
-    image: '/images/FeatureCards-Images/E-Tourism-sOLUTIONS.jpeg'
+    image: '/images/FeatureCards-Images/E-Tourism-sOLUTIONS.jpeg',
   },
   {
     text: (
@@ -31,31 +31,31 @@ const cards = [
         Production
       </>
     ),
-    image: '/images/FeatureCards-Images/AUDIOVISUAL PRODUCTION.jpeg'
+    image: '/images/FeatureCards-Images/AUDIOVISUAL PRODUCTION.jpeg',
   },
-  { 
+  {
     text: 'Web & App Development',
-    image: '/images/FeatureCards-Images/WEB & APP DEVLOPMENT.jpeg'
+    image: '/images/FeatureCards-Images/WEB & APP DEVLOPMENT.jpeg',
   },
-  { 
+  {
     text: 'DIGITAL MARKETING STRATEGIES',
-    image: '/images/FeatureCards-Images/DIGITAL MARKETING STRATEGIES.jpeg'
+    image: '/images/FeatureCards-Images/DIGITAL MARKETING STRATEGIES.jpeg',
   },
-  { 
+  {
     text: 'Innovation Lab & AR/VR Experiences',
-    image: '/images/FeatureCards-Images/Innovation Lab & ARVR Experiences.jpeg'
+    image: '/images/FeatureCards-Images/Innovation Lab & ARVR Experiences.jpeg',
   },
-  { 
+  {
     text: 'Events Organization',
-    image: '/images/FeatureCards-Images/Events-F3.jpeg'
+    image: '/images/FeatureCards-Images/Events-F3.jpeg',
   },
-  { 
+  {
     text: 'Cultural Heritage Preservation',
-    image: '/images/FeatureCards-Images/Cultural Heritage Preservation.jpg'
+    image: '/images/FeatureCards-Images/Cultural Heritage Preservation.jpg',
   },
-  { 
+  {
     text: 'Immersive storytelling',
-    image: '/images/FeatureCards-Images/Immersive storytelling.jpeg'
+    image: '/images/FeatureCards-Images/Immersive storytelling.jpeg',
   },
 ]
 
@@ -117,34 +117,35 @@ export const FeatureCards = () => {
 }
 
 const SingleCard = ({ text, image, index, current }) => {
-  const cardRef = useRef(null);
-  
+  const cardRef = useRef(null)
+
   const handleMouseMove = useCallback((e) => {
-    if (!cardRef.current) return;
-    
-    const card = cardRef.current;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    
-    const rotateY = (x - centerX) / 20;
-    const rotateX = (centerY - y) / 20;
-    
-    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
-  }, []);
-  
+    if (!cardRef.current) return
+
+    const card = cardRef.current
+    const rect = card.getBoundingClientRect()
+    const x = e.clientX - rect.left
+    const y = e.clientY - rect.top
+
+    const centerX = rect.width / 2
+    const centerY = rect.height / 2
+
+    const rotateY = (x - centerX) / 20
+    const rotateX = (centerY - y) / 20
+
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
+  }, [])
+
   const handleMouseLeave = useCallback(() => {
-    if (!cardRef.current) return;
-    cardRef.current.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)';
-  }, []);
+    if (!cardRef.current) return
+    cardRef.current.style.transform =
+      'perspective(1000px) rotateX(0) rotateY(0)'
+  }, [])
 
   return (
-    <div 
+    <div
       ref={cardRef}
-      className={cn(s.card, current && s.current)} 
+      className={cn(s.card, current && s.current)}
       style={{ '--i': index }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}

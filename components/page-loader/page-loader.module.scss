@@ -94,10 +94,8 @@
   background: var(--neon-blue, #00b3ff);
   transform: translateZ(-90px);
   filter: blur(10px);
-  box-shadow: 0 0 10px #000,
-              0 0 20px var(--neon-blue, #00b3ff),
-              0 0 30px #000,
-              0 0 40px var(--neon-blue-glow, rgba(0, 179, 255, 0.7));
+  box-shadow: 0 0 10px #000, 0 0 20px var(--neon-blue, #00b3ff), 0 0 30px #000,
+    0 0 40px var(--neon-blue-glow, rgba(0, 179, 255, 0.7));
 }
 
 .progressContainer {
@@ -110,8 +108,9 @@
 
 .progressBar {
   height: 100%;
-  background: linear-gradient(90deg, 
-    rgba(0, 179, 255, 0.7) 0%, 
+  background: linear-gradient(
+    90deg,
+    rgba(0, 179, 255, 0.7) 0%,
     rgba(0, 179, 255, 1) 100%
   );
   transition: width 0.3s ease;
@@ -127,10 +126,11 @@
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.7;
   }
   50% {
     opacity: 1;
   }
-} 
+}

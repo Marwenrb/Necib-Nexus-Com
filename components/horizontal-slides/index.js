@@ -67,14 +67,14 @@ export const HorizontalSlides = ({ children }) => {
 
       cardRefs.current.forEach((card, index) => {
         if (!card) return
-        
+
         const rect = card.getBoundingClientRect()
         const cardTop = rect.top
         const cardHeight = rect.height
-        
+
         // Calculate how far the card is in the viewport
-        const visiblePercentage = 1 - (cardTop / windowHeight)
-        
+        const visiblePercentage = 1 - cardTop / windowHeight
+
         // Make card visibility sequential but more independent for text to show properly
         if (index === 0 || (index > 0 && index <= visibleCardIndex + 1)) {
           if (visiblePercentage > 0.15) {
@@ -82,13 +82,13 @@ export const HorizontalSlides = ({ children }) => {
               card.classList.add('in-view')
               card.classList.add(s['in-view'])
               setVisibleCardIndex(Math.max(visibleCardIndex, index))
-              
+
               // Add fully-visible class for floating animation after reveal
               setTimeout(() => {
                 if (card.classList.contains('in-view')) {
                   card.classList.add(s['fully-visible'])
                   card.classList.add('fully-visible')
-                  setFullyVisibleCards(prev => [...new Set([...prev, index])])
+                  setFullyVisibleCards((prev) => [...new Set([...prev, index])])
                 }
               }, 1000) // Delay adding floating effect
             }
@@ -98,11 +98,11 @@ export const HorizontalSlides = ({ children }) => {
             card.classList.remove(s['in-view'])
             card.classList.remove(s['fully-visible'])
             card.classList.remove('fully-visible')
-            
+
             if (visibleCardIndex === index) {
               setVisibleCardIndex(index - 1)
             }
-            setFullyVisibleCards(prev => prev.filter(i => i !== index))
+            setFullyVisibleCards((prev) => prev.filter((i) => i !== index))
           }
         }
       })
@@ -141,16 +141,21 @@ export const HorizontalSlides = ({ children }) => {
           {children}
         </div>
         <div className={cn(s.cards, 'hide-on-desktop')}>
-          {Array.isArray(children) ? 
+          {Array.isArray(children) ? (
             children.map((child, i) => (
-              <div key={i} ref={(el) => setCardRef(el, i)} className="card-wrapper">
+              <div
+                key={i}
+                ref={(el) => setCardRef(el, i)}
+                className="card-wrapper"
+              >
                 {child}
               </div>
-            )) : 
+            ))
+          ) : (
             <div ref={(el) => setCardRef(el, 0)} className="card-wrapper">
               {children}
             </div>
-          }
+          )}
         </div>
       </div>
     </div>

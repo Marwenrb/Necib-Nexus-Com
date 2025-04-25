@@ -77,12 +77,14 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   letter-spacing: desktop-vw(10px);
   text-transform: uppercase;
   font-family: monospace;
-  text-shadow: 0 0 desktop-vw(10px) $neon-blue-glow, 0 0 desktop-vw(20px) $neon-blue-glow;
-  
+  text-shadow: 0 0 desktop-vw(10px) $neon-blue-glow,
+    0 0 desktop-vw(20px) $neon-blue-glow;
+
   @include mobile {
     font-size: mobile-vw(40px);
     letter-spacing: mobile-vw(5px);
-    text-shadow: 0 0 mobile-vw(5px) $neon-blue-glow, 0 0 mobile-vw(10px) $neon-blue-glow;
+    text-shadow: 0 0 mobile-vw(5px) $neon-blue-glow,
+      0 0 mobile-vw(10px) $neon-blue-glow;
   }
 }
 
@@ -92,12 +94,14 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   font-weight: 700;
   margin-left: desktop-vw(5px);
   animation: blink 0.75s infinite;
-  text-shadow: 0 0 desktop-vw(10px) $neon-blue-glow, 0 0 desktop-vw(20px) $neon-blue-glow;
-  
+  text-shadow: 0 0 desktop-vw(10px) $neon-blue-glow,
+    0 0 desktop-vw(20px) $neon-blue-glow;
+
   @include mobile {
     font-size: mobile-vw(40px);
     margin-left: mobile-vw(3px);
-    text-shadow: 0 0 mobile-vw(5px) $neon-blue-glow, 0 0 mobile-vw(10px) $neon-blue-glow;
+    text-shadow: 0 0 mobile-vw(5px) $neon-blue-glow,
+      0 0 mobile-vw(10px) $neon-blue-glow;
   }
 }
 
@@ -108,7 +112,7 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   margin-top: desktop-vw(20px);
   transform-style: preserve-3d;
   perspective: 1000px;
-  
+
   &.showLogo {
     opacity: 1;
     transform: scale(1);
@@ -117,11 +121,13 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
 
 .logoImage {
   border-radius: 50%;
-  box-shadow: 0 0 desktop-vw(30px) $neon-blue-glow, 0 0 desktop-vw(50px) $neon-blue-glow-light;
+  box-shadow: 0 0 desktop-vw(30px) $neon-blue-glow,
+    0 0 desktop-vw(50px) $neon-blue-glow-light;
   transition: transform 0.5s ease;
-  
+
   @include mobile {
-    box-shadow: 0 0 mobile-vw(15px) $neon-blue-glow, 0 0 mobile-vw(25px) $neon-blue-glow-light;
+    box-shadow: 0 0 mobile-vw(15px) $neon-blue-glow,
+      0 0 mobile-vw(25px) $neon-blue-glow-light;
   }
 }
 
@@ -132,7 +138,7 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   height: 100%;
   width: auto;
   position: relative;
-  
+
   @include desktop {
     margin-top: desktop-vw(-20px);
   }
@@ -152,7 +158,8 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
 }
 
 @keyframes blink {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 1;
   }
   50% {
@@ -184,7 +191,7 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 0 desktop-vw(20px) rgba(0, 0, 0, 0.5);
-  
+
   @include mobile {
     padding: mobile-vw(10px) mobile-vw(15px);
   }
@@ -195,13 +202,13 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   height: desktop-vw(40px);
   display: flex;
   align-items: center;
-  
+
   img {
     height: 100%;
     width: auto;
     object-fit: contain;
   }
-  
+
   @include mobile {
     height: mobile-vw(30px);
   }
@@ -216,7 +223,7 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   display: flex;
   align-items: center;
   gap: desktop-vw(15px);
-  
+
   button {
     background: transparent;
     border: 1px solid $neon-blue;
@@ -228,12 +235,12 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
     transition: all 0.3s ease;
     text-shadow: 0 0 desktop-vw(5px) $neon-blue-glow;
     box-shadow: 0 0 desktop-vw(5px) $neon-blue-glow;
-    
+
     &:hover {
       background-color: rgba($neon-blue, 0.2);
       box-shadow: 0 0 desktop-vw(10px) $neon-blue-glow;
     }
-    
+
     @include mobile {
       padding: mobile-vw(3px) mobile-vw(10px);
       font-size: mobile-vw(12px);
@@ -247,7 +254,7 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   background-color: rgba(0, 0, 0, 0.9);
   position: relative;
   overflow: hidden;
-  
+
   &::before {
     content: '';
     position: absolute;
@@ -255,10 +262,14 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(45deg, rgba($neon-blue, 0.05) 0%, transparent 70%);
+    background: linear-gradient(
+      45deg,
+      rgba($neon-blue, 0.05) 0%,
+      transparent 70%
+    );
     z-index: 0;
   }
-  
+
   @include mobile {
     padding: mobile-vw(40px) mobile-vw(20px);
   }
@@ -273,7 +284,7 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   z-index: 1;
   font-weight: 600;
   text-shadow: 0 0 desktop-vw(10px) $neon-blue-glow;
-  
+
   @include mobile {
     font-size: mobile-vw(24px);
     margin-bottom: mobile-vw(20px);
@@ -286,7 +297,7 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   gap: desktop-vw(30px);
   position: relative;
   z-index: 1;
-  
+
   @include mobile {
     grid-template-columns: repeat(auto-fit, minmax(mobile-vw(120px), 1fr));
     gap: mobile-vw(15px);
@@ -303,30 +314,31 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   border-radius: desktop-vw(10px);
   border: 1px solid rgba($neon-blue, 0.2);
   transition: all 0.3s ease;
-  
+
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 desktop-vw(10px) desktop-vw(20px) rgba(0, 0, 0, 0.3), 0 0 desktop-vw(15px) $neon-blue-glow;
+    box-shadow: 0 desktop-vw(10px) desktop-vw(20px) rgba(0, 0, 0, 0.3),
+      0 0 desktop-vw(15px) $neon-blue-glow;
     border-color: $neon-blue;
   }
-  
+
   img {
     max-width: 100%;
     height: auto;
     margin-bottom: desktop-vw(10px);
     filter: drop-shadow(0 0 desktop-vw(5px) $neon-blue-glow);
   }
-  
+
   p {
     color: white;
     font-size: desktop-vw(14px);
     text-align: center;
     margin: 0;
   }
-  
+
   @include mobile {
     padding: mobile-vw(15px);
-    
+
     p {
       font-size: mobile-vw(12px);
     }
@@ -340,7 +352,7 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   align-items: center;
   justify-content: center;
   margin-bottom: desktop-vw(15px);
-  
+
   @include mobile {
     width: mobile-vw(60px);
     height: mobile-vw(60px);
@@ -354,12 +366,12 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   align-items: center;
   justify-content: center;
   filter: drop-shadow(0 0 desktop-vw(5px) $neon-blue-glow);
-  
+
   svg {
     width: 100%;
     height: 100%;
   }
-  
+
   @include mobile {
     filter: drop-shadow(0 0 mobile-vw(3px) $neon-blue-glow);
   }
@@ -371,7 +383,7 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   color: $neon-blue;
   margin: 0 0 desktop-vw(5px) 0;
   text-shadow: 0 0 desktop-vw(5px) $neon-blue-glow;
-  
+
   @include mobile {
     font-size: mobile-vw(16px);
     text-shadow: 0 0 mobile-vw(3px) $neon-blue-glow;
@@ -383,7 +395,7 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   color: white;
   text-align: center;
   opacity: 0.8;
-  
+
   @include mobile {
     font-size: mobile-vw(12px);
   }

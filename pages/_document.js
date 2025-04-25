@@ -48,7 +48,7 @@ export default function Document() {
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        
+
         {/* Scripts pour ScrollMagic et GSAP */}
         <script
           src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"

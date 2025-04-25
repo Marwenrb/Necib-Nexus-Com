@@ -35,7 +35,8 @@
         > * {
           margin-bottom: mobile-vw(80px);
           transition: all 0.8s cubic-bezier(0.25, 1, 0.5, 1);
-          transform: translateY(120px) scale(0.8) translateZ(-50px) rotateX(12deg);
+          transform: translateY(120px) scale(0.8) translateZ(-50px)
+            rotateX(12deg);
           opacity: 0;
           will-change: transform, opacity;
           transform-style: preserve-3d;
@@ -65,10 +66,10 @@
             opacity: 1;
             filter: blur(0);
             z-index: 2;
-            
+
             // Premium reveal animation with subtle 3D effect
             animation: revealCard 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-            
+
             // Stagger the animation
             @for $i from 1 through 5 {
               &:nth-child(#{$i}) {
@@ -79,7 +80,7 @@
             // Add floating effect after revealing
             &.fully-visible {
               animation: floatCard 6s ease-in-out infinite;
-              
+
               // Stagger the float animation
               @for $i from 1 through 5 {
                 &:nth-child(#{$i}) {

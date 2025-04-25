@@ -35,4 +35,4 @@ export const EnhancedCard = ({
       </div>
     </div>
   )
-} 
+}

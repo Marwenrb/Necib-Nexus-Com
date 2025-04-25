@@ -1,46 +1,49 @@
 /*!
  * @file ScrollMagic main library.
  */
- /**
+/**
  * @namespace ScrollMagic
  */
-(function (root, factory) {
-	if (typeof define === 'function' && define.amd) {
-		// AMD. Register as an anonymous module.
-		define(factory);
-	} else if (typeof exports === 'object') {
-		// CommonJS
-		module.exports = factory();
-	} else {
-		// Browser global
-		root.ScrollMagic = factory();
-	}
-}(this, function () {
-	"use strict";
+;(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(factory)
+  } else if (typeof exports === 'object') {
+    // CommonJS
+    module.exports = factory()
+  } else {
+    // Browser global
+    root.ScrollMagic = factory()
+  }
+})(this, function () {
+  'use strict'
 
-	var ScrollMagic = function () {
-		_util.log(2, '(COMPATIBILITY NOTICE) -> As of ScrollMagic 2.0.0 you need to use \'new ScrollMagic.Controller()\' to create a new controller instance. Use \'new ScrollMagic.Scene()\' to instance a scene.');
-	};
+  var ScrollMagic = function () {
+    _util.log(
+      2,
+      "(COMPATIBILITY NOTICE) -> As of ScrollMagic 2.0.0 you need to use 'new ScrollMagic.Controller()' to create a new controller instance. Use 'new ScrollMagic.Scene()' to instance a scene."
+    )
+  }
 
-	ScrollMagic.version = "%VERSION%";
+  ScrollMagic.version = '%VERSION%'
 
-	// TODO: temporary workaround for chrome's scroll jitter bug
-	if (typeof(window) !== 'undefined') {
-		window.addEventListener("mousewheel", void(0));
-	}
+  // TODO: temporary workaround for chrome's scroll jitter bug
+  if (typeof window !== 'undefined') {
+    window.addEventListener('mousewheel', void 0)
+  }
 
-	// global const
-	var PIN_SPACER_ATTRIBUTE = "data-scrollmagic-pin-spacer";
+  // global const
+  var PIN_SPACER_ATTRIBUTE = 'data-scrollmagic-pin-spacer'
 
-// @include('ScrollMagic/Controller.js')
+  // @include('ScrollMagic/Controller.js')
 
-// @include('ScrollMagic/Scene.js')
+  // @include('ScrollMagic/Scene.js')
 
-// @include('ScrollMagic/Event.js')
+  // @include('ScrollMagic/Event.js')
 
-// @include('ScrollMagic/_util.js')
+  // @include('ScrollMagic/_util.js')
 
-// @generate PlugInWarnings
+  // @generate PlugInWarnings
 
-	return ScrollMagic;
-}));
+  return ScrollMagic
+})

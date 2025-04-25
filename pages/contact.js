@@ -23,155 +23,160 @@ const AppearTitle = dynamic(
 )
 
 // Dynamic imports with proper SSR handling
-const DynamicMap = dynamic(() => import('react-map-gl').then(mod => {
-  const { Map, NavigationControl, Marker } = mod;
-  
-  // Create a component with all required subcomponents
-  const MapWithDeps = props => (
-    <Map {...props}>
-      <NavigationControl position="top-right" />
-      {props.children}
-    </Map>
-  );
-  
-  return MapWithDeps;
-}), { ssr: false });
+const DynamicMap = dynamic(
+  () =>
+    import('react-map-gl').then((mod) => {
+      const { Map, NavigationControl, Marker } = mod
+
+      // Create a component with all required subcomponents
+      const MapWithDeps = (props) => (
+        <Map {...props}>
+          <NavigationControl position="top-right" />
+          {props.children}
+        </Map>
+      )
+
+      return MapWithDeps
+    }),
+  { ssr: false }
+)
 
 const DynamicMarker = dynamic(
   () => import('react-map-gl').then((mod) => mod.Marker),
   { ssr: false }
-);
+)
 
 const DynamicPopup = dynamic(
   () => import('react-map-gl').then((mod) => mod.Popup),
   { ssr: false }
-);
+)
 
 const DynamicNavigationControl = dynamic(
   () => import('react-map-gl').then((mod) => mod.NavigationControl),
   { ssr: false }
-);
+)
 
 // Map token - should be moved to environment variables in production
-const MAPBOX_TOKEN = 'pk.eyJ1IjoibmVjaWJuZXh1cyIsImEiOiJjbHYxZnhxMWUwMGdsMnFvNWZwOXY0aDBsIn0.yJNHYAEzUb_cZJM1ggLpGw';
+const MAPBOX_TOKEN =
+  'pk.eyJ1IjoibmVjaWJuZXh1cyIsImEiOiJjbHYxZnhxMWUwMGdsMnFvNWZwOXY0aDBsIn0.yJNHYAEzUb_cZJM1ggLpGw'
 
 export default function Contact() {
-  const formRef = useRef(null);
-  const mapRef = useRef(null);
+  const formRef = useRef(null)
+  const mapRef = useRef(null)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    message: ''
-  });
-  const [errors, setErrors] = useState({});
-  const [submitted, setSubmitted] = useState(false);
-  const [submitting, setSubmitting] = useState(false);
-  const [mapLoaded, setMapLoaded] = useState(false);
-  
+    message: '',
+  })
+  const [errors, setErrors] = useState({})
+  const [submitted, setSubmitted] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+  const [mapLoaded, setMapLoaded] = useState(false)
+
   // Replace viewport with viewState for newer react-map-gl versions
   const [viewState, setViewState] = useState({
     longitude: 2.3522, // Paris coordinates
     latitude: 48.8566,
     zoom: 12,
     bearing: 0,
-    pitch: 0
-  });
+    pitch: 0,
+  })
 
   // Use ref for parallax effect
-  const [parallaxOffset, setParallaxOffset] = useState(0);
+  const [parallaxOffset, setParallaxOffset] = useState(0)
   const { ref: inViewRef, inView } = useInView({
     threshold: 0.1,
-    triggerOnce: false
-  });
+    triggerOnce: false,
+  })
 
   // Check if window is defined before mounting map
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setMapLoaded(true);
+      setMapLoaded(true)
     }
-    
+
     const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      setParallaxOffset(scrollPosition * 0.3); // Adjust speed as needed
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+      const scrollPosition = window.scrollY
+      setParallaxOffset(scrollPosition * 0.3) // Adjust speed as needed
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value } = e.target
     setFormData({
       ...formData,
-      [name]: value
-    });
-    
+      [name]: value,
+    })
+
     // Clear error when user types
     if (errors[name]) {
       setErrors({
         ...errors,
-        [name]: ''
-      });
+        [name]: '',
+      })
     }
-  };
+  }
 
   const validateForm = () => {
-    const newErrors = {};
-    
+    const newErrors = {}
+
     // Validate required fields
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    if (!formData.subject.trim()) newErrors.subject = 'Subject is required';
-    if (!formData.message.trim()) newErrors.message = 'Message is required';
-    
+    if (!formData.name.trim()) newErrors.name = 'Name is required'
+    if (!formData.email.trim()) newErrors.email = 'Email is required'
+    if (!formData.subject.trim()) newErrors.subject = 'Subject is required'
+    if (!formData.message.trim()) newErrors.message = 'Message is required'
+
     // Validate email format
     if (formData.email && !/^\S+@\S+\.\S+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = 'Please enter a valid email address'
     }
-    
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
+
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!validateForm()) return;
-    
-    setSubmitting(true);
-    
+    e.preventDefault()
+
+    if (!validateForm()) return
+
+    setSubmitting(true)
+
     try {
       await emailjs.sendForm(
         process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
         process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
         formRef.current,
         process.env.NEXT_PUBLIC_EMAILJS_USER_ID
-      );
-      
+      )
+
       // Reset form on success
       setFormData({
         name: '',
         email: '',
         subject: '',
-        message: ''
-      });
-      
-      setSubmitted(true);
+        message: '',
+      })
+
+      setSubmitted(true)
     } catch (error) {
-      console.error('Email send failed:', error);
+      console.error('Email send failed:', error)
       setErrors({
         ...errors,
-        submit: 'Failed to send message. Please try again.'
-      });
+        submit: 'Failed to send message. Please try again.',
+      })
     } finally {
-      setSubmitting(false);
+      setSubmitting(false)
     }
-  };
+  }
 
   return (
-    <Layout 
-      title="Contact Us | NeciB Nexus" 
+    <Layout
+      title="Contact Us | NeciB Nexus"
       description="Let's connect and explore possibilities together. Reach out to NeciB Nexus for collaborations, inquiries or feedback."
       theme="dark"
       className={styles.contactPage}
@@ -179,14 +184,14 @@ export default function Contact() {
       <div className={styles.canvasContainer}>
         {/* WebGL component here if needed */}
       </div>
-      
-      <div 
+
+      <div
         className={styles.heroSection}
-        style={{ 
+        style={{
           transform: `translateY(${parallaxOffset}px)`,
         }}
       >
-        <motion.div 
+        <motion.div
           className={styles.heroContent}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
@@ -198,14 +203,14 @@ export default function Contact() {
       </div>
 
       <div className={styles.contactContainer} ref={inViewRef}>
-        <motion.div 
+        <motion.div
           className={styles.contactInfo}
           initial={{ opacity: 0, x: -50 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
           <h2>Get In Touch</h2>
-          
+
           <div className={styles.infoItem}>
             <div className={styles.iconWrapper}>
               <FaMapMarkerAlt />
@@ -215,7 +220,7 @@ export default function Contact() {
               <p>Paris, France</p>
             </div>
           </div>
-          
+
           <div className={styles.infoItem}>
             <div className={styles.iconWrapper}>
               <FaPhone />
@@ -225,7 +230,7 @@ export default function Contact() {
               <p>+33 (0) 123 456 789</p>
             </div>
           </div>
-          
+
           <div className={styles.infoItem}>
             <div className={styles.iconWrapper}>
               <FaEnvelope />
@@ -235,19 +240,23 @@ export default function Contact() {
               <p>contact@necibnexus.com</p>
             </div>
           </div>
-          
+
           <div className={styles.mapContainer}>
             {mapLoaded && (
               <div className={styles.mapWrapper}>
                 <DynamicMap
                   initialViewState={viewState}
-                  onMove={evt => setViewState(evt.viewState)}
+                  onMove={(evt) => setViewState(evt.viewState)}
                   mapStyle="mapbox://styles/mapbox/dark-v10"
                   mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
-                  style={{ width: '100%', height: '100%', borderRadius: '12px' }}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    borderRadius: '12px',
+                  }}
                 >
-                  <Marker 
-                    longitude={viewState.longitude} 
+                  <Marker
+                    longitude={viewState.longitude}
                     latitude={viewState.latitude}
                     anchor="bottom"
                   >
@@ -260,8 +269,8 @@ export default function Contact() {
             )}
           </div>
         </motion.div>
-        
-        <motion.div 
+
+        <motion.div
           className={styles.contactForm}
           initial={{ opacity: 0, x: 50 }}
           animate={inView ? { opacity: 1, x: 0 } : {}}
@@ -270,7 +279,7 @@ export default function Contact() {
           {!submitted ? (
             <>
               <h2>Send a Message</h2>
-              
+
               <form ref={formRef} onSubmit={handleSubmit}>
                 <div className={styles.formGroup}>
                   <label htmlFor="name">Full Name</label>
@@ -282,9 +291,11 @@ export default function Contact() {
                     onChange={handleChange}
                     className={errors.name ? styles.error : ''}
                   />
-                  {errors.name && <span className={styles.errorText}>{errors.name}</span>}
+                  {errors.name && (
+                    <span className={styles.errorText}>{errors.name}</span>
+                  )}
                 </div>
-                
+
                 <div className={styles.formGroup}>
                   <label htmlFor="email">Email Address</label>
                   <input
@@ -295,9 +306,11 @@ export default function Contact() {
                     onChange={handleChange}
                     className={errors.email ? styles.error : ''}
                   />
-                  {errors.email && <span className={styles.errorText}>{errors.email}</span>}
+                  {errors.email && (
+                    <span className={styles.errorText}>{errors.email}</span>
+                  )}
                 </div>
-                
+
                 <div className={styles.formGroup}>
                   <label htmlFor="subject">Subject</label>
                   <input
@@ -308,9 +321,11 @@ export default function Contact() {
                     onChange={handleChange}
                     className={errors.subject ? styles.error : ''}
                   />
-                  {errors.subject && <span className={styles.errorText}>{errors.subject}</span>}
+                  {errors.subject && (
+                    <span className={styles.errorText}>{errors.subject}</span>
+                  )}
                 </div>
-                
+
                 <div className={styles.formGroup}>
                   <label htmlFor="message">Message</label>
                   <textarea
@@ -321,13 +336,17 @@ export default function Contact() {
                     onChange={handleChange}
                     className={errors.message ? styles.error : ''}
                   ></textarea>
-                  {errors.message && <span className={styles.errorText}>{errors.message}</span>}
+                  {errors.message && (
+                    <span className={styles.errorText}>{errors.message}</span>
+                  )}
                 </div>
-                
-                {errors.submit && <div className={styles.submitError}>{errors.submit}</div>}
-                
-                <button 
-                  type="submit" 
+
+                {errors.submit && (
+                  <div className={styles.submitError}>{errors.submit}</div>
+                )}
+
+                <button
+                  type="submit"
                   className={styles.submitBtn}
                   disabled={submitting}
                 >
@@ -340,8 +359,8 @@ export default function Contact() {
               <FaCheckCircle />
               <h2>Message Sent!</h2>
               <p>Thank you for reaching out. We'll get back to you shortly.</p>
-              <button 
-                onClick={() => setSubmitted(false)} 
+              <button
+                onClick={() => setSubmitted(false)}
                 className={styles.sendAnotherBtn}
               >
                 Send Another Message
@@ -351,5 +370,5 @@ export default function Contact() {
         </motion.div>
       </div>
     </Layout>
-  );
-} 
+  )
+}
