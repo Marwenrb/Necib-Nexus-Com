@@ -189,9 +189,10 @@ $glow-color: rgba(91, 38, 214, 0.5);
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  padding-top: 20vh;
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  padding-top: 15vh;
+  transition: opacity 0.5s ease, transform 0.5s ease;
   z-index: 5;
+  will-change: transform, opacity;
   
   &.hidden {
     opacity: 0;
@@ -348,9 +349,10 @@ $glow-color: rgba(91, 38, 214, 0.5);
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s ease, transform 0.8s ease;
+  transform: translateY(80px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
   z-index: 4;
+  padding-top: 10vh;
   
   &.visible {
     opacity: 1;
@@ -360,11 +362,11 @@ $glow-color: rgba(91, 38, 214, 0.5);
 
 // Form Container
 .formContainer {
-  width: clamp(320px, 90vw, 500px);
+  width: clamp(320px, 90vw, 900px);
   background: linear-gradient($secondary-color, $secondary-color) padding-box,
               linear-gradient(145deg, transparent 35%, $accent-color, $primary-color) border-box;
   border: 2px solid transparent;
-  padding: 32px 24px;
+  padding: 32px;
   font-size: 14px;
   color: $text-color;
   display: flex;
@@ -372,11 +374,13 @@ $glow-color: rgba(91, 38, 214, 0.5);
   box-sizing: border-box;
   border-radius: 16px;
   background-size: 200% 100%;
-  animation: gradient 5s ease infinite;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+  animation: gradient 8s ease infinite;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
   z-index: 15;
   overflow: hidden;
   position: relative;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   
   &:before {
     content: '';
@@ -387,11 +391,31 @@ $glow-color: rgba(91, 38, 214, 0.5);
     height: 100%;
     background: linear-gradient(135deg, rgba($accent-color, 0.1), transparent 80%);
     z-index: 0;
+    pointer-events: none;
   }
   
   @media (max-width: 768px) {
-    padding: 24px 16px;
+    padding: 24px;
+    width: clamp(300px, 90vw, 500px);
   }
+}
+
+.formGlow {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  width: 70%;
+  height: 150px;
+  transform: translateX(-50%);
+  background: radial-gradient(
+    ellipse at center,
+    rgba($accent-color, 0.4) 0%,
+    rgba($accent-color, 0) 70%
+  );
+  opacity: 0.5;
+  filter: blur(40px);
+  pointer-events: none;
+  z-index: -1;
 }
 
 @keyframes gradient {
@@ -411,17 +435,79 @@ $glow-color: rgba(91, 38, 214, 0.5);
 .form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  width: 100%;
   position: relative;
   z-index: 2;
 }
 
+.formInner {
+  display: flex;
+  gap: 30px;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+.formDetails {
+  flex: 1;
+  padding-right: 20px;
+  
+  @media (max-width: 768px) {
+    padding-right: 0;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+}
+
+.formFields {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+  
+  &:before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    bottom: 10%;
+    left: -15px;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1), transparent);
+    display: none;
+    
+    @media (min-width: 769px) {
+      display: block;
+    }
+  }
+}
+
 .formHeader {
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.formBadge {
+  display: inline-block;
+  padding: 6px 12px;
+  background: linear-gradient(135deg, rgba($accent-color, 0.8), rgba($accent-color, 0.2));
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  color: $text-color;
+  margin-bottom: 15px;
+  align-self: flex-start;
+  border: 1px solid rgba($accent-color, 0.3);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  text-transform: uppercase;
 }
 
 .clubTitle {
-  font-size: clamp(26px, 5vw, 38px);
+  font-size: clamp(24px, 4vw, 34px);
   font-weight: 700;
   color: $text-color;
   margin-bottom: 16px;
@@ -434,17 +520,50 @@ $glow-color: rgba(91, 38, 214, 0.5);
 }
 
 .clubDescription {
-  font-size: clamp(14px, 3vw, 16px);
+  font-size: clamp(14px, 2vw, 16px);
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.8);
-  margin-bottom: 15px;
-  max-width: 100%;
+  margin-bottom: 20px;
+}
+
+// Benefits section
+.formBenefits {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.benefitItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  
+  span {
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
+
+.benefitIcon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: $accent-color;
+  
+  svg {
+    width: 20px;
+    height: 20px;
+  }
 }
 
 .formGroup {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
   position: relative;
 }
 
@@ -458,42 +577,52 @@ $glow-color: rgba(91, 38, 214, 0.5);
 
 .formGroup input {
   width: 100%;
-  padding: 12px 16px;
+  padding: 14px 16px;
   border-radius: 8px;
   color: $text-color;
   font-family: inherit;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.03);
   border: 1px solid #414141;
   outline: none;
   transition: all 0.3s ease;
+  font-size: 15px;
   
   &:focus {
     outline: none;
     border-color: $accent-color;
     box-shadow: 0 0 0 1px rgba($accent-color, 0.5);
+    background-color: rgba(255, 255, 255, 0.05);
   }
   
   &::placeholder {
     opacity: 0.5;
+    color: rgba(255, 255, 255, 0.4);
   }
 }
 
 .formGroup textarea {
   width: 100%;
-  padding: 12px 16px;
+  padding: 14px 16px;
   border-radius: 8px;
   resize: none;
   color: $text-color;
-  height: 96px;
+  height: 100px;
   border: 1px solid #414141;
-  background-color: transparent;
+  background-color: rgba(255, 255, 255, 0.03);
   font-family: inherit;
   transition: all 0.3s ease;
+  font-size: 15px;
   
   &:focus {
     outline: none;
     border-color: $accent-color;
     box-shadow: 0 0 0 1px rgba($accent-color, 0.5);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+  
+  &::placeholder {
+    opacity: 0.5;
+    color: rgba(255, 255, 255, 0.4);
   }
 }
 
@@ -505,11 +634,11 @@ $glow-color: rgba(91, 38, 214, 0.5);
   font-family: inherit;
   color: #fff;
   font-weight: 600;
-  width: 40%;
-  min-width: 120px;
+  width: auto;
+  min-width: 130px;
   background: $accent-color;
   border: 1px solid rgba($accent-color, 0.6);
-  padding: 12px 16px;
+  padding: 12px 20px;
   font-size: 16px;
   margin-top: 10px;
   cursor: pointer;
@@ -517,11 +646,16 @@ $glow-color: rgba(91, 38, 214, 0.5);
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  gap: 8px;
   
   &:hover {
     background-color: lighten($accent-color, 5%);
     transform: translateY(-2px);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    
+    .buttonArrow {
+      transform: translateX(3px);
+    }
   }
   
   &:active {
@@ -545,6 +679,29 @@ $glow-color: rgba(91, 38, 214, 0.5);
     opacity: 0.3;
     transform: scale(1);
   }
+  
+  .buttonArrow {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+}
+
+.formDisclaimer {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  margin-top: 15px;
+  
+  a {
+    color: rgba($accent-color, 0.8);
+    text-decoration: none;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: $accent-color;
+      text-decoration: underline;
+    }
+  }
 }
 
 // Success Message
@@ -552,17 +709,17 @@ $glow-color: rgba(91, 38, 214, 0.5);
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 10px;
+  padding: 30px 20px;
   text-align: center;
   animation: fadeIn 0.8s ease;
   z-index: 2;
 }
 
 .successContent {
-  margin-top: 10px;
+  margin-top: 15px;
   
   h3 {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 700;
     margin-bottom: 12px;
     color: $text-color;
@@ -580,8 +737,8 @@ $glow-color: rgba(91, 38, 214, 0.5);
 }
 
 .successIcon {
-  width: 70px;
-  height: 70px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   background-color: rgba(82, 196, 26, 0.15);
   display: flex;
@@ -603,8 +760,8 @@ $glow-color: rgba(91, 38, 214, 0.5);
   }
   
   svg {
-    width: 35px;
-    height: 35px;
+    width: 40px;
+    height: 40px;
     color: rgb(82, 196, 26);
     stroke-dasharray: 30;
     stroke-dashoffset: 30;
