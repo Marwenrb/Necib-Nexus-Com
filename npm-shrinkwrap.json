@@ -11,6 +11,7 @@
       "dependencies": {
         "@darkroom.engineering/hamo": "^0.6.46",
         "@darkroom.engineering/tempus": "^0.0.46",
+        "@emailjs/browser": "^4.4.1",
         "@react-three/drei": "^9.122.0",
         "@react-three/fiber": "^8.18.0",
         "@react-three/postprocessing": "^3.0.4",
@@ -23,6 +24,7 @@
         "gsap": "^3.12.7",
         "lenis": "^1.1.13",
         "leva": "^0.9.34",
+        "mapbox-gl": "^3.11.1",
         "nanoevents": "^7.0.1",
         "nanoid": "^5.1.5",
         "next": "^14.2.15",
@@ -32,6 +34,7 @@
         "react-dom": "^18.2.0",
         "react-icons": "^5.5.0",
         "react-intersection-observer": "^9.16.0",
+        "react-map-gl": "^7.1.6",
         "react-responsive": "^10.0.1",
         "react-use": "^17.4.0",
         "tar-fs": "^3.0.8",
@@ -1844,6 +1847,15 @@
       "integrity": "sha512-uekIGetywIgopfD97oDL5PfeezkFpNhwlzlaEYNOA0N6ghdsOvh/HYjSMek5Q2O1PYvRSDFcqFVJl4r4ZBwOow==",
       "license": "Apache-2.0"
     },
+    "node_modules/@emailjs/browser": {
+      "version": "4.4.1",
+      "resolved": "https://registry.npmjs.org/@emailjs/browser/-/browser-4.4.1.tgz",
+      "integrity": "sha512-DGSlP9sPvyFba3to2A50kDtZ+pXVp/0rhmqs2LmbMS3I5J8FSOgLwzY2Xb4qfKlOVHh29EAutLYwe5yuEZmEFg==",
+      "license": "BSD-3-Clause",
+      "engines": {
+        "node": ">=14.0.0"
+      }
+    },
     "node_modules/@emnapi/core": {
       "version": "1.4.3",
       "resolved": "https://registry.npmjs.org/@emnapi/core/-/core-1.4.3.tgz",
@@ -2495,6 +2507,75 @@
       "dependencies": {
         "@jridgewell/resolve-uri": "^3.1.0",
         "@jridgewell/sourcemap-codec": "^1.4.14"
+      }
+    },
+    "node_modules/@mapbox/jsonlint-lines-primitives": {
+      "version": "2.0.2",
+      "resolved": "https://registry.npmjs.org/@mapbox/jsonlint-lines-primitives/-/jsonlint-lines-primitives-2.0.2.tgz",
+      "integrity": "sha512-rY0o9A5ECsTQRVhv7tL/OyDpGAoUB4tTvLiW1DSzQGq4bvTPhNw1VpSNjDJc5GFZ2XuyOtSWSVN05qOtcD71qQ==",
+      "engines": {
+        "node": ">= 0.6"
+      }
+    },
+    "node_modules/@mapbox/mapbox-gl-supported": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/@mapbox/mapbox-gl-supported/-/mapbox-gl-supported-3.0.0.tgz",
+      "integrity": "sha512-2XghOwu16ZwPJLOFVuIOaLbN0iKMn867evzXFyf0P22dqugezfJwLmdanAgU25ITvz1TvOfVP4jsDImlDJzcWg==",
+      "license": "BSD-3-Clause"
+    },
+    "node_modules/@mapbox/point-geometry": {
+      "version": "0.1.0",
+      "resolved": "https://registry.npmjs.org/@mapbox/point-geometry/-/point-geometry-0.1.0.tgz",
+      "integrity": "sha512-6j56HdLTwWGO0fJPlrZtdU/B13q8Uwmo18Ck2GnGgN9PCFyKTZ3UbXeEdRFh18i9XQ92eH2VdtpJHpBD3aripQ==",
+      "license": "ISC"
+    },
+    "node_modules/@mapbox/tiny-sdf": {
+      "version": "2.0.6",
+      "resolved": "https://registry.npmjs.org/@mapbox/tiny-sdf/-/tiny-sdf-2.0.6.tgz",
+      "integrity": "sha512-qMqa27TLw+ZQz5Jk+RcwZGH7BQf5G/TrutJhspsca/3SHwmgKQ1iq+d3Jxz5oysPVYTGP6aXxCo5Lk9Er6YBAA==",
+      "license": "BSD-2-Clause"
+    },
+    "node_modules/@mapbox/unitbezier": {
+      "version": "0.0.1",
+      "resolved": "https://registry.npmjs.org/@mapbox/unitbezier/-/unitbezier-0.0.1.tgz",
+      "integrity": "sha512-nMkuDXFv60aBr9soUG5q+GvZYL+2KZHVvsqFCzqnkGEf46U2fvmytHaEVc1/YZbiLn8X+eR3QzX1+dwDO1lxlw==",
+      "license": "BSD-2-Clause"
+    },
+    "node_modules/@mapbox/vector-tile": {
+      "version": "1.3.1",
+      "resolved": "https://registry.npmjs.org/@mapbox/vector-tile/-/vector-tile-1.3.1.tgz",
+      "integrity": "sha512-MCEddb8u44/xfQ3oD+Srl/tNcQoqTw3goGk2oLsrFxOTc3dUp+kAnby3PvAeeBYSMSjSPD1nd1AJA6W49WnoUw==",
+      "license": "BSD-3-Clause",
+      "dependencies": {
+        "@mapbox/point-geometry": "~0.1.0"
+      }
+    },
+    "node_modules/@mapbox/whoots-js": {
+      "version": "3.1.0",
+      "resolved": "https://registry.npmjs.org/@mapbox/whoots-js/-/whoots-js-3.1.0.tgz",
+      "integrity": "sha512-Es6WcD0nO5l+2BOQS4uLfNPYQaNDfbot3X1XUoloz+x0mPDS3eeORZJl06HXjwBG1fOGwCRnzK88LMdxKRrd6Q==",
+      "license": "ISC",
+      "engines": {
+        "node": ">=6.0.0"
+      }
+    },
+    "node_modules/@maplibre/maplibre-gl-style-spec": {
+      "version": "19.3.3",
+      "resolved": "https://registry.npmjs.org/@maplibre/maplibre-gl-style-spec/-/maplibre-gl-style-spec-19.3.3.tgz",
+      "integrity": "sha512-cOZZOVhDSulgK0meTsTkmNXb1ahVvmTmWmfx9gRBwc6hq98wS9JP35ESIoNq3xqEan+UN+gn8187Z6E4NKhLsw==",
+      "license": "ISC",
+      "dependencies": {
+        "@mapbox/jsonlint-lines-primitives": "~2.0.2",
+        "@mapbox/unitbezier": "^0.0.1",
+        "json-stringify-pretty-compact": "^3.0.0",
+        "minimist": "^1.2.8",
+        "rw": "^1.3.3",
+        "sort-object": "^3.0.3"
+      },
+      "bin": {
+        "gl-style-format": "dist/gl-style-format.mjs",
+        "gl-style-migrate": "dist/gl-style-migrate.mjs",
+        "gl-style-validate": "dist/gl-style-validate.mjs"
       }
     },
     "node_modules/@mediapipe/tasks-vision": {
@@ -4087,6 +4168,21 @@
       "dev": true,
       "license": "MIT"
     },
+    "node_modules/@types/geojson": {
+      "version": "7946.0.16",
+      "resolved": "https://registry.npmjs.org/@types/geojson/-/geojson-7946.0.16.tgz",
+      "integrity": "sha512-6C8nqWur3j98U6+lXDfTUWIfgvZU+EumvpHKcYjujKH7woYyLj2sUmff0tRhrqM7BohUw7Pz3ZB1jj2gW9Fvmg==",
+      "license": "MIT"
+    },
+    "node_modules/@types/geojson-vt": {
+      "version": "3.2.5",
+      "resolved": "https://registry.npmjs.org/@types/geojson-vt/-/geojson-vt-3.2.5.tgz",
+      "integrity": "sha512-qDO7wqtprzlpe8FfQ//ClPV9xiuoh2nkIgiouIptON9w5jvD/fA4szvP9GBlDVdJ5dldAl0kX/sy3URbWwLx0g==",
+      "license": "MIT",
+      "dependencies": {
+        "@types/geojson": "*"
+      }
+    },
     "node_modules/@types/glob": {
       "version": "7.2.0",
       "resolved": "https://registry.npmjs.org/@types/glob/-/glob-7.2.0.tgz",
@@ -4117,6 +4213,32 @@
       "dev": true,
       "license": "MIT"
     },
+    "node_modules/@types/mapbox__point-geometry": {
+      "version": "0.1.4",
+      "resolved": "https://registry.npmjs.org/@types/mapbox__point-geometry/-/mapbox__point-geometry-0.1.4.tgz",
+      "integrity": "sha512-mUWlSxAmYLfwnRBmgYV86tgYmMIICX4kza8YnE/eIlywGe2XoOxlpVnXWwir92xRLjwyarqwpu2EJKD2pk0IUA==",
+      "license": "MIT"
+    },
+    "node_modules/@types/mapbox__vector-tile": {
+      "version": "1.3.4",
+      "resolved": "https://registry.npmjs.org/@types/mapbox__vector-tile/-/mapbox__vector-tile-1.3.4.tgz",
+      "integrity": "sha512-bpd8dRn9pr6xKvuEBQup8pwQfD4VUyqO/2deGjfpe6AwC8YRlyEipvefyRJUSiCJTZuCb8Pl1ciVV5ekqJ96Bg==",
+      "license": "MIT",
+      "dependencies": {
+        "@types/geojson": "*",
+        "@types/mapbox__point-geometry": "*",
+        "@types/pbf": "*"
+      }
+    },
+    "node_modules/@types/mapbox-gl": {
+      "version": "3.4.1",
+      "resolved": "https://registry.npmjs.org/@types/mapbox-gl/-/mapbox-gl-3.4.1.tgz",
+      "integrity": "sha512-NsGKKtgW93B+UaLPti6B7NwlxYlES5DpV5Gzj9F75rK5ALKsqSk15CiEHbOnTr09RGbr6ZYiCdI+59NNNcAImg==",
+      "license": "MIT",
+      "dependencies": {
+        "@types/geojson": "*"
+      }
+    },
     "node_modules/@types/minimatch": {
       "version": "5.1.2",
       "resolved": "https://registry.npmjs.org/@types/minimatch/-/minimatch-5.1.2.tgz",
@@ -4142,6 +4264,12 @@
       "resolved": "https://registry.npmjs.org/@types/parse-json/-/parse-json-4.0.2.tgz",
       "integrity": "sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==",
       "dev": true,
+      "license": "MIT"
+    },
+    "node_modules/@types/pbf": {
+      "version": "3.0.5",
+      "resolved": "https://registry.npmjs.org/@types/pbf/-/pbf-3.0.5.tgz",
+      "integrity": "sha512-j3pOPiEcWZ34R6a6mN07mUkM4o4Lwf6hPNt8eilOeZhTFbxFXmKhvXl9Y28jotFPaI1bpPDJsbCprUoNke6OrA==",
       "license": "MIT"
     },
     "node_modules/@types/prettier": {
@@ -4184,6 +4312,15 @@
       "resolved": "https://registry.npmjs.org/@types/stats.js/-/stats.js-0.17.3.tgz",
       "integrity": "sha512-pXNfAD3KHOdif9EQXZ9deK82HVNaXP5ZIF5RP2QG6OQFNTaY2YIetfrE9t528vEreGQvEPRDDc8muaoYeK0SxQ==",
       "license": "MIT"
+    },
+    "node_modules/@types/supercluster": {
+      "version": "7.1.3",
+      "resolved": "https://registry.npmjs.org/@types/supercluster/-/supercluster-7.1.3.tgz",
+      "integrity": "sha512-Z0pOY34GDFl3Q6hUFYf3HkTwKEE02e7QgtJppBt+beEAxnyOpJua+voGFvxINBHa06GwLFFym7gRPY2SiKIfIA==",
+      "license": "MIT",
+      "dependencies": {
+        "@types/geojson": "*"
+      }
     },
     "node_modules/@types/three": {
       "version": "0.176.0",
@@ -4765,6 +4902,15 @@
       "license": "Apache-2.0",
       "engines": {
         "node": ">= 0.4"
+      }
+    },
+    "node_modules/arr-union": {
+      "version": "3.1.0",
+      "resolved": "https://registry.npmjs.org/arr-union/-/arr-union-3.1.0.tgz",
+      "integrity": "sha512-sKpyeERZ02v1FeCZT8lrfJq5u6goHCtpTAzPwJYe7c8SPFOboNjNg1vz2L4VTn9T4PQxEx13TbXLmYUcS6Ug7Q==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
       }
     },
     "node_modules/array-buffer-byte-length": {
@@ -5399,6 +5545,25 @@
         "node": ">= 0.8"
       }
     },
+    "node_modules/bytewise": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/bytewise/-/bytewise-1.1.0.tgz",
+      "integrity": "sha512-rHuuseJ9iQ0na6UDhnrRVDh8YnWVlU6xM3VH6q/+yHDeUH2zIhUzP+2/h3LIrhLDBtTqzWpE3p3tP/boefskKQ==",
+      "license": "MIT",
+      "dependencies": {
+        "bytewise-core": "^1.2.2",
+        "typewise": "^1.0.3"
+      }
+    },
+    "node_modules/bytewise-core": {
+      "version": "1.2.3",
+      "resolved": "https://registry.npmjs.org/bytewise-core/-/bytewise-core-1.2.3.tgz",
+      "integrity": "sha512-nZD//kc78OOxeYtRlVk8/zXqTB4gf/nlguL1ggWA8FuchMyOxcyHR4QPQZMUmA7czC+YnaBrPUCubqAWe50DaA==",
+      "license": "MIT",
+      "dependencies": {
+        "typewise-core": "^1.2"
+      }
+    },
     "node_modules/call-bind": {
       "version": "1.0.8",
       "resolved": "https://registry.npmjs.org/call-bind/-/call-bind-1.0.8.tgz",
@@ -5517,6 +5682,12 @@
       "funding": {
         "url": "https://github.com/chalk/chalk?sponsor=1"
       }
+    },
+    "node_modules/cheap-ruler": {
+      "version": "4.0.0",
+      "resolved": "https://registry.npmjs.org/cheap-ruler/-/cheap-ruler-4.0.0.tgz",
+      "integrity": "sha512-0BJa8f4t141BYKQyn9NSQt1PguFQXMXwZiA5shfoaBYHAb2fFk2RAX+tiWMoQU+Agtzt3mdt0JtuyshAXqZ+Vw==",
+      "license": "ISC"
     },
     "node_modules/chokidar": {
       "version": "4.0.3",
@@ -5907,6 +6078,12 @@
       "funding": {
         "url": "https://github.com/sponsors/fb55"
       }
+    },
+    "node_modules/csscolorparser": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/csscolorparser/-/csscolorparser-1.0.3.tgz",
+      "integrity": "sha512-umPSgYwZkdFoUrH5hIq5kf0wPSXiro51nPw0j2K/c83KflkPSTBGMz6NJvMB+07VlL0y7VPo6QJcDjcgKTTm3w==",
+      "license": "MIT"
     },
     "node_modules/csso": {
       "version": "4.2.0",
@@ -6422,6 +6599,12 @@
       "engines": {
         "node": ">=4"
       }
+    },
+    "node_modules/earcut": {
+      "version": "3.0.1",
+      "resolved": "https://registry.npmjs.org/earcut/-/earcut-3.0.1.tgz",
+      "integrity": "sha512-0l1/0gOjESMeQyYaK5IDiPNvFeu93Z/cO0TjZh9eZ1vyCtZnA7KMZ8rQggpsJHIbGSdrqYq9OhuveadOVHCshw==",
+      "license": "ISC"
     },
     "node_modules/ejs": {
       "version": "3.1.10",
@@ -7990,6 +8173,12 @@
         "node": ">=6.9.0"
       }
     },
+    "node_modules/geojson-vt": {
+      "version": "4.0.2",
+      "resolved": "https://registry.npmjs.org/geojson-vt/-/geojson-vt-4.0.2.tgz",
+      "integrity": "sha512-AV9ROqlNqoZEIJGfm1ncNjEXfkz2hdFlZf0qkVfmkwdKa8vj7H16YUOT81rJw1rdFhyEDlN2Tds91p/glzbl5A==",
+      "license": "ISC"
+    },
     "node_modules/get-caller-file": {
       "version": "2.0.5",
       "resolved": "https://registry.npmjs.org/get-caller-file/-/get-caller-file-2.0.5.tgz",
@@ -8113,6 +8302,12 @@
       "engines": {
         "node": ">=0.10.0"
       }
+    },
+    "node_modules/gl-matrix": {
+      "version": "3.4.3",
+      "resolved": "https://registry.npmjs.org/gl-matrix/-/gl-matrix-3.4.3.tgz",
+      "integrity": "sha512-wcCp8vu8FT22BnvKVPjXa/ICBWRq/zjFfdofZy1WSpQZpphblv12/bOQLBC1rMM7SGOFS9ltVmKOHil5+Ml7gA==",
+      "license": "MIT"
     },
     "node_modules/glob": {
       "version": "7.1.7",
@@ -8376,6 +8571,12 @@
       "integrity": "sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==",
       "dev": true,
       "license": "MIT"
+    },
+    "node_modules/grid-index": {
+      "version": "1.1.0",
+      "resolved": "https://registry.npmjs.org/grid-index/-/grid-index-1.1.0.tgz",
+      "integrity": "sha512-HZRwumpOGUrHyxO5bqKZL0B0GlUpwtCAzZ42sgxUPniu33R1LSFH5yrIcBCHjkctCAh3mtWKcKd9J4vDDdeVHA==",
+      "license": "ISC"
     },
     "node_modules/gsap": {
       "version": "3.12.7",
@@ -9437,6 +9638,12 @@
       "dev": true,
       "license": "MIT"
     },
+    "node_modules/json-stringify-pretty-compact": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/json-stringify-pretty-compact/-/json-stringify-pretty-compact-3.0.0.tgz",
+      "integrity": "sha512-Rc2suX5meI0S3bfdZuA7JMFBGkJ875ApfVyq2WHELjBiiG22My/l7/8zPpH/CfFVQHuVLd8NLR0nv6vi0BYYKA==",
+      "license": "MIT"
+    },
     "node_modules/json5": {
       "version": "2.2.3",
       "resolved": "https://registry.npmjs.org/json5/-/json5-2.2.3.tgz",
@@ -9493,6 +9700,12 @@
       "resolved": "https://registry.npmjs.org/just-debounce-it/-/just-debounce-it-3.2.0.tgz",
       "integrity": "sha512-WXzwLL0745uNuedrCsCs3rpmfD6DBaf7uuVwaq98/8dafURfgQaBsSpjiPp5+CW6Vjltwy9cOGI6qE71b3T8iQ==",
       "license": "MIT"
+    },
+    "node_modules/kdbush": {
+      "version": "4.0.2",
+      "resolved": "https://registry.npmjs.org/kdbush/-/kdbush-4.0.2.tgz",
+      "integrity": "sha512-WbCVYJ27Sz8zi9Q7Q0xHC+05iwkm3Znipc2XTlrnJbsHMYktW4hPhXUE8Ys1engBrvffoSCqbil1JQAa7clRpA==",
+      "license": "ISC"
     },
     "node_modules/keyv": {
       "version": "4.5.4",
@@ -9857,6 +10070,52 @@
       "dependencies": {
         "once": "~1.3.0"
       }
+    },
+    "node_modules/mapbox-gl": {
+      "version": "3.11.1",
+      "resolved": "https://registry.npmjs.org/mapbox-gl/-/mapbox-gl-3.11.1.tgz",
+      "integrity": "sha512-OcXSBQU+q50YH7zVzsfOgCMSgYD1tyN3kObwsxnLEBOeceIFg46Yp+/I2AUhIGsq8VufgfeGzWKipPow/M7gww==",
+      "license": "SEE LICENSE IN LICENSE.txt",
+      "workspaces": [
+        "src/style-spec",
+        "test/build/typings"
+      ],
+      "dependencies": {
+        "@mapbox/jsonlint-lines-primitives": "^2.0.2",
+        "@mapbox/mapbox-gl-supported": "^3.0.0",
+        "@mapbox/point-geometry": "^0.1.0",
+        "@mapbox/tiny-sdf": "^2.0.6",
+        "@mapbox/unitbezier": "^0.0.1",
+        "@mapbox/vector-tile": "^1.3.1",
+        "@mapbox/whoots-js": "^3.1.0",
+        "@types/geojson": "^7946.0.16",
+        "@types/geojson-vt": "^3.2.5",
+        "@types/mapbox__point-geometry": "^0.1.4",
+        "@types/mapbox__vector-tile": "^1.3.4",
+        "@types/pbf": "^3.0.5",
+        "@types/supercluster": "^7.1.3",
+        "cheap-ruler": "^4.0.0",
+        "csscolorparser": "~1.0.3",
+        "earcut": "^3.0.0",
+        "geojson-vt": "^4.0.2",
+        "gl-matrix": "^3.4.3",
+        "grid-index": "^1.1.0",
+        "kdbush": "^4.0.2",
+        "murmurhash-js": "^1.0.0",
+        "pbf": "^3.2.1",
+        "potpack": "^2.0.0",
+        "quickselect": "^3.0.0",
+        "serialize-to-js": "^3.1.2",
+        "supercluster": "^8.0.1",
+        "tinyqueue": "^3.0.0",
+        "vt-pbf": "^3.1.3"
+      }
+    },
+    "node_modules/mapbox-gl/node_modules/potpack": {
+      "version": "2.0.0",
+      "resolved": "https://registry.npmjs.org/potpack/-/potpack-2.0.0.tgz",
+      "integrity": "sha512-Q+/tYsFU9r7xoOJ+y/ZTtdVQwTWfzjbiXBDMM/JKUux3+QPP02iUuIoeBQ+Ot6oEDlC+/PGjB/5A3K7KKb7hcw==",
+      "license": "ISC"
     },
     "node_modules/matchmediaquery": {
       "version": "0.4.2",
@@ -10652,6 +10911,19 @@
         "node": ">=8"
       }
     },
+    "node_modules/pbf": {
+      "version": "3.3.0",
+      "resolved": "https://registry.npmjs.org/pbf/-/pbf-3.3.0.tgz",
+      "integrity": "sha512-XDF38WCH3z5OV/OVa8GKUNtLAyneuzbCisx7QUCF8Q6Nutx0WnJrQe5O+kOtBlLfRNUws98Y58Lblp+NJG5T4Q==",
+      "license": "BSD-3-Clause",
+      "dependencies": {
+        "ieee754": "^1.1.12",
+        "resolve-protobuf-schema": "^2.1.0"
+      },
+      "bin": {
+        "pbf": "bin/pbf"
+      }
+    },
     "node_modules/pend": {
       "version": "1.2.0",
       "resolved": "https://registry.npmjs.org/pend/-/pend-1.2.0.tgz",
@@ -11021,6 +11293,12 @@
         "react-is": "^16.13.1"
       }
     },
+    "node_modules/protocol-buffers-schema": {
+      "version": "3.6.0",
+      "resolved": "https://registry.npmjs.org/protocol-buffers-schema/-/protocol-buffers-schema-3.6.0.tgz",
+      "integrity": "sha512-TdDRD+/QNdrCGCE7v8340QyuXd4kIWIgapsE2+n/SaGiSSbomYl4TjHlvIoCWRpE7wFt02EpB35VVA2ImcBVqw==",
+      "license": "MIT"
+    },
     "node_modules/proxy-agent": {
       "version": "6.5.0",
       "resolved": "https://registry.npmjs.org/proxy-agent/-/proxy-agent-6.5.0.tgz",
@@ -11237,6 +11515,12 @@
       ],
       "license": "MIT"
     },
+    "node_modules/quickselect": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/quickselect/-/quickselect-3.0.0.tgz",
+      "integrity": "sha512-XdjUArbK4Bm5fLLvlm5KpTFOiOThgfWWI4axAZDWg4E/0mKdZyI9tNEfds27qCi1ze/vwTR16kvmmGhRra3c2g==",
+      "license": "ISC"
+    },
     "node_modules/randombytes": {
       "version": "2.1.0",
       "resolved": "https://registry.npmjs.org/randombytes/-/randombytes-2.1.0.tgz",
@@ -11392,6 +11676,30 @@
       "resolved": "https://registry.npmjs.org/react-is/-/react-is-18.2.0.tgz",
       "integrity": "sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==",
       "license": "MIT"
+    },
+    "node_modules/react-map-gl": {
+      "version": "7.1.6",
+      "resolved": "https://registry.npmjs.org/react-map-gl/-/react-map-gl-7.1.6.tgz",
+      "integrity": "sha512-9XbrvpFF67Fyi+e6vRLJFnGpo3UF6ZHifIa8cS/wUYSsnv9sVyzGsN++FJy57zkz3Jh3kmf0xKZemR8K0FZLVw==",
+      "license": "MIT",
+      "dependencies": {
+        "@maplibre/maplibre-gl-style-spec": "^19.2.1",
+        "@types/mapbox-gl": ">=1.0.0"
+      },
+      "peerDependencies": {
+        "mapbox-gl": ">=1.13.0",
+        "maplibre-gl": ">=1.13.0",
+        "react": ">=16.3.0",
+        "react-dom": ">=16.3.0"
+      },
+      "peerDependenciesMeta": {
+        "mapbox-gl": {
+          "optional": true
+        },
+        "maplibre-gl": {
+          "optional": true
+        }
+      }
     },
     "node_modules/react-reconciler": {
       "version": "0.27.0",
@@ -11698,6 +12006,15 @@
         "url": "https://github.com/privatenumber/resolve-pkg-maps?sponsor=1"
       }
     },
+    "node_modules/resolve-protobuf-schema": {
+      "version": "2.1.0",
+      "resolved": "https://registry.npmjs.org/resolve-protobuf-schema/-/resolve-protobuf-schema-2.1.0.tgz",
+      "integrity": "sha512-kI5ffTiZWmJaS/huM8wZfEMer1eRd7oJQhDuxeCLe3t7N7mX3z94CN0xPxBQxFYQTSNz9T0i+v6inKqSdK8xrQ==",
+      "license": "MIT",
+      "dependencies": {
+        "protocol-buffers-schema": "^3.3.1"
+      }
+    },
     "node_modules/reusify": {
       "version": "1.1.0",
       "resolved": "https://registry.npmjs.org/reusify/-/reusify-1.1.0.tgz",
@@ -11816,6 +12133,12 @@
       "dependencies": {
         "queue-microtask": "^1.2.2"
       }
+    },
+    "node_modules/rw": {
+      "version": "1.3.3",
+      "resolved": "https://registry.npmjs.org/rw/-/rw-1.3.3.tgz",
+      "integrity": "sha512-PdhdWy89SiZogBLaw42zdeqtRJ//zFd2PgQavcICDUgJT5oW10QCRKbJ6bg4r0/UY2M6BWd5tkxuGFRvCkgfHQ==",
+      "license": "BSD-3-Clause"
     },
     "node_modules/safe-array-concat": {
       "version": "1.1.3",
@@ -11958,6 +12281,15 @@
       "license": "BSD-3-Clause",
       "dependencies": {
         "randombytes": "^2.1.0"
+      }
+    },
+    "node_modules/serialize-to-js": {
+      "version": "3.1.2",
+      "resolved": "https://registry.npmjs.org/serialize-to-js/-/serialize-to-js-3.1.2.tgz",
+      "integrity": "sha512-owllqNuDDEimQat7EPG0tH7JjO090xKNzUtYz6X+Sk2BXDnOCilDdNLwjWeFywG9xkJul1ULvtUQa9O4pUaY0w==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=4.0.0"
       }
     },
     "node_modules/set-function-length": {
@@ -12315,6 +12647,50 @@
       },
       "engines": {
         "node": ">= 14"
+      }
+    },
+    "node_modules/sort-asc": {
+      "version": "0.2.0",
+      "resolved": "https://registry.npmjs.org/sort-asc/-/sort-asc-0.2.0.tgz",
+      "integrity": "sha512-umMGhjPeHAI6YjABoSTrFp2zaBtXBej1a0yKkuMUyjjqu6FJsTF+JYwCswWDg+zJfk/5npWUUbd33HH/WLzpaA==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/sort-desc": {
+      "version": "0.2.0",
+      "resolved": "https://registry.npmjs.org/sort-desc/-/sort-desc-0.2.0.tgz",
+      "integrity": "sha512-NqZqyvL4VPW+RAxxXnB8gvE1kyikh8+pR+T+CXLksVRN9eiQqkQlPwqWYU0mF9Jm7UnctShlxLyAt1CaBOTL1w==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/sort-object": {
+      "version": "3.0.3",
+      "resolved": "https://registry.npmjs.org/sort-object/-/sort-object-3.0.3.tgz",
+      "integrity": "sha512-nK7WOY8jik6zaG9CRwZTaD5O7ETWDLZYMM12pqY8htll+7dYeqGfEUPcUBHOpSJg2vJOrvFIY2Dl5cX2ih1hAQ==",
+      "license": "MIT",
+      "dependencies": {
+        "bytewise": "^1.1.0",
+        "get-value": "^2.0.2",
+        "is-extendable": "^0.1.1",
+        "sort-asc": "^0.2.0",
+        "sort-desc": "^0.2.0",
+        "union-value": "^1.0.1"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/sort-object/node_modules/is-extendable": {
+      "version": "0.1.1",
+      "resolved": "https://registry.npmjs.org/is-extendable/-/is-extendable-0.1.1.tgz",
+      "integrity": "sha512-5BMULNob1vgFX6EjQw5izWDxrecWK9AM72rugNr0TFldMOi0fj6Jk+zeKIt0xGj4cEfQIJth4w3OKWOJ4f+AFw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
       }
     },
     "node_modules/source-list-map": {
@@ -12736,6 +13112,15 @@
       "integrity": "sha512-yQ3rwFWRfwNUY7H5vpU0wfdkNSnvnJinhF9830Swlaxl03zsOjCfmX0ugac+3LtK0lYSgwL/KXc8oYL3mG4YFQ==",
       "license": "MIT"
     },
+    "node_modules/supercluster": {
+      "version": "8.0.1",
+      "resolved": "https://registry.npmjs.org/supercluster/-/supercluster-8.0.1.tgz",
+      "integrity": "sha512-IiOea5kJ9iqzD2t7QJq/cREyLHTtSmUT6gQsweojg9WH2sYJqZK9SswTu6jrscO6D1G5v5vYZ9ru/eq85lXeZQ==",
+      "license": "ISC",
+      "dependencies": {
+        "kdbush": "^4.0.2"
+      }
+    },
     "node_modules/supports-color": {
       "version": "7.2.0",
       "resolved": "https://registry.npmjs.org/supports-color/-/supports-color-7.2.0.tgz",
@@ -13114,6 +13499,12 @@
         "url": "https://github.com/sponsors/jonschlinkert"
       }
     },
+    "node_modules/tinyqueue": {
+      "version": "3.0.0",
+      "resolved": "https://registry.npmjs.org/tinyqueue/-/tinyqueue-3.0.0.tgz",
+      "integrity": "sha512-gRa9gwYU3ECmQYv3lslts5hxuIa90veaEcxDYuu3QGOIAEM2mOZkVHp48ANJuu1CURtRdHKUBY5Lm1tHV+sD4g==",
+      "license": "ISC"
+    },
     "node_modules/to-regex-range": {
       "version": "5.0.1",
       "resolved": "https://registry.npmjs.org/to-regex-range/-/to-regex-range-5.0.1.tgz",
@@ -13384,6 +13775,21 @@
         "node": ">=4.2.0"
       }
     },
+    "node_modules/typewise": {
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/typewise/-/typewise-1.0.3.tgz",
+      "integrity": "sha512-aXofE06xGhaQSPzt8hlTY+/YWQhm9P0jYUp1f2XtmW/3Bk0qzXcyFWAtPoo2uTGQj1ZwbDuSyuxicq+aDo8lCQ==",
+      "license": "MIT",
+      "dependencies": {
+        "typewise-core": "^1.2.0"
+      }
+    },
+    "node_modules/typewise-core": {
+      "version": "1.2.0",
+      "resolved": "https://registry.npmjs.org/typewise-core/-/typewise-core-1.2.0.tgz",
+      "integrity": "sha512-2SCC/WLzj2SbUwzFOzqMCkz5amXLlxtJqDKTICqg30x+2DZxcfZN2MvQZmGfXWKNWaKK9pBPsvkcwv8bF/gxKg==",
+      "license": "MIT"
+    },
     "node_modules/ultron": {
       "version": "1.1.1",
       "resolved": "https://registry.npmjs.org/ultron/-/ultron-1.1.1.tgz",
@@ -13488,6 +13894,30 @@
       "license": "MIT",
       "engines": {
         "node": ">=4"
+      }
+    },
+    "node_modules/union-value": {
+      "version": "1.0.1",
+      "resolved": "https://registry.npmjs.org/union-value/-/union-value-1.0.1.tgz",
+      "integrity": "sha512-tJfXmxMeWYnczCVs7XAEvIV7ieppALdyepWMkHkwciRpZraG/xwT+s2JN8+pr1+8jCRf80FFzvr+MpQeeoF4Xg==",
+      "license": "MIT",
+      "dependencies": {
+        "arr-union": "^3.1.0",
+        "get-value": "^2.0.6",
+        "is-extendable": "^0.1.1",
+        "set-value": "^2.0.1"
+      },
+      "engines": {
+        "node": ">=0.10.0"
+      }
+    },
+    "node_modules/union-value/node_modules/is-extendable": {
+      "version": "0.1.1",
+      "resolved": "https://registry.npmjs.org/is-extendable/-/is-extendable-0.1.1.tgz",
+      "integrity": "sha512-5BMULNob1vgFX6EjQw5izWDxrecWK9AM72rugNr0TFldMOi0fj6Jk+zeKIt0xGj4cEfQIJth4w3OKWOJ4f+AFw==",
+      "license": "MIT",
+      "engines": {
+        "node": ">=0.10.0"
       }
     },
     "node_modules/unique-string": {
@@ -13648,6 +14078,17 @@
       "resolved": "https://registry.npmjs.org/v8n/-/v8n-1.5.1.tgz",
       "integrity": "sha512-LdabyT4OffkyXFCe9UT+uMkxNBs5rcTVuZClvxQr08D5TUgo1OFKkoT65qYRCsiKBl/usHjpXvP4hHMzzDRj3A==",
       "license": "MIT"
+    },
+    "node_modules/vt-pbf": {
+      "version": "3.1.3",
+      "resolved": "https://registry.npmjs.org/vt-pbf/-/vt-pbf-3.1.3.tgz",
+      "integrity": "sha512-2LzDFzt0mZKZ9IpVF2r69G9bXaP2Q2sArJCmcCgvfTdCCZzSyz4aCLoQyUilu37Ll56tCblIZrXFIjNUpGIlmA==",
+      "license": "MIT",
+      "dependencies": {
+        "@mapbox/point-geometry": "0.1.0",
+        "@mapbox/vector-tile": "^1.3.1",
+        "pbf": "^3.2.1"
+      }
     },
     "node_modules/vue-eslint-parser": {
       "version": "8.3.0",

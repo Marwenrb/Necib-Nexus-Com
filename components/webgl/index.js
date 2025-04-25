@@ -708,7 +708,7 @@ export function WebGL({ render = true }) {
         alpha: true,
       }}
       dpr={[1, 2]}
-      frameloop="never"
+      frameloop="always"
       shadows
       orthographic
       camera={{

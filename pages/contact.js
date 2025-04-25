@@ -1,5 +1,5 @@
 import { Layout } from 'layouts/default'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import dynamic from 'next/dynamic'
 import { useMediaQuery } from 'react-responsive'
@@ -8,7 +8,6 @@ import emailjs from '@emailjs/browser'
 import 'mapbox-gl/dist/mapbox-gl.css'
 import styles from '../styles/contact.module.scss'
 import { FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa'
-import { NavigationControl, Marker } from 'react-map-gl'
 import { FaCheckCircle } from 'react-icons/fa'
 
 // Dynamic imports to avoid SSR issues
@@ -22,39 +21,8 @@ const AppearTitle = dynamic(
   { ssr: false }
 )
 
-// Dynamic imports with proper SSR handling
-const DynamicMap = dynamic(
-  () =>
-    import('react-map-gl').then((mod) => {
-      const { Map, NavigationControl, Marker } = mod
-
-      // Create a component with all required subcomponents
-      const MapWithDeps = (props) => (
-        <Map {...props}>
-          <NavigationControl position="top-right" />
-          {props.children}
-        </Map>
-      )
-
-      return MapWithDeps
-    }),
-  { ssr: false }
-)
-
-const DynamicMarker = dynamic(
-  () => import('react-map-gl').then((mod) => mod.Marker),
-  { ssr: false }
-)
-
-const DynamicPopup = dynamic(
-  () => import('react-map-gl').then((mod) => mod.Popup),
-  { ssr: false }
-)
-
-const DynamicNavigationControl = dynamic(
-  () => import('react-map-gl').then((mod) => mod.NavigationControl),
-  { ssr: false }
-)
+// Use dynamic import with SSR disabled for MapboxMap component
+const MapboxMap = dynamic(() => import('../components/MapboxMap'), { ssr: false })
 
 // Map token - should be moved to environment variables in production
 const MAPBOX_TOKEN =
@@ -63,6 +31,7 @@ const MAPBOX_TOKEN =
 export default function Contact() {
   const formRef = useRef(null)
   const mapRef = useRef(null)
+  const webglRef = useRef(null)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -83,11 +52,11 @@ export default function Contact() {
     pitch: 0,
   })
 
-  // Use ref for parallax effect
+  // Use ref for parallax effect but set to 0 initially to avoid wait
   const [parallaxOffset, setParallaxOffset] = useState(0)
   const { ref: inViewRef, inView } = useInView({
     threshold: 0.1,
-    triggerOnce: false,
+    triggerOnce: true, // Changed to true to trigger once and remain
   })
 
   // Check if window is defined before mounting map
@@ -181,8 +150,8 @@ export default function Contact() {
       theme="dark"
       className={styles.contactPage}
     >
-      <div className={styles.canvasContainer}>
-        {/* WebGL component here if needed */}
+      <div className={styles.canvasContainer} ref={webglRef}>
+        <WebGL />
       </div>
 
       <div
@@ -193,9 +162,9 @@ export default function Contact() {
       >
         <motion.div
           className={styles.heroContent}
-          initial={{ opacity: 0, y: 50 }}
+          initial={{ opacity: 1, y: 0 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.3 }}
         >
           <h1>Contact Us</h1>
           <p>Let's connect and explore possibilities together</p>
@@ -205,9 +174,9 @@ export default function Contact() {
       <div className={styles.contactContainer} ref={inViewRef}>
         <motion.div
           className={styles.contactInfo}
-          initial={{ opacity: 0, x: -50 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6 }}
+          initial={{ opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
         >
           <h2>Get In Touch</h2>
 
@@ -244,27 +213,17 @@ export default function Contact() {
           <div className={styles.mapContainer}>
             {mapLoaded && (
               <div className={styles.mapWrapper}>
-                <DynamicMap
+                <MapboxMap
                   initialViewState={viewState}
                   onMove={(evt) => setViewState(evt.viewState)}
                   mapStyle="mapbox://styles/mapbox/dark-v10"
-                  mapboxAccessToken={process.env.NEXT_PUBLIC_MAPBOX_TOKEN}
+                  mapboxAccessToken={MAPBOX_TOKEN}
                   style={{
                     width: '100%',
                     height: '100%',
                     borderRadius: '12px',
                   }}
-                >
-                  <Marker
-                    longitude={viewState.longitude}
-                    latitude={viewState.latitude}
-                    anchor="bottom"
-                  >
-                    <div className={styles.markerPin}>
-                      <FaMapMarkerAlt />
-                    </div>
-                  </Marker>
-                </DynamicMap>
+                />
               </div>
             )}
           </div>
@@ -272,9 +231,9 @@ export default function Contact() {
 
         <motion.div
           className={styles.contactForm}
-          initial={{ opacity: 0, x: 50 }}
-          animate={inView ? { opacity: 1, x: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          initial={{ opacity: 1, x: 0 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
         >
           {!submitted ? (
             <>

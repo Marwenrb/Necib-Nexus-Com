@@ -24,6 +24,7 @@
   "dependencies": {
     "@darkroom.engineering/hamo": "^0.6.46",
     "@darkroom.engineering/tempus": "^0.0.46",
+    "@emailjs/browser": "^4.4.1",
     "@react-three/drei": "^9.122.0",
     "@react-three/fiber": "^8.18.0",
     "@react-three/postprocessing": "^3.0.4",
@@ -36,6 +37,7 @@
     "gsap": "^3.12.7",
     "lenis": "^1.1.13",
     "leva": "^0.9.34",
+    "mapbox-gl": "^3.11.1",
     "nanoevents": "^7.0.1",
     "nanoid": "^5.1.5",
     "next": "^14.2.15",
@@ -45,6 +47,7 @@
     "react-dom": "^18.2.0",
     "react-icons": "^5.5.0",
     "react-intersection-observer": "^9.16.0",
+    "react-map-gl": "^7.1.6",
     "react-responsive": "^10.0.1",
     "react-use": "^17.4.0",
     "tar-fs": "^3.0.8",
