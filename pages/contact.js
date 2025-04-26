@@ -491,11 +491,7 @@ export default function Contact() {
                       whileTap={{ scale: 0.98 }}
                     >
                       {submitting ? (
-                        <span className={styles.loadingIndicator}>
-                          <span className={styles.loadingDot}></span>
-                          <span className={styles.loadingDot}></span>
-                          <span className={styles.loadingDot}></span>
-                        </span>
+                        <span>Processing...</span>
                       ) : (
                         <>
                           Send Message
