@@ -503,6 +503,47 @@ export default function Contact() {
                         <div className={styles.verticalLine}></div>
                         <div className={styles.horizontalLine}></div>
                       </div>
+                      
+                      {/* Cutting-edge Futuristic Metrics Display */}
+                      <motion.div 
+                        className={styles.futuristicMetricsDisplay}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1.2, duration: 0.6 }}
+                      >
+                        <div className={styles.metricsHeader}>
+                          <div className={styles.metricLabel}>
+                            <div className={styles.hexagon}></div>
+                            System Telemetry
+                          </div>
+                          <div className={styles.statusIndicator}>
+                            <span className={styles.liveStatus}>LIVE</span>
+                            <span className={styles.timestamp}>{new Date().toLocaleTimeString()}</span>
+                          </div>
+                        </div>
+                        
+                        <div className={styles.metricsGrid}>
+                          <FuturisticMetric label="Innovation Factor" value={97.8} maxValue={100} color="#7c3aed" />
+                          <FuturisticMetric label="Design Index" value={99.2} maxValue={100} color="#ec4899" />
+                          <FuturisticMetric label="User Experience" value={98.5} maxValue={100} color="#0ea5e9" />
+                          <FuturisticMetric label="Performance" value={95.9} maxValue={100} color="#10b981" />
+                        </div>
+                        
+                        <div className={styles.dataVisualizer}>
+                          <div className={styles.dataLine}></div>
+                          <div className={styles.dataPoints}>
+                            {[...Array(12)].map((_, i) => (
+                              <div key={i} className={styles.dataPoint} style={{ 
+                                height: `${20 + Math.random() * 40}px`,
+                                animationDelay: `${i * 0.2}s`
+                              }}></div>
+                            ))}
+                          </div>
+                          <div className={styles.waveContainer}>
+                            <div className={styles.wave}></div>
+                          </div>
+                        </div>
+                      </motion.div>
                     </div>
                   </motion.div>
                 </motion.div>
@@ -568,6 +609,53 @@ const TypewriterEffect = () => {
     <div className={styles.typewriterText}>
       <span>{displayText}</span>
       <span className={styles.cursor}></span>
+    </div>
+  );
+};
+
+// Premium Futuristic Metric Component
+const FuturisticMetric = ({ label, value, maxValue, color }) => {
+  const [currentValue, setCurrentValue] = useState(0);
+  
+  useEffect(() => {
+    const duration = 2000; // 2 seconds
+    const interval = 20; // Update every 20ms
+    const steps = duration / interval;
+    const increment = value / steps;
+    let currentStep = 0;
+    
+    const timer = setInterval(() => {
+      currentStep++;
+      setCurrentValue(Math.min(increment * currentStep, value));
+      
+      if (currentStep >= steps) {
+        clearInterval(timer);
+      }
+    }, interval);
+    
+    return () => clearInterval(timer);
+  }, [value]);
+  
+  const percentage = (currentValue / maxValue) * 100;
+  
+  return (
+    <div className={styles.metricContainer}>
+      <div className={styles.metricInfo}>
+        <div className={styles.metricName}>{label}</div>
+        <div className={styles.metricValue} style={{ color: color }}>
+          {currentValue.toFixed(1)}
+          <span className={styles.metricUnit}>%</span>
+        </div>
+      </div>
+      <div className={styles.metricBar}>
+        <div 
+          className={styles.metricProgress} 
+          style={{ 
+            width: `${percentage}%`,
+            backgroundColor: color
+          }}
+        ></div>
+      </div>
     </div>
   );
 };

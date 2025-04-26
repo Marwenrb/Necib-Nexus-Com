@@ -1137,3 +1137,281 @@ textarea.formControl {
   }
 }
 
+// Cutting-edge Futuristic Metrics Display
+.futuristicMetricsDisplay {
+  margin-top: 2rem;
+  background: rgba(10, 10, 25, 0.4);
+  border-radius: 14px;
+  border: 1px solid rgba(124, 58, 237, 0.15);
+  position: relative;
+  overflow: hidden;
+  
+  // Futuristic corner accents
+  &::before, &::after {
+    content: '';
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-color: rgba(124, 58, 237, 0.5);
+    border-style: solid;
+    z-index: 1;
+  }
+  
+  &::before {
+    top: 0;
+    left: 0;
+    border-width: 2px 0 0 2px;
+    border-top-left-radius: 4px;
+  }
+  
+  &::after {
+    bottom: 0;
+    right: 0;
+    border-width: 0 2px 2px 0;
+    border-bottom-right-radius: 4px;
+  }
+}
+
+.metricsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.2rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.metricLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  position: relative;
+  
+  .hexagon {
+    width: 12px;
+    height: 14px;
+    background: rgba(124, 58, 237, 0.8);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 2px;
+      background: rgba(15, 15, 30, 0.8);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    }
+  }
+}
+
+.statusIndicator {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  
+  .liveStatus {
+    color: #10b981;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    position: relative;
+    padding-left: 12px;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 6px;
+      height: 6px;
+      background-color: #10b981;
+      border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+  }
+  
+  .timestamp {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.5);
+    font-family: monospace;
+  }
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.metricsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2rem;
+  padding: 1.2rem;
+  
+  @media (max-width: 600px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.metricContainer {
+  background: rgba(15, 15, 30, 0.5);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+  position: relative;
+  overflow: hidden;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(to right, transparent, rgba(124, 58, 237, 0.3), transparent);
+  }
+}
+
+.metricInfo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.6rem;
+}
+
+.metricName {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.65);
+  font-weight: 500;
+}
+
+.metricValue {
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.01em;
+  
+  .metricUnit {
+    font-size: 0.7rem;
+    opacity: 0.7;
+    margin-left: 1px;
+  }
+}
+
+.metricBar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+  overflow: hidden;
+  
+  .metricProgress {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 10px;
+      height: 100%;
+      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3));
+    }
+  }
+}
+
+// Ultra-futuristic data visualization
+.dataVisualizer {
+  margin-top: 0.5rem;
+  height: 80px;
+  padding: 0 1.2rem 1.2rem;
+  position: relative;
+  
+  .dataLine {
+    position: absolute;
+    top: 50%;
+    left: 1.2rem;
+    right: 1.2rem;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .dataPoints {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .dataPoint {
+    width: 3px;
+    background: linear-gradient(to top, 
+      rgba(124, 58, 237, 0.1), 
+      rgba(124, 58, 237, 0.4), 
+      rgba(236, 72, 153, 0.6)
+    );
+    border-radius: 2px;
+    transform-origin: bottom;
+    animation: dataPointPulse 3s infinite;
+    
+    &:nth-child(even) {
+      animation-duration: 4s;
+    }
+    
+    &:nth-child(3n) {
+      animation-duration: 5s;
+    }
+  }
+  
+  .waveContainer {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 40px;
+    overflow: hidden;
+    opacity: 0.15;
+    
+    .wave {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -20px;
+      height: 40px;
+      background: 
+        radial-gradient(ellipse at center, rgba(124, 58, 237, 0) 0%, rgba(124, 58, 237, 0.5) 70%);
+      animation: waveAnimation 8s infinite linear;
+      
+      &::before {
+        content: '';
+        position: absolute;
+        left: -50%;
+        right: -50%;
+        top: 0;
+        height: 100%;
+        background: 
+          radial-gradient(ellipse at center, rgba(236, 72, 153, 0) 0%, rgba(236, 72, 153, 0.3) 70%);
+        animation: waveAnimation 15s infinite linear reverse;
+      }
+    }
+  }
+}
+
+@keyframes dataPointPulse {
+  0%, 100% { transform: scaleY(0.8); }
+  50% { transform: scaleY(1); }
+}
+
+@keyframes waveAnimation {
+  0% { transform: translateX(-25%) scaleX(0.8); }
+  50% { transform: translateX(25%) scaleX(1.2); }
+  100% { transform: translateX(-25%) scaleX(0.8); }
+}
+
