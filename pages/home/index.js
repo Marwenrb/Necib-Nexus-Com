@@ -239,7 +239,7 @@ export default function Home() {
           <Button
             className={cn(s.cta, s.documentation, introOut && s.in)}
             arrow
-            href="/services"
+            href="#services"
           >
             our services
           </Button>
@@ -255,7 +255,7 @@ export default function Home() {
 
       <WhoWeAre features={whoWeAreFeatures} />
 
-      <section className={s.rethink}>
+      <section className={s.rethink} id="services">
         <div className={cn('layout-grid', s.pre)}>
           <div className={s.highlight}>
             <p className="h2">

@@ -188,9 +188,11 @@ export const Header = () => {
         />
       </div>
       <div className={s.headerControls}>
-        <button className={s.headerButton}>Explore</button>
-        <Link href="/contact">
-          <button className={s.headerButton}>Connect</button>
+        <Link href="/explore" className={s.headerButton}>
+          Explore
+        </Link>
+        <Link href="/contact" className={s.headerButton}>
+          Connect
         </Link>
       </div>
     </header>

@@ -224,7 +224,7 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
   align-items: center;
   gap: desktop-vw(15px);
 
-  button {
+  a, button {
     background: transparent;
     border: 1px solid $neon-blue;
     color: $neon-blue;
@@ -235,6 +235,8 @@ $neon-pink-glow-light: var(--neon-pink-glow-light);
     transition: all 0.3s ease;
     text-shadow: 0 0 desktop-vw(5px) $neon-blue-glow;
     box-shadow: 0 0 desktop-vw(5px) $neon-blue-glow;
+    text-decoration: none;
+    display: inline-block;
 
     &:hover {
       background-color: rgba($neon-blue, 0.2);

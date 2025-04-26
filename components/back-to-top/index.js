@@ -25,10 +25,16 @@ export const BackToTop = () => {
   }, [])
 
   const scrollToTop = () => {
+    // Use the window's scrollTo method to return to the very top of the page
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
     })
+    
+    // For sites using lenis smooth scrolling, ensure it also resets
+    if (window.lenis) {
+      window.lenis.scrollTo(0, { immediate: false });
+    }
   }
 
   return (

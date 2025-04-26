@@ -9,10 +9,10 @@ $colors: (
   'pink': rgb(41, 121, 255),
 );
 
-:root {
-  @each $name, $color in $colors {
-    --#{$name}: #{$color};
-    // for safari use case: https://ambientimpact.com/web/snippets/safari-bug-with-gradients-that-fade-to-transparent
-    --#{$name}-transparent: #{color.change($color, $alpha: 0)};
-  }
-}
+// Define color variables for use in component files
+$neon-blue: rgb(41, 121, 255);
+$neon-blue-glow: rgba(41, 121, 255, 0.5);
+$neon-blue-glow-light: rgba(41, 121, 255, 0.3);
+
+// :root selector removed from here - it's only allowed in global styles
+// This should be in the global.scss file
