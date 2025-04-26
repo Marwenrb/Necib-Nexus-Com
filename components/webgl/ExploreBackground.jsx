@@ -1,8 +1,10 @@
-import React, { useRef, useMemo, useEffect } from 'react';
+import React, { useRef, useMemo, useEffect, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { EffectComposer, Bloom } from '@react-three/postprocessing';
+import { EffectComposer, Bloom, ChromaticAberration, DepthOfField } from '@react-three/postprocessing';
 import { Vector3, Color, AdditiveBlending, MathUtils } from 'three';
 import { useMousePosition } from '../../utils/useMousePosition';
+import ModelViewer from './ModelViewer';
+import { Environment, Html, Float, Sparkles } from '@react-three/drei';
 
 // Particle class for background dots
 const Particles = ({ count = 2000, mouse }) => {
@@ -176,6 +178,39 @@ const Grid = ({ mouse }) => {
   );
 };
 
+// Loading component
+const Loader = () => {
+  return (
+    <Html center>
+      <div style={{ 
+        display: 'flex', 
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: 'white',
+        fontFamily: 'sans-serif'
+      }}>
+        <div style={{ 
+          width: '40px', 
+          height: '40px', 
+          border: '3px solid rgba(124, 58, 237, 0.3)',
+          borderTop: '3px solid rgba(124, 58, 237, 1)',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite',
+          marginBottom: '20px'
+        }} />
+        <style jsx>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+        <p>Loading 3D Experience...</p>
+      </div>
+    </Html>
+  );
+};
+
 // Main component export
 const ExploreBackground = ({ className }) => {
   const mouse = useRef([0, 0]);
@@ -188,12 +223,62 @@ const ExploreBackground = ({ className }) => {
   return (
     <div className={className}>
       <Canvas camera={{ position: [0, 0, 15], fov: 75 }}>
-        <ambientLight intensity={0.1} />
-        <Particles count={2000} mouse={mouse} />
-        <Grid mouse={mouse} />
-        <EffectComposer>
-          <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} height={300} />
-        </EffectComposer>
+        <ambientLight intensity={0.2} />
+        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
+        
+        <Suspense fallback={<Loader />}>
+          {/* Our custom model */}
+          <Float
+            speed={2}
+            rotationIntensity={0.2}
+            floatIntensity={0.5}
+          >
+            <ModelViewer 
+              modelPath="/models/energized_tvman_accurate.glb" 
+              mouse={mouse}
+              position={[0, -1, 0]}
+              rotation={[0, Math.PI, 0]}
+              scale={2.5}
+            />
+          </Float>
+          
+          {/* Enhanced particles */}
+          <Particles count={1800} mouse={mouse} />
+          <Grid mouse={mouse} />
+          
+          {/* Sparkles for magical effect */}
+          <Sparkles 
+            count={50} 
+            scale={12} 
+            size={4} 
+            speed={0.3} 
+            opacity={0.5}
+            color={'#7c3aed'} 
+          />
+          
+          {/* Enhanced post-processing */}
+          <EffectComposer>
+            <Bloom 
+              luminanceThreshold={0.2} 
+              luminanceSmoothing={0.9} 
+              height={300} 
+              opacity={1.5}
+            />
+            <ChromaticAberration 
+              offset={[0.0015, 0.0015]} 
+              radialModulation={true}
+              modulationOffset={0.5}
+            />
+            <DepthOfField
+              focusDistance={0.01}
+              focalLength={0.02}
+              bokehScale={3}
+            />
+          </EffectComposer>
+          
+          {/* Environment lighting */}
+          <Environment preset="night" background={false} />
+        </Suspense>
       </Canvas>
     </div>
   );

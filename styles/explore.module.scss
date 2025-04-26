@@ -10,7 +10,7 @@
   overflow: hidden;
 }
 
-.canvasContainer {
+.backgroundContainer {
   position: fixed;
   top: 0;
   left: 0;
@@ -18,6 +18,16 @@
   height: 100%;
   z-index: 0;
   pointer-events: none;
+}
+
+.loadingBackground {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #000, #0a0a1a);
+  z-index: 0;
 }
 
 .container {
@@ -115,9 +125,8 @@
 }
 
 /* Section Styles */
-.gallerySection,
-.storySection,
-.cardsSection {
+.cardsSection,
+.ctaSection {
   min-height: 100vh;
   padding: 100px 5%;
   position: relative;
@@ -215,179 +224,144 @@
   }
 }
 
-/* Story Section Styles */
-.storyFlow {
-  display: flex;
-  flex-direction: column;
-  max-width: 1000px;
+/* Cards Grid */
+.cardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 30px;
+  max-width: 1400px;
   margin: 0 auto;
-  position: relative;
-}
-
-.storyConnector {
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 2px;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(124, 58, 237, 0.3),
-    rgba(72, 149, 239, 0.3)
-  );
-  transform-origin: top;
-  z-index: 0;
   
   @include mobile {
-    left: 20px;
+    grid-template-columns: 1fr;
+    gap: 20px;
   }
 }
 
-.storyCard {
+/* CTA Section Styles */
+.ctaSection {
   display: flex;
-  padding: 30px;
-  border-radius: 16px;
-  margin-bottom: 60px;
-  background: rgba(20, 20, 30, 0.5);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.7),
+    rgba(0, 0, 0, 0.9)
+  );
   position: relative;
-  z-index: 1;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  border: 1px solid rgba(255, 255, 255, 0.1);
   overflow: hidden;
   
-  &:last-child {
-    margin-bottom: 0;
-  }
-  
-  @include mobile {
-    flex-direction: column;
-    padding: 20px;
-  }
-}
-
-.storyImageContainer {
-  width: 150px;
-  height: 150px;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-  flex-shrink: 0;
-  margin-right: 30px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  
-  @include mobile {
-    width: 80px;
-    height: 80px;
-    margin-right: 0;
-    margin-bottom: 20px;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      circle at center,
+      rgba(124, 58, 237, 0.1),
+      transparent 70%
+    );
+    pointer-events: none;
   }
 }
 
-.storyImage {
-  transition: transform 0.5s ease;
+.ctaContent {
+  text-align: center;
+  max-width: 800px;
+  padding: 0 20px;
+  z-index: 2;
 }
 
-.imageOverlay {
-  position: absolute;
-  inset: 0;
+.ctaTitle {
+  font-size: 48px;
+  font-weight: 800;
+  margin-bottom: 20px;
+  line-height: 1.2;
   background: linear-gradient(
     135deg,
-    rgba(124, 58, 237, 0.3),
-    rgba(72, 149, 239, 0.3)
+    rgba(255, 255, 255, 1),
+    rgba(124, 58, 237, 1)
   );
-  mix-blend-mode: overlay;
-}
-
-.storyContent {
-  flex: 1;
-}
-
-.storyTitle {
-  font-size: 32px;
-  font-weight: 700;
-  margin-bottom: 15px;
-  color: white;
-  position: relative;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
   
   @include mobile {
-    font-size: 24px;
+    font-size: 32px;
   }
 }
 
-.storyDescription {
-  font-size: 18px;
-  line-height: 1.7;
+.ctaSubtitle {
+  font-size: 20px;
   color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 40px;
+  line-height: 1.6;
   
   @include mobile {
     font-size: 16px;
+    margin-bottom: 30px;
   }
-}
-
-.storyNumber {
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  font-size: 80px;
-  font-weight: 900;
-  color: rgba(255, 255, 255, 0.03);
-  pointer-events: none;
-  
-  @include mobile {
-    font-size: 60px;
-    top: 10px;
-    right: 10px;
-  }
-}
-
-/* Cards Section Styles */
-.cardsContainer {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 40px;
-  max-width: 1280px;
-  margin: 0 auto 60px;
-  
-  @include mobile {
-    gap: 30px;
-  }
-}
-
-.ctaContainer {
-  display: flex;
-  justify-content: center;
-  margin-top: 50px;
 }
 
 .ctaButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 16px 32px;
   background: linear-gradient(
     135deg,
-    rgba(124, 58, 237, 0.2),
-    rgba(72, 149, 239, 0.2)
-  ) !important;
-  backdrop-filter: blur(10px) !important;
-  -webkit-backdrop-filter: blur(10px) !important;
-  border: 1px solid rgba(124, 58, 237, 0.3) !important;
-  padding: 15px 30px !important;
-  border-radius: 50px !important;
-  color: white !important;
-  font-size: 18px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.5px !important;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2) !important;
-  transition: all 0.3s ease !important;
+    rgba(124, 58, 237, 1),
+    rgba(72, 149, 239, 0.9)
+  );
+  color: white;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(124, 58, 237, 0.4);
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
   
-  &:hover {
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background: linear-gradient(
       135deg,
-      rgba(124, 58, 237, 0.4),
-      rgba(72, 149, 239, 0.4)
-    ) !important;
-    transform: translateY(-5px) !important;
-    box-shadow: 0 15px 40px rgba(124, 58, 237, 0.3) !important;
+      rgba(72, 149, 239, 0.9),
+      rgba(124, 58, 237, 1)
+    );
+    z-index: -1;
+    transition: opacity 0.3s ease;
+    opacity: 0;
+  }
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(124, 58, 237, 0.6);
+    
+    &::before {
+      opacity: 1;
+    }
+  }
+  
+  .ctaIcon {
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+  }
+  
+  &:hover .ctaIcon {
+    transform: translateX(5px);
+  }
+  
+  @include mobile {
+    padding: 14px 28px;
+    font-size: 16px;
   }
 }
 
@@ -397,9 +371,9 @@
     transform: translateY(0);
   }
   40% {
-    transform: translateY(-10px);
+    transform: translateY(-15px);
   }
   60% {
-    transform: translateY(-5px);
+    transform: translateY(-7px);
   }
 } 
