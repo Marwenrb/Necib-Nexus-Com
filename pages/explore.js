@@ -11,9 +11,9 @@ import Head from 'next/head'
 import { TypeAnimation } from 'react-type-animation'
 import gsap from 'gsap'
 
-// Dynamic import for 3D background
-const ExploreBackground = dynamic(
-  () => import('../components/webgl/ExploreBackground'),
+// Dynamic import for 3D background - REPLACED with new implementation
+const NextGenScene = dynamic(
+  () => import('../components/webgl/NextGenScene'),
   { ssr: false, loading: () => <div className={styles.loadingBackground} /> }
 )
 
@@ -230,10 +230,10 @@ export default function Explore() {
         theme="dark"
         className={styles.explorePage}
       >
-        {/* Hero Section with 3D Background */}
+        {/* Hero Section with 3D Background - USING NEW COMPONENT */}
         <section className={styles.heroSection} ref={heroRef}>
           <div className={styles.backgroundContainer}>
-            <ExploreBackground />
+            <NextGenScene />
           </div>
           
           {/* Hero Content with Advanced Animations */}
