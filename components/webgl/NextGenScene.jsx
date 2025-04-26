@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect, Suspense } from 'react';
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { 
   useGLTF, 
   OrbitControls, 
@@ -12,9 +12,11 @@ import {
   ContactShadows,
   useHelper,
   BakeShadows,
-  Text3D
+  Text3D,
+  useProgress
 } from '@react-three/drei';
-import { 
+// Temporarily remove postprocessing imports
+/* import { 
   EffectComposer, 
   Bloom, 
   ChromaticAberration, 
@@ -22,7 +24,7 @@ import {
   Vignette, 
   Glitch, 
   DepthOfField
-} from '@react-three/postprocessing';
+} from '@react-three/postprocessing'; */
 import { 
   Color,
   SpotLightHelper, 
@@ -30,7 +32,43 @@ import {
   MathUtils
 } from 'three';
 import { useMousePosition } from '../../utils/useMousePosition';
-import { BlendFunction } from 'postprocessing';
+// import { BlendFunction } from 'postprocessing';
+
+// Enhanced loading indicator component with progress
+const Loader = () => {
+  const { progress, active, item } = useProgress();
+  
+  return (
+    <Html center>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        color: '#fff',
+        fontFamily: 'sans-serif'
+      }}>
+        <div style={{
+          width: '50px',
+          height: '50px',
+          border: '3px solid rgba(124, 58, 237, 0.2)',
+          borderTop: '3px solid rgba(124, 58, 237, 1)',
+          borderRadius: '50%',
+          animation: 'spin 1s linear infinite',
+          marginBottom: '20px'
+        }} />
+        <style jsx>{`
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+        `}</style>
+        <p>Loading 3D Experience... {Math.round(progress)}%</p>
+        {active && <p>Loading: {item}</p>}
+      </div>
+    </Html>
+  );
+};
 
 // Main 3D model component focused on the TV Man
 const CustomModel = ({ mouse }) => {
@@ -38,6 +76,7 @@ const CustomModel = ({ mouse }) => {
   const spotLight = useRef();
   const spotLight2 = useRef();
   const pointLight = useRef();
+  const [modelLoaded, setModelLoaded] = useState(false);
   
   // Debug helpers for development
   // useHelper(spotLight, SpotLightHelper, 'cyan');
@@ -45,49 +84,64 @@ const CustomModel = ({ mouse }) => {
   // useHelper(pointLight, PointLightHelper, 0.5, 'yellow');
   
   // Load the 3D model with loading manager
-  const { scene, animations } = useGLTF('/models/energized_tvman_accurate.glb');
+  const modelPath = '/models/energized_tvman_accurate.glb';
+  const { scene, animations } = useGLTF(modelPath);
   const { actions, mixer } = useAnimations(animations, group);
   
   // Setup animations and model properties
   useEffect(() => {
-    // Play all animations for a dynamic effect
-    if (animations.length > 0) {
-      Object.keys(actions).forEach(key => {
-        const action = actions[key];
-        action.reset().play();
-        action.setEffectiveTimeScale(0.8); // Slightly slower for better visuals
-      });
-    }
+    console.log("Model loading started for:", modelPath);
     
-    // Enhance model materials
-    scene.traverse((child) => {
-      if (child.isMesh) {
-        // Set up shadows
-        child.castShadow = true;
-        child.receiveShadow = true;
-        
-        // Enhance material properties
-        if (child.material) {
-          // Add glow effects
-          child.material.emissive = child.material.emissive || new Color(0, 0, 0);
-          child.material.emissiveIntensity = 0.7;
-          
-          // Improve material quality
-          if (child.material.roughness !== undefined) {
-            child.material.roughness = Math.max(0.1, child.material.roughness);
-          }
-          if (child.material.metalness !== undefined) {
-            child.material.metalness = Math.min(0.9, child.material.metalness + 0.2);
-          }
-          
-          // Add animation properties to user data
-          child.userData.initialPosition = { ...child.position };
-          child.userData.initialRotation = { ...child.rotation };
-          child.userData.randomFactor = 0.4 + Math.random() * 0.6;
-          child.userData.randomOffset = Math.random() * Math.PI * 2;
-        }
+    try {
+      // Play all animations for a dynamic effect
+      if (animations && animations.length > 0) {
+        console.log("Animations found:", animations.length);
+        Object.keys(actions).forEach(key => {
+          console.log("Playing animation:", key);
+          const action = actions[key];
+          action.reset().play();
+          action.setEffectiveTimeScale(0.8); // Slightly slower for better visuals
+        });
+      } else {
+        console.log("No animations found in the model");
       }
-    });
+      
+      // Enhance model materials
+      scene.traverse((child) => {
+        if (child.isMesh) {
+          console.log("Configuring mesh:", child.name);
+          // Set up shadows
+          child.castShadow = true;
+          child.receiveShadow = true;
+          
+          // Enhance material properties
+          if (child.material) {
+            // Add glow effects
+            child.material.emissive = child.material.emissive || new Color(0, 0, 0);
+            child.material.emissiveIntensity = 0.7;
+            
+            // Improve material quality
+            if (child.material.roughness !== undefined) {
+              child.material.roughness = Math.max(0.1, child.material.roughness);
+            }
+            if (child.material.metalness !== undefined) {
+              child.material.metalness = Math.min(0.9, child.material.metalness + 0.2);
+            }
+            
+            // Add animation properties to user data
+            child.userData.initialPosition = { ...child.position };
+            child.userData.initialRotation = { ...child.rotation };
+            child.userData.randomFactor = 0.4 + Math.random() * 0.6;
+            child.userData.randomOffset = Math.random() * Math.PI * 2;
+          }
+        }
+      });
+      
+      setModelLoaded(true);
+      console.log("Model successfully configured");
+    } catch (error) {
+      console.error("Error setting up model:", error);
+    }
     
     return () => {
       // Clean up animations
@@ -104,11 +158,11 @@ const CustomModel = ({ mouse }) => {
         }
       });
     };
-  }, [scene, animations, actions]);
+  }, [scene, animations, actions, modelPath]);
   
   // Animation loop 
-  React.useFrame((state, delta) => {
-    if (!group.current) return;
+  useFrame((state, delta) => {
+    if (!group.current || !modelLoaded) return;
     
     const time = state.clock.getElapsedTime();
     
@@ -222,14 +276,14 @@ const CustomModel = ({ mouse }) => {
   );
 };
 
-// Floating particles for background
+// Improved floating particles for background
 const ParticlesField = () => {
   const points = useRef();
   
   // Generate particles data
   const particles = React.useMemo(() => {
     const temp = [];
-    const count = 350; // Reduced count for better performance
+    const count = 200; // Reduced count for better performance
     
     for (let i = 0; i < count; i++) {
       const size = Math.random() * 0.5 + 0.1;
@@ -242,8 +296,13 @@ const ParticlesField = () => {
     return temp;
   }, []);
   
+  // Create positions array
+  const positions = React.useMemo(() => {
+    return new Float32Array(particles.flatMap(p => p.position));
+  }, [particles]);
+  
   // Animate particles
-  React.useFrame((state) => {
+  useFrame((state) => {
     if (!points.current) return;
     
     const time = state.clock.getElapsedTime();
@@ -258,7 +317,7 @@ const ParticlesField = () => {
         <bufferAttribute
           attach="attributes-position"
           count={particles.length}
-          array={new Float32Array(particles.flatMap(p => p.position))}
+          array={positions}
           itemSize={3}
         />
       </bufferGeometry>
@@ -273,37 +332,6 @@ const ParticlesField = () => {
   );
 };
 
-// Loading indicator component
-const Loader = () => (
-  <Html center>
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: '#fff',
-      fontFamily: 'sans-serif'
-    }}>
-      <div style={{
-        width: '50px',
-        height: '50px',
-        border: '3px solid rgba(124, 58, 237, 0.2)',
-        borderTop: '3px solid rgba(124, 58, 237, 1)',
-        borderRadius: '50%',
-        animation: 'spin 1s linear infinite',
-        marginBottom: '20px'
-      }} />
-      <style jsx>{`
-        @keyframes spin {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-      `}</style>
-      <p>Loading 3D Experience...</p>
-    </div>
-  </Html>
-);
-
 // Main scene component
 const NextGenScene = ({ className }) => {
   const mouse = useRef([0, 0]);
@@ -316,7 +344,12 @@ const NextGenScene = ({ className }) => {
   
   return (
     <div className={className}>
-      <Canvas shadows dpr={[1, 2]} camera={{ position: [0, 0, 20], fov: 60 }}>
+      <Canvas 
+        shadows 
+        dpr={[1, 1.5]} // Reduced DPR for better performance
+        camera={{ position: [0, 0, 20], fov: 60 }}
+        performance={{ min: 0.5 }} // Add performance optimization
+      >
         {/* Base lighting */}
         <ambientLight intensity={0.2} />
         <hemisphereLight intensity={0.3} color="#7c3aed" groundColor="#000" />
@@ -337,7 +370,7 @@ const NextGenScene = ({ className }) => {
           <Stars 
             radius={50} 
             depth={50} 
-            count={2000} 
+            count={1000} // Reduced for better performance
             factor={4} 
             saturation={0.5} 
             fade
@@ -354,8 +387,8 @@ const NextGenScene = ({ className }) => {
             color="#7c3aed"
           />
           
-          {/* Post-processing effects */}
-          <EffectComposer multisampling={0}>
+          {/* Temporarily disable post-processing effects */}
+          {/* <EffectComposer multisampling={0}>
             <Bloom 
               luminanceThreshold={0.15} 
               luminanceSmoothing={0.9} 
@@ -380,7 +413,7 @@ const NextGenScene = ({ className }) => {
               focalLength={0.02}
               bokehScale={5}
             />
-          </EffectComposer>
+          </EffectComposer> */}
           
           {/* Environment */}
           <Environment preset="night" background={false} blur={0.8} />
