@@ -181,24 +181,6 @@ export default function Contact() {
         <WebGL />
       </div>
 
-      {/* Floating contact button */}
-      <motion.div 
-        className={styles.floatingContact}
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ 
-          type: 'spring',
-          stiffness: 400,
-          damping: 17,
-          delay: 1.2
-        }}
-      >
-        <a href="#contact-form">
-          <FaEnvelope />
-          <span>Contact</span>
-        </a>
-      </motion.div>
-
       {/* Premium hero section */}
       <motion.div 
         className={styles.heroSection}
@@ -544,46 +526,56 @@ export default function Contact() {
                         <div className={styles.horizontalLine}></div>
                       </div>
                       
-                      {/* Cutting-edge Futuristic Metrics Display */}
-                      <motion.div 
-                        className={styles.futuristicMetricsDisplay}
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 1.2, duration: 0.6 }}
-                      >
+                      {/* System Telemetry Display - PREMIUM UPGRADE */}
+                      <div className={styles.futuristicMetricsDisplay}>
                         <div className={styles.metricsHeader}>
                           <div className={styles.metricLabel}>
-                            <div className={styles.hexagon}></div>
-                            System Telemetry
+                            <div className={styles.luxuryBadge}>
+                              <div className={styles.badgeInner}>
+                                <div className={styles.badgeDot}></div>
+                              </div>
+                            </div>
+                            <span className={styles.telemetryLabel}>System Telemetry</span>
                           </div>
+                          
                           <div className={styles.statusIndicator}>
-                            <span className={styles.liveStatus}>LIVE</span>
-                            <span className={styles.timestamp}>{new Date().toLocaleTimeString()}</span>
+                            <div className={styles.liveStatus}>LIVE</div>
+                            <div className={styles.timestamp}>{new Date().toISOString().split('T')[0]}</div>
                           </div>
                         </div>
                         
-                        <div className={styles.metricsGrid}>
-                          <FuturisticMetric label="Innovation Factor" value={97.8} maxValue={100} color="#7c3aed" />
-                          <FuturisticMetric label="Design Index" value={99.2} maxValue={100} color="#ec4899" />
-                          <FuturisticMetric label="User Experience" value={98.5} maxValue={100} color="#0ea5e9" />
-                          <FuturisticMetric label="Performance" value={95.9} maxValue={100} color="#10b981" />
+                        <div className={styles.compactMetricsGrid}>
+                          {[
+                            { name: 'Innovation', value: 99, color: 'rgba(124, 58, 237, 0.8)' },
+                            { name: 'Design', value: 98, color: 'rgba(236, 72, 153, 0.8)' },
+                            { name: 'Experience', value: 97, color: 'rgba(79, 70, 229, 0.8)' },
+                            { name: 'Performance', value: 96, color: 'rgba(16, 185, 129, 0.8)' }
+                          ].map((metric, i) => (
+                            <CompactMetric 
+                              key={i}
+                              name={metric.name}
+                              value={metric.value}
+                              color={metric.color}
+                              delay={i * 0.1}
+                            />
+                          ))}
                         </div>
                         
-                        <div className={styles.dataVisualizer}>
-                          <div className={styles.dataLine}></div>
-                          <div className={styles.dataPoints}>
-                            {[...Array(12)].map((_, i) => (
-                              <div key={i} className={styles.dataPoint} style={{ 
-                                height: `${20 + Math.random() * 40}px`,
-                                animationDelay: `${i * 0.2}s`
-                              }}></div>
+                        <div className={styles.dataVisualizerCompact}>
+                          <div className={styles.waveVisualization}>
+                            {Array.from({ length: 24 }).map((_, i) => (
+                              <div 
+                                key={i} 
+                                className={styles.waveBar} 
+                                style={{ 
+                                  height: `${Math.random() * 30 + 10}px`,
+                                  animationDelay: `${i * 0.08}s`
+                                }}
+                              ></div>
                             ))}
                           </div>
-                          <div className={styles.waveContainer}>
-                            <div className={styles.wave}></div>
-                          </div>
                         </div>
-                      </motion.div>
+                      </div>
                     </div>
                   </motion.div>
                 </motion.div>
@@ -653,49 +645,51 @@ const TypewriterEffect = () => {
   );
 };
 
-// Premium Futuristic Metric Component
-const FuturisticMetric = ({ label, value, maxValue, color }) => {
+// Premium Compact Metric Component
+const CompactMetric = ({ name, value, color, delay = 0 }) => {
   const [currentValue, setCurrentValue] = useState(0);
   
   useEffect(() => {
-    const duration = 2000; // 2 seconds
-    const interval = 20; // Update every 20ms
-    const steps = duration / interval;
-    const increment = value / steps;
-    let currentStep = 0;
-    
-    const timer = setInterval(() => {
-      currentStep++;
-      setCurrentValue(Math.min(increment * currentStep, value));
+    const startAnimation = setTimeout(() => {
+      const interval = setInterval(() => {
+        setCurrentValue(prev => {
+          const nextValue = prev + 1;
+          if (nextValue >= value) {
+            clearInterval(interval);
+            return value;
+          }
+          return nextValue;
+        });
+      }, 15);
       
-      if (currentStep >= steps) {
-        clearInterval(timer);
-      }
-    }, interval);
+      return () => clearInterval(interval);
+    }, delay * 1000);
     
-    return () => clearInterval(timer);
-  }, [value]);
-  
-  const percentage = (currentValue / maxValue) * 100;
+    return () => clearTimeout(startAnimation);
+  }, [value, delay]);
   
   return (
-    <div className={styles.metricContainer}>
-      <div className={styles.metricInfo}>
-        <div className={styles.metricName}>{label}</div>
-        <div className={styles.metricValue} style={{ color: color }}>
-          {currentValue.toFixed(1)}
-          <span className={styles.metricUnit}>%</span>
+    <motion.div 
+      className={styles.compactMetricContainer}
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, delay: delay + 0.2 }}
+    >
+      <div className={styles.metricLabelValue}>
+        <div className={styles.compactMetricName}>{name}</div>
+        <div className={styles.compactMetricValue} style={{ color }}>
+          {currentValue}
         </div>
       </div>
-      <div className={styles.metricBar}>
-        <div 
-          className={styles.metricProgress} 
-          style={{ 
-            width: `${percentage}%`,
-            backgroundColor: color
-          }}
-        ></div>
+      <div className={styles.compactMetricBar}>
+        <motion.div 
+          className={styles.compactMetricProgress}
+          style={{ background: color }}
+          initial={{ width: 0 }}
+          animate={{ width: `${currentValue}%` }}
+          transition={{ duration: 0.1 }}
+        />
       </div>
-    </div>
+    </motion.div>
   );
 };

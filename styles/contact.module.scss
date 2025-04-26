@@ -29,68 +29,6 @@
   }
 }
 
-// Floating contact button with premium design
-.floatingContact {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 100;
-  
-  a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.6rem;
-    padding: 0.8rem 1.4rem;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 50px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
-    font-weight: 500;
-    font-size: 0.95rem;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-    
-    &:hover {
-      background: rgba(124, 58, 237, 0.2);
-      box-shadow: 0 8px 25px rgba(124, 58, 237, 0.3);
-      transform: translateY(-3px);
-    }
-    
-    &:active {
-      transform: translateY(-1px);
-    }
-    
-    svg {
-      font-size: 1.1rem;
-      color: rgba(124, 58, 237, 1);
-    }
-    
-    span {
-      background: linear-gradient(90deg, #fff, #aaa);
-      -webkit-background-clip: text;
-      background-clip: text;
-      -webkit-text-fill-color: transparent;
-      color: transparent;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    bottom: 1.5rem;
-    right: 1.5rem;
-    
-    a {
-      padding: 0.7rem;
-      
-      span {
-        display: none;
-      }
-    }
-  }
-}
-
 // Enhanced hero section with advanced styling
 .heroSection {
   position: relative;
@@ -1137,38 +1075,47 @@ textarea.formControl {
   }
 }
 
-// Cutting-edge Futuristic Metrics Display
+// Upgraded Premium Futuristic Metrics Display
 .futuristicMetricsDisplay {
-  margin-top: 2rem;
-  background: rgba(10, 10, 25, 0.4);
-  border-radius: 14px;
-  border: 1px solid rgba(124, 58, 237, 0.15);
   position: relative;
+  width: 100%;
+  background: rgba(10, 14, 25, 0.85);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border-radius: 12px;
   overflow: hidden;
-  
-  // Futuristic corner accents
-  &::before, &::after {
-    content: '';
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-color: rgba(124, 58, 237, 0.5);
-    border-style: solid;
-    z-index: 1;
-  }
+  padding: 16px;
+  margin: 20px 0;
+  border: 1px solid rgba(79, 70, 229, 0.15);
+  box-shadow: 
+    0 10px 30px -10px rgba(0, 0, 0, 0.6),
+    0 0 0 1px rgba(79, 70, 229, 0.1) inset,
+    0 0 20px rgba(79, 70, 229, 0.05) inset;
   
   &::before {
+    content: '';
+    position: absolute;
     top: 0;
     left: 0;
-    border-width: 2px 0 0 2px;
-    border-top-left-radius: 4px;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      rgba(79, 70, 229, 0) 0%, 
+      rgba(79, 70, 229, 0.6) 50%, 
+      rgba(79, 70, 229, 0) 100%);
   }
   
   &::after {
+    content: '';
+    position: absolute;
     bottom: 0;
-    right: 0;
-    border-width: 0 2px 2px 0;
-    border-bottom-right-radius: 4px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, 
+      rgba(79, 70, 229, 0) 0%, 
+      rgba(79, 70, 229, 0.2) 50%, 
+      rgba(79, 70, 229, 0) 100%);
   }
 }
 
@@ -1176,50 +1123,116 @@ textarea.formControl {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 1.2rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(79, 70, 229, 0.12);
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 30%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(79, 70, 229, 0.8), rgba(79, 70, 229, 0));
+  }
 }
 
 .metricLabel {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 0.85rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  gap: 6px;
+}
+
+.luxuryBadge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border-radius: 4px;
+  background: rgba(20, 24, 42, 0.7);
   position: relative;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   
-  .hexagon {
-    width: 12px;
-    height: 14px;
-    background: rgba(124, 58, 237, 0.8);
-    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    padding: 1px;
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.8), rgba(79, 70, 229, 0.3));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+  }
+  
+  .badgeInner {
+    width: 7px;
+    height: 7px;
+    border-radius: 2px;
+    background: linear-gradient(135deg, #7c3aed, #4f46e5);
     position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 6px rgba(124, 58, 237, 0.5);
     
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 2px;
-      background: rgba(15, 15, 30, 0.8);
-      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+    .badgeDot {
+      width: 2px;
+      height: 2px;
+      border-radius: 50%;
+      background: white;
+      opacity: 0.8;
     }
+  }
+}
+
+.telemetryLabel {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  color: rgba(255, 255, 255, 0.9);
+  text-transform: uppercase;
+  background: linear-gradient(90deg, #fff 30%, #a78bfa 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 8px rgba(124, 58, 237, 0.2);
+  position: relative;
+  padding-right: 12px;
+  
+  &::after {
+    content: 'v2.1';
+    position: absolute;
+    right: 0;
+    top: 0;
+    font-size: 8px;
+    color: rgba(124, 58, 237, 0.8);
+    font-weight: 700;
   }
 }
 
 .statusIndicator {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
+  gap: 8px;
+  background: rgba(20, 24, 42, 0.5);
+  padding: 4px 8px;
+  border-radius: 4px;
+  border: 1px solid rgba(79, 70, 229, 0.15);
   
   .liveStatus {
-    color: #10b981;
-    font-size: 0.7rem;
+    font-size: 9px;
+    text-transform: uppercase;
     font-weight: 700;
-    letter-spacing: 0.05em;
+    background: linear-gradient(90deg, #ef4444, #f87171);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
     position: relative;
-    padding-left: 12px;
+    padding-left: 10px;
+    letter-spacing: 1px;
     
     &::before {
       content: '';
@@ -1227,192 +1240,212 @@ textarea.formControl {
       left: 0;
       top: 50%;
       transform: translateY(-50%);
-      width: 6px;
-      height: 6px;
-      background-color: #10b981;
+      width: 4px;
+      height: 4px;
       border-radius: 50%;
-      animation: blink 2s infinite;
+      background: #ef4444;
+      animation: pulse 2s infinite;
     }
   }
   
   .timestamp {
-    font-size: 0.7rem;
+    font-size: 9px;
     color: rgba(255, 255, 255, 0.5);
-    font-family: monospace;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.2px;
+    position: relative;
+    padding-left: 12px;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      left: 4px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+    }
   }
 }
 
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-
-.metricsGrid {
+.compactMetricsGrid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1.2rem;
-  padding: 1.2rem;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-bottom: 14px;
   
-  @media (max-width: 600px) {
-    grid-template-columns: 1fr;
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-.metricContainer {
-  background: rgba(15, 15, 30, 0.5);
-  border-radius: 10px;
-  padding: 0.8rem 1rem;
+.compactMetricContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: rgba(20, 24, 42, 0.3);
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(79, 70, 229, 0.08);
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background: rgba(20, 24, 42, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.3);
+    
+    .compactMetricProgress {
+      opacity: 1;
+    }
+  }
+}
+
+.metricLabelValue {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.compactMetricName {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.6);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.compactMetricValue {
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.5px;
   position: relative;
+  
+  &::after {
+    content: '%';
+    font-size: 8px;
+    font-weight: 400;
+    position: absolute;
+    right: -8px;
+    top: 0;
+    color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+.compactMetricBar {
+  height: 3px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 1.5px;
   overflow: hidden;
+  position: relative;
+}
+
+.compactMetricProgress {
+  height: 100%;
+  border-radius: 1.5px;
+  transition: all 0.3s ease-out;
+  opacity: 0.9;
+  background-image: linear-gradient(90deg, 
+    rgba(124, 58, 237, 0.9), 
+    rgba(79, 70, 229, 0.9)
+  );
+  box-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
   
   &::after {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(to right, transparent, rgba(124, 58, 237, 0.3), transparent);
-  }
-}
-
-.metricInfo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.6rem;
-}
-
-.metricName {
-  font-size: 0.75rem;
-  color: rgba(255, 255, 255, 0.65);
-  font-weight: 500;
-}
-
-.metricValue {
-  font-size: 1rem;
-  font-weight: 700;
-  font-family: 'Inter', sans-serif;
-  letter-spacing: -0.01em;
-  
-  .metricUnit {
-    font-size: 0.7rem;
-    opacity: 0.7;
-    margin-left: 1px;
-  }
-}
-
-.metricBar {
-  height: 4px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 2px;
-  overflow: hidden;
-  
-  .metricProgress {
+    right: 0;
+    width: 5px;
     height: 100%;
-    border-radius: 2px;
-    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    
-    &::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 10px;
-      height: 100%;
-      background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.3));
-    }
+    background: white;
+    opacity: 0.5;
+    filter: blur(2px);
   }
 }
 
-// Ultra-futuristic data visualization
-.dataVisualizer {
-  margin-top: 0.5rem;
-  height: 80px;
-  padding: 0 1.2rem 1.2rem;
+.dataVisualizerCompact {
+  padding-top: 8px;
+  border-top: 1px solid rgba(79, 70, 229, 0.08);
   position: relative;
   
-  .dataLine {
+  &::before {
+    content: 'ACTIVITY';
     position: absolute;
-    top: 50%;
-    left: 1.2rem;
-    right: 1.2rem;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.1);
-  }
-  
-  .dataPoints {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    position: relative;
-    z-index: 1;
-  }
-  
-  .dataPoint {
-    width: 3px;
-    background: linear-gradient(to top, 
-      rgba(124, 58, 237, 0.1), 
-      rgba(124, 58, 237, 0.4), 
-      rgba(236, 72, 153, 0.6)
-    );
-    border-radius: 2px;
-    transform-origin: bottom;
-    animation: dataPointPulse 3s infinite;
-    
-    &:nth-child(even) {
-      animation-duration: 4s;
-    }
-    
-    &:nth-child(3n) {
-      animation-duration: 5s;
-    }
-  }
-  
-  .waveContainer {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: 40px;
-    overflow: hidden;
-    opacity: 0.15;
-    
-    .wave {
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -20px;
-      height: 40px;
-      background: 
-        radial-gradient(ellipse at center, rgba(124, 58, 237, 0) 0%, rgba(124, 58, 237, 0.5) 70%);
-      animation: waveAnimation 8s infinite linear;
-      
-      &::before {
-        content: '';
-        position: absolute;
-        left: -50%;
-        right: -50%;
-        top: 0;
-        height: 100%;
-        background: 
-          radial-gradient(ellipse at center, rgba(236, 72, 153, 0) 0%, rgba(236, 72, 153, 0.3) 70%);
-        animation: waveAnimation 15s infinite linear reverse;
-      }
-    }
+    top: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(20, 24, 42, 0.7);
+    padding: 0 8px;
+    font-size: 8px;
+    color: rgba(124, 58, 237, 0.7);
+    font-weight: 700;
+    letter-spacing: 1px;
   }
 }
 
-@keyframes dataPointPulse {
-  0%, 100% { transform: scaleY(0.8); }
-  50% { transform: scaleY(1); }
+.waveVisualization {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 30px;
+  padding: 0 5px;
+}
+
+.waveBar {
+  flex: 1;
+  min-height: 3px;
+  background: linear-gradient(to top, 
+    rgba(79, 70, 229, 0.3),
+    rgba(124, 58, 237, 0.7) 70%,
+    rgba(167, 139, 250, 1)
+  );
+  border-radius: 1px;
+  animation: waveAnimation 1.8s ease-in-out infinite;
+  transform-origin: bottom;
+  opacity: 0.7;
+  transition: all 0.2s;
+  
+  &:hover {
+    opacity: 1;
+    animation-play-state: paused;
+    box-shadow: 0 0 8px rgba(124, 58, 237, 0.5);
+  }
+  
+  &:nth-child(odd) {
+    animation-duration: 2.2s;
+  }
+  
+  &:nth-child(3n) {
+    animation-duration: 1.5s;
+  }
+  
+  &:nth-child(3n+1) {
+    animation-delay: 0.3s;
+  }
 }
 
 @keyframes waveAnimation {
-  0% { transform: translateX(-25%) scaleX(0.8); }
-  50% { transform: translateX(25%) scaleX(1.2); }
-  100% { transform: translateX(-25%) scaleX(0.8); }
+  0%, 100% {
+    transform: scaleY(0.8);
+  }
+  50% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+  }
 }
 
 // Ultra-Premium Welcome Message
