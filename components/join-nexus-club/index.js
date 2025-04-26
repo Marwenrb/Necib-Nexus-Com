@@ -10,10 +10,11 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)
 }
 
-// TypingText component for the animated typing effect
+// TypingText component for the animated typing effect with scroll synchronization
 const TypingText = ({ text, className, delay = 0, speed = 0.035, onComplete }) => {
   const textRef = useRef(null)
   const cursorRef = useRef(null)
+  const containerRef = useRef(null)
   const [displayedText, setDisplayedText] = useState('')
   const [isTyping, setIsTyping] = useState(true)
   const prefersReducedMotion = useRef(
@@ -30,23 +31,17 @@ const TypingText = ({ text, className, delay = 0, speed = 0.035, onComplete }) =
       return
     }
 
-    let currentIndex = 0
     const totalChars = text.length
     const textElement = textRef.current
     const cursorElement = cursorRef.current
+    const container = containerRef.current
 
-    if (!textElement || !cursorElement) return
+    if (!textElement || !cursorElement || !container) return
 
     // Reset
     setDisplayedText('')
     
-    // Precompute the typing timeline for better performance
-    const steps = []
-    for (let i = 0; i < totalChars; i++) {
-      steps.push(i + 1)
-    }
-    
-    // Create typing timeline
+    // Create advanced typing timeline with scroll synchronization
     const typingTl = gsap.timeline({ 
       delay,
       onComplete: () => {
@@ -55,7 +50,7 @@ const TypingText = ({ text, className, delay = 0, speed = 0.035, onComplete }) =
       }
     })
 
-    // Type each character with a slight delay - optimized for performance
+    // Type each character with a scroll-aware implementation
     typingTl.to(textElement, {
       duration: speed * totalChars,
       onUpdate: function() {
@@ -66,7 +61,7 @@ const TypingText = ({ text, className, delay = 0, speed = 0.035, onComplete }) =
       ease: "none"
     })
 
-    // Add blinking cursor after typing is complete
+    // Add scroll-reactive cursor animation
     typingTl.add(() => {
       gsap.to(cursorElement, {
         opacity: 0,
@@ -77,11 +72,34 @@ const TypingText = ({ text, className, delay = 0, speed = 0.035, onComplete }) =
       })
     })
 
-    return () => typingTl.kill()
+    // Add scroll trigger to synchronize with page scrolling
+    ScrollTrigger.create({
+      trigger: container,
+      start: "top 80%",
+      onEnter: () => {
+        if (typingTl.progress() === 0) {
+          typingTl.play(0)
+        }
+      },
+      onLeaveBack: () => {
+        if (typingTl.progress() > 0 && typingTl.progress() < 1) {
+          typingTl.pause()
+        }
+      }
+    })
+
+    return () => {
+      typingTl.kill()
+      ScrollTrigger.getAll().forEach(st => {
+        if (st.vars.trigger === container) {
+          st.kill()
+        }
+      })
+    }
   }, [text, delay, speed, onComplete])
 
   return (
-    <div className={cn(s.typingContainer, className)} aria-live="polite">
+    <div ref={containerRef} className={cn(s.typingContainer, className)} aria-live="polite">
       {/* Accessible text for screen readers */}
       <span className={s.srOnly}>{text}</span>
       
@@ -313,7 +331,7 @@ export const JoinNexusClubSection = () => {
       duration: 0.4,
     })
     
-    // Set up scroll-based animation with better performance
+    // Set up scroll-based animation with improved performance
     const scrollTl = gsap.timeline({
       scrollTrigger: {
         trigger: section,
@@ -324,7 +342,7 @@ export const JoinNexusClubSection = () => {
         anticipatePin: 1,
         fastScrollEnd: true, // Improve performance during fast scrolling
         onUpdate: (self) => {
-          // Update scroll phase based on progress
+          // Update scroll phase based on progress with smoother transitions
           const progress = self.progress
           if (progress < 0.1) {
             if (scrollPhase !== 0) {
@@ -334,14 +352,14 @@ export const JoinNexusClubSection = () => {
             // Trigger the exit animation at exactly this point for consistency
             if (scrollPhase !== 1) {
               setScrollPhase(1)
-              typingExitTl.progress(Math.min((progress - 0.1) * 5, 1)) // Normalize to 0-1
+              typingExitTl.progress(Math.min((progress - 0.1) * 5, 1))
             } else {
-              typingExitTl.progress(Math.min((progress - 0.1) * 5, 1)) // Update progress
+              typingExitTl.progress(Math.min((progress - 0.1) * 5, 1))
             }
           } else {
             if (scrollPhase !== 2) {
               setScrollPhase(2)
-              typingExitTl.progress(1) // Ensure exit is complete
+              typingExitTl.progress(1)
             }
           }
         }
@@ -356,12 +374,22 @@ export const JoinNexusClubSection = () => {
       ease: "none",
     }, 0)
     
-    // Reveal form/club content as user scrolls down - appearing from bottom
+    // Improved form reveal - comes in from bottom with better timing
     scrollTl.fromTo(formContent, 
-      { y: "50%", opacity: 0 },
+      { y: "30%", opacity: 0 },
       { y: "0%", opacity: 1, ease: "power1.out", duration: 0.6 },
-      0.15
+      0.2 // Slightly later start for better sequence
     )
+    
+    // Fix scroll icon and message overlap with form
+    if (scrollPromptRef.current) {
+      scrollTl.to(scrollPromptRef.current, {
+        opacity: 0,
+        y: -50,
+        duration: 0.25,
+        ease: "power1.in"
+      }, 0.05)
+    }
     
     // Clean up animations on unmount
     return () => {
@@ -402,7 +430,7 @@ export const JoinNexusClubSection = () => {
               className={s.textContent}
             >
               <TypingText 
-                text="Elevate Your Digital Presence | NEXUS" 
+                text="Propel Into Digital Tomorrow | NEXUS" 
                 className={s.mainTitle}
                 delay={0.3}
                 speed={0.035}
@@ -417,7 +445,7 @@ export const JoinNexusClubSection = () => {
                     <div className={s.chevron}></div>
                   </div>
                   <ParallaxTextLines 
-                    lines={["Redefining Tomorrow's Digital Landscape"]} 
+                    lines={["Quantum Innovations for the Visionaries of Tomorrow"]} 
                     className={s.scrollTagline}
                   />
                 </div>
@@ -438,9 +466,9 @@ export const JoinNexusClubSection = () => {
                           <div className={s.formBadge}>Exclusive Access</div>
                           <h2 className={s.clubTitle}>Join NEXUS Club</h2>
                           <p className={s.clubDescription}>
-                            Become part of an exclusive community where innovation meets luxury. 
-                            The NEXUS Club offers unprecedented access to premium events, 
-                            personalized services, and a network of industry pioneers.
+                            Access the future's edge where innovation meets exclusivity. 
+                            NEXUS Club connects you with pioneering minds and cutting-edge 
+                            digital solutions that redefine tomorrow.
                           </p>
                         </div>
                         
