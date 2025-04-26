@@ -1,42 +1,49 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <!-- Advanced Gradients and Filters -->
+  <!-- Enhanced Gradients and Filters for Next-Gen Design -->
   <defs>
-    <!-- Main background gradient using the new brand color -->
+    <!-- Futuristic background gradient with dynamic feel -->
     <linearGradient id="backgroundGradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#5352ED" />
+      <stop offset="50%" stop-color="#6363ff" />
       <stop offset="100%" stop-color="#7373FF" />
     </linearGradient>
     
-    <!-- Text gradient with enhanced contrast -->
+    <!-- Enhanced 3D text gradient with better contrast -->
     <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#FFFFFF" />
       <stop offset="100%" stop-color="#F0F0FF" />
     </linearGradient>
     
-    <!-- Premium glow effect -->
+    <!-- Premium holographic glow effect -->
     <filter id="premium-glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="6" result="blur" />
-      <feFlood flood-color="#5352ED" flood-opacity="0.6" result="glow-color" />
+      <feGaussianBlur stdDeviation="8" result="blur" />
+      <feFlood flood-color="#5352ED" flood-opacity="0.7" result="glow-color" />
       <feComposite in="glow-color" in2="blur" operator="in" result="colored-blur" />
       <feComposite in="SourceGraphic" in2="colored-blur" operator="over" />
     </filter>
     
-    <!-- Subtle inner shadow -->
+    <!-- Advanced inner shadow for depth perception -->
     <filter id="inner-shadow" x="-10%" y="-10%" width="120%" height="120%">
       <feOffset dx="0" dy="2" />
-      <feGaussianBlur stdDeviation="2" result="offset-blur" />
+      <feGaussianBlur stdDeviation="3" result="offset-blur" />
       <feComposite operator="out" in="SourceGraphic" in2="offset-blur" result="inverse" />
-      <feFlood flood-color="#000000" flood-opacity="0.2" result="color" />
+      <feFlood flood-color="#000000" flood-opacity="0.3" result="color" />
       <feComposite operator="in" in="color" in2="inverse" result="shadow" />
       <feComposite operator="over" in="shadow" in2="SourceGraphic" />
     </filter>
     
-    <!-- SVG Animation -->
+    <!-- Quantum circuit pattern for futuristic touch -->
+    <pattern id="quantumPattern" patternUnits="userSpaceOnUse" width="60" height="60" patternTransform="rotate(45)">
+      <path d="M10 0 V60 M20 0 V60 M30 0 V60 M40 0 V60 M50 0 V60 M0 10 H60 M0 20 H60 M0 30 H60 M0 40 H60 M0 50 H60" 
+            stroke="rgba(255,255,255,0.07)" stroke-width="1" />
+    </pattern>
+    
+    <!-- Enhanced SVG Animation -->
     <style type="text/css">
       @keyframes pulse {
-        0% { opacity: 0.8; filter: brightness(0.9); }
+        0% { opacity: 0.9; filter: brightness(0.95); }
         50% { opacity: 1; filter: brightness(1.1); }
-        100% { opacity: 0.8; filter: brightness(0.9); }
+        100% { opacity: 0.9; filter: brightness(0.95); }
       }
       
       @keyframes rotate {
@@ -44,8 +51,29 @@
         100% { transform: rotate(360deg); }
       }
       
+      @keyframes quantum-pulse {
+        0% { opacity: 0.3; }
+        50% { opacity: 0.7; }
+        100% { opacity: 0.3; }
+      }
+      
       .main-circle {
-        animation: pulse 4s infinite ease-in-out;
+        animation: pulse 6s infinite ease-in-out;
+      }
+      
+      .quantum-layer {
+        animation: quantum-pulse 8s infinite ease-in-out;
+      }
+      
+      .outer-ring {
+        stroke-dasharray: 1600;
+        stroke-dashoffset: 1600;
+        animation: dash 10s ease-in-out infinite alternate;
+      }
+      
+      @keyframes dash {
+        from { stroke-dashoffset: 1600; }
+        to { stroke-dashoffset: 0; }
       }
       
       .accent-circle {
@@ -54,30 +82,43 @@
       }
       
       .nn-text {
-        animation: pulse 3s infinite ease-in-out;
+        animation: pulse 5s infinite ease-in-out;
+      }
+      
+      .glow-effect {
+        animation: pulse 4s infinite ease-in-out reverse;
       }
     </style>
   </defs>
   
-  <!-- Main circle with premium gradient -->
+  <!-- Main background circle with premium gradient -->
   <circle class="main-circle" cx="256" cy="256" r="240" fill="url(#backgroundGradient)" />
+  
+  <!-- Quantum circuit pattern layer -->
+  <circle class="quantum-layer" cx="256" cy="256" r="220" fill="url(#quantumPattern)" />
+  
+  <!-- Outer animated ring -->
+  <circle class="outer-ring" cx="256" cy="256" r="248" stroke="rgba(255,255,255,0.2)" stroke-width="2" fill="none" />
   
   <!-- Inner accent circle - rotating -->
   <circle class="accent-circle" cx="256" cy="256" r="210" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-opacity="0.15" stroke-dasharray="15,10" />
   
-  <!-- Small decorative circles -->
-  <circle cx="256" cy="98" r="12" fill="#FFFFFF" fill-opacity="0.2" />
-  <circle cx="256" cy="414" r="12" fill="#FFFFFF" fill-opacity="0.2" />
-  <circle cx="98" cy="256" r="12" fill="#FFFFFF" fill-opacity="0.2" />
-  <circle cx="414" cy="256" r="12" fill="#FFFFFF" fill-opacity="0.2" />
+  <!-- Floating decorative accent points -->
+  <circle cx="256" cy="88" r="10" fill="#FFFFFF" fill-opacity="0.3" />
+  <circle cx="256" cy="424" r="10" fill="#FFFFFF" fill-opacity="0.3" />
+  <circle cx="88" cy="256" r="10" fill="#FFFFFF" fill-opacity="0.3" />
+  <circle cx="424" cy="256" r="10" fill="#FFFFFF" fill-opacity="0.3" />
   
-  <!-- "NN" Text with enhanced styling -->
+  <!-- Advanced "NN" Text with enhanced styling and glow -->
   <g class="nn-text" filter="url(#premium-glow)">
     <path d="M152 172V328M152 172L208 328M152 172H208M208 172V328" 
           stroke="url(#textGradient)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" />
     <path d="M302 172V328M302 172L358 328M302 172H358M358 172V328" 
           stroke="url(#textGradient)" stroke-width="24" stroke-linecap="round" stroke-linejoin="round" />
   </g>
+  
+  <!-- Enhanced glow effect -->
+  <circle class="glow-effect" cx="256" cy="256" r="260" fill="none" stroke="rgba(83, 82, 237, 0.15)" stroke-width="12" />
   
   <!-- Subtle inner shadow for depth -->
   <circle cx="256" cy="256" r="240" fill="none" stroke="#FFFFFF" stroke-width="1" stroke-opacity="0.3" filter="url(#inner-shadow)" />
