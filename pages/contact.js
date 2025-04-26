@@ -209,6 +209,46 @@ export default function Contact() {
       >
         <div className={styles.heroOverlay}></div>
         <div className={styles.heroContent}>
+          {/* Ultra-Premium Welcome Message */}
+          <motion.div 
+            className={styles.premiumWelcome}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1.5, delay: 0.2 }}
+          >
+            <div className={styles.welcomeBadge}>
+              <span className={styles.badgeIcon}>⚡</span>
+              <motion.span 
+                className={styles.badgeText}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.6 }}
+              >
+                NEXUS EXPERIENCE
+              </motion.span>
+            </div>
+            
+            <motion.h2 
+              className={styles.welcomeHeadline}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.8 }}
+            >
+              <span className={styles.gradientText}>Elevate</span> Your Digital Vision
+            </motion.h2>
+            
+            <motion.div 
+              className={styles.welcomeDivider}
+              initial={{ width: 0 }}
+              animate={{ width: "100%" }}
+              transition={{ duration: 1, delay: 1.2 }}
+            >
+              <div className={styles.dividerLine}></div>
+              <div className={styles.dividerDot}></div>
+              <div className={styles.dividerLine}></div>
+            </motion.div>
+          </motion.div>
+          
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={heroInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
