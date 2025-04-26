@@ -8,6 +8,8 @@ import styles from '../styles/explore.module.scss'
 import { FaChevronDown, FaArrowRight } from 'react-icons/fa'
 import { Button } from 'components/button'
 import Head from 'next/head'
+import { TypeAnimation } from 'react-type-animation'
+import gsap from 'gsap'
 
 // Dynamic import for 3D background
 const ExploreBackground = dynamic(
@@ -30,6 +32,7 @@ const TransformCard = dynamic(
 export default function Explore() {
   const [scrollY, setScrollY] = useState(0)
   const heroRef = useRef(null)
+  const textRef = useRef(null)
   const { scrollYProgress } = useScroll()
   
   // Transform values for parallax scrolling effects
@@ -47,6 +50,46 @@ export default function Explore() {
     triggerOnce: false,
     threshold: 0.1,
   })
+  
+  // Word list for typing animation
+  const wordList = [
+    'Innovation', 2000,
+    'Creativity', 2000,
+    'Technology', 2000,
+    'Excellence', 2000,
+    'Digital Frontiers', 3000,
+  ]
+  
+  // GSAP text animation effect
+  useEffect(() => {
+    if (textRef.current) {
+      const title = textRef.current.querySelector(`.${styles.heroTitle}`)
+      const subtitle = textRef.current.querySelector(`.${styles.heroSubtitle}`)
+      const chars = title.querySelectorAll('.char')
+      
+      gsap.set(chars, { opacity: 0, y: 20 })
+      gsap.set(subtitle, { opacity: 0, y: 20 })
+      
+      const tl = gsap.timeline({ delay: 0.5 })
+      
+      // Animate hero title characters
+      tl.to(chars, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        stagger: 0.03,
+        ease: "power2.out"
+      })
+      
+      // Animate subtitle after title animation
+      tl.to(subtitle, {
+        opacity: 1,
+        y: 0,
+        duration: 0.8,
+        ease: "power2.out"
+      }, "-=0.4")
+    }
+  }, [])
   
   // Update scroll position
   useEffect(() => {
@@ -193,18 +236,39 @@ export default function Explore() {
             <ExploreBackground />
           </div>
           
+          {/* Hero Content with Advanced Animations */}
           <motion.div 
             className={styles.heroContent}
             style={{ opacity, y, scale }}
+            ref={textRef}
           >
+            {/* Animated Badge */}
             <motion.div 
-              className={styles.headingContainer}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: "easeOut", delay: 0.5 }}
+              className={styles.heroBadge}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ 
+                duration: 0.8, 
+                ease: [0.22, 1, 0.36, 1],
+                delay: 0.2
+              }}
             >
+              <div className={styles.badgeInner}>
+                <span>Premium Experience</span>
+              </div>
+            </motion.div>
+            
+            <motion.div className={styles.headingContainer}>
               <h1 className={styles.heroTitle}>
-                Explore <span className={styles.gradientText}>Digital Frontiers</span>
+                Explore <span className={styles.dynamicText}>
+                  <TypeAnimation
+                    sequence={wordList}
+                    wrapper="span"
+                    speed={50}
+                    repeat={Infinity}
+                    className={styles.gradientText}
+                  />
+                </span>
               </h1>
               <p className={styles.heroSubtitle}>
                 Discover innovative technologies and solutions designed 
@@ -212,20 +276,73 @@ export default function Explore() {
               </p>
             </motion.div>
             
+            {/* Enhanced CTA buttons with modern design */}
+            <motion.div 
+              className={styles.heroCta}
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ 
+                duration: 0.8,
+                delay: 1.2,
+                ease: [0.22, 1, 0.36, 1]
+              }}
+            >
+              <motion.a 
+                href="#solutions" 
+                className={`${styles.ctaButtonPrimary} ${styles.heroButton}`}
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 20px 30px rgba(124, 58, 237, 0.3)"
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Discover Solutions
+              </motion.a>
+              
+              <motion.a 
+                href="/contact" 
+                className={`${styles.ctaButtonSecondary} ${styles.heroButton}`}
+                whileHover={{ 
+                  scale: 1.05,
+                  boxShadow: "0 15px 25px rgba(0, 0, 0, 0.2)"
+                }}
+                whileTap={{ scale: 0.95 }}
+              >
+                Get in Touch
+              </motion.a>
+            </motion.div>
+            
+            {/* Enhanced scroll indicator with animation */}
             <motion.div
               className={styles.scrollPrompt}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.5, duration: 1 }}
+              transition={{ delay: 1.8, duration: 1 }}
             >
+              <motion.div
+                className={styles.mouseScroll}
+                initial={{ y: 0 }}
+                animate={{ y: [0, 10, 0] }}
+                transition={{
+                  duration: 1.5,
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  ease: "easeInOut",
+                  delay: 2
+                }}
+              >
+                <span className={styles.mouseWheel}></span>
+              </motion.div>
               <span>Scroll to explore</span>
-              <FaChevronDown className={styles.scrollIcon} />
             </motion.div>
           </motion.div>
+          
+          {/* Gradient Overlay for Depth */}
+          <div className={styles.heroGradientOverlay}></div>
         </section>
         
         {/* Solutions Section */}
-        <section className={styles.cardsSection} ref={sectionRef1}>
+        <section id="solutions" className={styles.cardsSection} ref={sectionRef1}>
           <div className={styles.sectionHeader}>
             <div className={styles.titleDecoration}>
               <div className={styles.line}></div>

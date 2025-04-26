@@ -57,8 +57,49 @@
   z-index: 2;
 }
 
+/* Premium Badge */
+.heroBadge {
+  display: inline-flex;
+  margin-bottom: 40px;
+  will-change: transform;
+  
+  .badgeInner {
+    padding: 8px 16px;
+    border-radius: 50px;
+    background: rgba(124, 58, 237, 0.15);
+    border: 1px solid rgba(124, 58, 237, 0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 10px 30px rgba(124, 58, 237, 0.2);
+    
+    span {
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, #fff, #a78bfa);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+  }
+  
+  @include mobile {
+    margin-bottom: 30px;
+    
+    .badgeInner {
+      padding: 6px 12px;
+      
+      span {
+        font-size: 12px;
+      }
+    }
+  }
+}
+
 .headingContainer {
-  margin-bottom: 80px;
+  margin-bottom: 40px;
 }
 
 .heroTitle {
@@ -71,6 +112,17 @@
   
   @include mobile {
     font-size: 40px;
+  }
+}
+
+.dynamicText {
+  display: inline-block;
+  min-width: 200px;
+  min-height: 1.2em;
+  vertical-align: bottom;
+  
+  @include mobile {
+    min-width: 150px;
   }
 }
 
@@ -99,6 +151,71 @@
   }
 }
 
+/* Hero CTA Buttons */
+.heroCta {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 60px;
+  
+  @include mobile {
+    flex-direction: column;
+    gap: 15px;
+    width: 100%;
+    max-width: 280px;
+    margin-bottom: 50px;
+  }
+}
+
+.heroButton {
+  padding: 16px 32px;
+  font-size: 16px;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+  
+  @include mobile {
+    padding: 14px 24px;
+    font-size: 15px;
+    min-width: 100%;
+  }
+}
+
+.ctaButtonPrimary {
+  background: linear-gradient(
+    135deg,
+    rgba(124, 58, 237, 1), // Purple
+    rgba(72, 149, 239, 0.9) // Blue
+  );
+  color: #fff;
+  border: none;
+  box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
+  
+  &:hover {
+    box-shadow: 0 15px 30px rgba(124, 58, 237, 0.6);
+  }
+}
+
+.ctaButtonSecondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+  
+  &:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+  }
+}
+
+/* Enhanced Scroll Indicator */
 .scrollPrompt {
   position: absolute;
   bottom: 40px;
@@ -106,16 +223,54 @@
   flex-direction: column;
   align-items: center;
   color: rgba(255, 255, 255, 0.7);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
   
   span {
-    margin-bottom: 10px;
+    margin-top: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  @include mobile {
+    bottom: 30px;
+    font-size: 12px;
   }
 }
 
-.scrollIcon {
-  animation: bounce 2s infinite;
+.mouseScroll {
+  width: 30px;
+  height: 50px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 20px;
+  position: relative;
+  
+  .mouseWheel {
+    position: absolute;
+    left: 50%;
+    top: 10px;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.7;
+  }
+}
+
+.heroGradientOverlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8),
+    rgba(0, 0, 0, 0)
+  );
+  z-index: 1;
+  pointer-events: none;
 }
 
 .parallaxContainer {

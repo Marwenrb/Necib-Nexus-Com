@@ -1,13 +1,13 @@
 import React, { useRef, useMemo, useEffect, Suspense } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { EffectComposer, Bloom, ChromaticAberration, DepthOfField } from '@react-three/postprocessing';
+import { EffectComposer, Bloom, ChromaticAberration, DepthOfField, Noise, Vignette } from '@react-three/postprocessing';
 import { Vector3, Color, AdditiveBlending, MathUtils } from 'three';
 import { useMousePosition } from '../../utils/useMousePosition';
 import ModelViewer from './ModelViewer';
-import { Environment, Html, Float, Sparkles } from '@react-three/drei';
+import { Environment, Html, Float, Sparkles, OrbitControls, PerspectiveCamera } from '@react-three/drei';
 
 // Particle class for background dots
-const Particles = ({ count = 2000, mouse }) => {
+const Particles = ({ count = 1500, mouse }) => {
   const mesh = useRef();
   const light = useRef();
   const { size, viewport } = useThree();
@@ -222,58 +222,77 @@ const ExploreBackground = ({ className }) => {
   
   return (
     <div className={className}>
-      <Canvas camera={{ position: [0, 0, 15], fov: 75 }}>
+      <Canvas shadows camera={{ position: [0, 0, 16], fov: 65 }}>
+        {/* Enhanced lighting for dramatic effect */}
         <ambientLight intensity={0.2} />
-        <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={1} castShadow />
+        <spotLight 
+          position={[10, 20, 10]} 
+          angle={0.15} 
+          penumbra={1} 
+          intensity={1.5} 
+          castShadow 
+          shadow-mapSize={[2048, 2048]}
+        />
+        <spotLight
+          position={[-10, -10, -10]}
+          angle={0.3}
+          penumbra={1}
+          intensity={0.8}
+          color="#4895ef"
+        />
         
         <Suspense fallback={<Loader />}>
-          {/* Our custom model */}
+          {/* Centered and more prominent 3D model */}
           <Float
-            speed={2}
+            speed={1.5}
             rotationIntensity={0.2}
-            floatIntensity={0.5}
+            floatIntensity={0.3}
+            position={[0, -1, 2]} // Adjusted position to be more central
           >
             <ModelViewer 
               modelPath="/models/energized_tvman_accurate.glb" 
               mouse={mouse}
-              position={[0, -1, 0]}
-              rotation={[0, Math.PI, 0]}
-              scale={2.5}
+              position={[0, 0, 0]}
+              rotation={[0, Math.PI * 0.05, 0]} // Slight rotation for better viewing angle
+              scale={3.0} // Increased scale
             />
           </Float>
           
           {/* Enhanced particles */}
-          <Particles count={1800} mouse={mouse} />
+          <Particles count={1500} mouse={mouse} />
           <Grid mouse={mouse} />
           
           {/* Sparkles for magical effect */}
           <Sparkles 
-            count={50} 
-            scale={12} 
-            size={4} 
+            count={80} 
+            scale={15} 
+            size={5} 
             speed={0.3} 
-            opacity={0.5}
+            opacity={0.6}
             color={'#7c3aed'} 
+            noise={1.5} // More organic distribution
           />
           
           {/* Enhanced post-processing */}
           <EffectComposer>
             <Bloom 
-              luminanceThreshold={0.2} 
+              luminanceThreshold={0.15} 
               luminanceSmoothing={0.9} 
               height={300} 
-              opacity={1.5}
+              opacity={1.8}
             />
             <ChromaticAberration 
-              offset={[0.0015, 0.0015]} 
+              offset={[0.002, 0.002]} 
               radialModulation={true}
               modulationOffset={0.5}
             />
             <DepthOfField
               focusDistance={0.01}
-              focalLength={0.02}
-              bokehScale={3}
+              focalLength={0.025}
+              bokehScale={4}
             />
+            <Noise opacity={0.025} />
+            <Vignette eskil={false} offset={0.1} darkness={0.5} />
           </EffectComposer>
           
           {/* Environment lighting */}
