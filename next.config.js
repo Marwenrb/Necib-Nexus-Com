@@ -16,6 +16,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export',
   reactStrictMode: true,
   experimental: {
     optimizeCss: true,
@@ -26,6 +27,7 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   images: {
+    unoptimized: true,
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60,
     domains: [],
@@ -47,38 +49,32 @@ const nextConfig = {
               svgoConfig: {
                 multipass: true,
                 plugins: [
-                  'removeDimensions',
-                  'removeOffCanvasPaths',
-                  'reusePaths',
-                  'removeElementsByAttr',
-                  'removeStyleElement',
-                  'removeScriptElement',
+                  'removeDoctype',
+                  'removeXMLProcInst',
+                  'removeComments',
+                  'removeMetadata',
+                  'removeEditorsNSData',
+                  'removeTitle',
+                  'removeDesc',
+                  'removeUselessDefs',
+                  'removeEmptyAttrs',
+                  'removeHiddenElems',
+                  'removeEmptyText',
+                  'removeEmptyContainers',
+                  'cleanupEnableBackground',
+                  'minifyStyles',
+                  'convertStyleToAttrs',
+                  'convertColors',
+                  'convertPathData',
+                  'convertTransform',
+                  'removeNonInheritableGroupAttrs',
+                  'removeUselessStrokeAndFill',
+                  'removeUnusedNS',
                   'prefixIds',
-                  'cleanupIDs',
-                  {
-                    name: 'cleanupNumericValues',
-                    params: {
-                      floatPrecision: 1,
-                    },
-                  },
-                  {
-                    name: 'convertPathData',
-                    params: {
-                      floatPrecision: 1,
-                    },
-                  },
-                  {
-                    name: 'convertTransform',
-                    params: {
-                      floatPrecision: 1,
-                    },
-                  },
-                  {
-                    name: 'cleanupListOfValues',
-                    params: {
-                      floatPrecision: 1,
-                    },
-                  },
+                  'removeRasterImages',
+                  'sortAttrs',
+                  'removeDimensions',
+                  'removeViewBox'
                 ],
               },
             },
@@ -126,36 +122,6 @@ const nextConfig = {
     }
 
     return config
-  },
-  headers: async () => {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN',
-          },
-          {
-            key: 'X-XSS-Protection',
-            value: '1; mode=block',
-          },
-        ],
-      },
-    ]
-  },
-  redirects: async () => {
-    return [
-      {
-        source: '/home',
-        destination: '/',
-        permanent: true,
-      },
-    ]
   },
   compress: true,
   swcMinify: true,

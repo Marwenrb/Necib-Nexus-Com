@@ -290,25 +290,33 @@ export const JoinNexusClubSection = () => {
     // Initialize Lenis smooth scrolling if available in the project
     let lenis
     try {
-      const Lenis = require('@studio-freight/lenis').default
-      if (Lenis) {
-        lenis = new Lenis({
-          duration: 1.2,
-          easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-          orientation: 'vertical',
-          smoothTouch: false
-        })
-        
-        // Integration with GSAP
-        function raf(time) {
-          lenis.raf(time)
+      // Use dynamic import for ESM modules
+      import('lenis').then((module) => {
+        const Lenis = module.default;
+        if (Lenis) {
+          lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            orientation: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+          })
+          
+          // Integration with GSAP
+          function raf(time) {
+            lenis.raf(time)
+            requestAnimationFrame(raf)
+          }
+          
           requestAnimationFrame(raf)
         }
-        
-        requestAnimationFrame(raf)
-      }
+      }).catch(err => {
+        console.error('Error loading Lenis module:', err)
+      });
     } catch (err) {
-      console.log('Lenis not available, using native scroll')
+      console.warn('Smooth scroll not available:', err)
     }
     
     return () => {
