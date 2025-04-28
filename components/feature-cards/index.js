@@ -62,25 +62,36 @@ const cards = [
 export const FeatureCards = () => {
   const element = useRef()
   const [setRef, rect] = useRect()
-  const { height: windowHeight } = useWindowSize()
+  const { width: windowWidth, height: windowHeight } = useWindowSize()
 
   const [current, setCurrent] = useState()
+  const [rotation, setRotation] = useState(0)
+  const isMobile = windowWidth < 768
 
   useScroll(
     ({ scroll }) => {
-      const start = rect.top - windowHeight * 2
-      const end = rect.top + rect.height - windowHeight
+      if (isMobile) {
+        const startOffset = rect.top - windowHeight
+        const visibleHeight = windowHeight * cards.length
+        const scrollProgress = clamp(0, mapRange(startOffset, startOffset + visibleHeight, scroll, 0, 1), 1)
+        
+        const newRotation = scrollProgress * 360
+        setRotation(newRotation)
+      } else {
+        const start = rect.top - windowHeight * 2
+        const end = rect.top + rect.height - windowHeight
 
-      const progress = clamp(0, mapRange(start, end, scroll, 0, 1), 1)
+        const progress = clamp(0, mapRange(start, end, scroll, 0, 1), 1)
 
-      element.current.style.setProperty(
-        '--progress',
-        clamp(0, mapRange(rect.top, end, scroll, 0, 1), 1)
-      )
-      const step = Math.floor(progress * 10)
-      setCurrent(step)
+        element.current.style.setProperty(
+          '--progress',
+          clamp(0, mapRange(rect.top, end, scroll, 0, 1), 1)
+        )
+        const step = Math.floor(progress * 10)
+        setCurrent(step)
+      }
     },
-    [rect]
+    [rect, windowWidth]
   )
 
   return (
@@ -100,14 +111,15 @@ export const FeatureCards = () => {
             </AppearTitle>
           </p>
         </aside>
-        <div ref={element}>
+        <div ref={element} className={s.cardsWrapper}>
           {cards.map((card, index) => (
             <SingleCard
               key={index}
               index={index}
               text={card.text}
               image={card.image}
-              current={index <= current - 1}
+              rotation={isMobile ? rotation : 0}
+              current={!isMobile && index <= current - 1}
             />
           ))}
         </div>
@@ -116,12 +128,13 @@ export const FeatureCards = () => {
   )
 }
 
-const SingleCard = ({ text, image, index, current }) => {
+const SingleCard = ({ text, image, index, rotation, current }) => {
   const cardRef = useRef(null)
+  const { width: windowWidth } = useWindowSize()
+  const isMobile = windowWidth < 768
 
   const handleMouseMove = useCallback((e) => {
-    if (!cardRef.current) return
-
+    if (!cardRef.current || isMobile) return
     const card = cardRef.current
     const rect = card.getBoundingClientRect()
     const x = e.clientX - rect.left
@@ -134,19 +147,33 @@ const SingleCard = ({ text, image, index, current }) => {
     const rotateX = (centerY - y) / 20
 
     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg)`
-  }, [])
+  }, [isMobile])
 
   const handleMouseLeave = useCallback(() => {
-    if (!cardRef.current) return
-    cardRef.current.style.transform =
-      'perspective(1000px) rotateX(0) rotateY(0)'
-  }, [])
+    if (!cardRef.current || isMobile) return
+    cardRef.current.style.transform = 'perspective(1000px) rotateX(0) rotateY(0)'
+  }, [isMobile])
+
+  let style = {}
+  if (isMobile) {
+    const cardPosition = (index * (360 / cards.length)) % 360
+    
+    const rotationDiff = ((cardPosition - rotation) % 360 + 360) % 360
+    const normalizedDiff = rotationDiff > 180 ? 360 - rotationDiff : rotationDiff
+    
+    const opacity = Math.max(0, 1 - (normalizedDiff / 90))
+    
+    style = {
+      transform: `translate(-50%, -50%) rotateY(${cardPosition - rotation}deg) translateZ(500px)`,
+      opacity: opacity,
+    }
+  }
 
   return (
     <div
       ref={cardRef}
-      className={cn(s.card, current && s.current)}
-      style={{ '--i': index }}
+      className={cn(s.card, { [s.current]: current })}
+      style={isMobile ? style : { '--i': index }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >

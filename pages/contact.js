@@ -7,6 +7,7 @@ import 'mapbox-gl/dist/mapbox-gl.css'
 import styles from '../styles/contact.module.scss'
 import { FaMapMarkerAlt, FaPhone, FaEnvelope, FaCheckCircle, FaArrowRight, FaLinkedin, FaTwitter, FaInstagram, FaBuilding } from 'react-icons/fa'
 import { motion, AnimatePresence } from 'framer-motion'
+import { BackToHome } from 'components/back-to-home'
 
 // Static import of WebGL for better performance
 const WebGL = dynamic(
@@ -185,6 +186,9 @@ export default function Contact() {
       theme="dark"
       className={styles.contactPage}
     >
+      {/* Add BackToHome component with dark theme */}
+      <BackToHome theme="dark" position="top-right" />
+      
       {/* WebGL background with preserved animations */}
       <div className={styles.canvasContainer} ref={webglRef}>
         <WebGL />

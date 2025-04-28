@@ -1,0 +1,1 @@
+export { BackToHome } from './back-to-home' 

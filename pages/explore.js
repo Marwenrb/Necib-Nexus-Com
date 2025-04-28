@@ -10,6 +10,7 @@ import { Button } from 'components/button'
 import Head from 'next/head'
 import { TypeAnimation } from 'react-type-animation'
 import gsap from 'gsap'
+import { BackToHome } from 'components/back-to-home'
 
 // Dynamic import for 3D background with enhanced performance
 const NextGenScene = dynamic(
@@ -223,6 +224,9 @@ export default function Explore() {
         <title>Explore | Necib Nexus</title>
         <meta name="description" content="Explore innovative digital solutions and cutting-edge technologies with Necib Nexus, your partner in digital transformation." />
       </Head>
+      
+      {/* Add BackToHome component with dark theme */}
+      <BackToHome theme="dark" position="top-left" />
       
       {/* Add the 3D background at the layout level to ensure full page coverage */}
       <div className={styles.backgroundContainer}>

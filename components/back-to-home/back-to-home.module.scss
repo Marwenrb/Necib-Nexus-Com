@@ -1,0 +1,184 @@
+@import 'styles/_functions';
+
+.backToHome {
+  position: fixed;
+  z-index: 100;
+  display: block;
+  text-decoration: none;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: auto;
+  opacity: 1;
+  
+  // Position variants
+  &.top-left {
+    top: 5rem;
+    left: 1.5rem;
+
+    @include mobile {
+      top: 4rem;
+      left: 1rem;
+    }
+  }
+  
+  &.top-right {
+    top: 5rem;
+    right: 1.5rem;
+    
+    @include mobile {
+      top: 4rem;
+      right: 1rem;
+    }
+  }
+  
+  &.bottom-left {
+    bottom: 2rem;
+    left: 1.5rem;
+    
+    @include mobile {
+      bottom: 1.5rem;
+      left: 1rem;
+    }
+  }
+  
+  &.bottom-right {
+    bottom: 2rem;
+    right: 1.5rem;
+    
+    @include mobile {
+      bottom: 1.5rem;
+      right: 1rem;
+    }
+  }
+  
+  // Theme variants
+  &.light {
+    .container {
+      background: rgba(255, 255, 255, 0.08);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      
+      .iconCircle {
+        background: rgba(255, 255, 255, 0.15);
+      }
+      
+      .glow {
+        background: linear-gradient(90deg, 
+          rgba(255, 255, 255, 0.15) 0%, 
+          rgba(255, 255, 255, 0.03) 100%
+        );
+      }
+    }
+    
+    &:hover .container {
+      background: rgba(255, 255, 255, 0.12);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+  }
+  
+  &.dark {
+    .container {
+      background: rgba(20, 20, 20, 0.8);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      
+      .iconCircle {
+        background: rgba(255, 255, 255, 0.1);
+      }
+      
+      .glow {
+        background: linear-gradient(90deg, 
+          rgba(83, 82, 237, 0.2) 0%, 
+          rgba(83, 82, 237, 0.05) 100%
+        );
+      }
+    }
+    
+    &:hover .container {
+      background: rgba(30, 30, 30, 0.9);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+  }
+  
+  // Scrolled state (adds shadow for better visibility when scrolling)
+  &.scrolled .container {
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  }
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-radius: 100px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+  
+  @include mobile {
+    padding: 0.35rem 0.8rem;
+  }
+}
+
+.iconCircle {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 8px;
+  position: relative;
+  z-index: 2;
+  
+  @include mobile {
+    width: 24px;
+    height: 24px;
+    margin-right: 6px;
+  }
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  font-size: 14px;
+  
+  @include mobile {
+    font-size: 12px;
+  }
+}
+
+.text {
+  position: relative;
+  z-index: 2;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  margin-right: 4px;
+  white-space: nowrap;
+  
+  @include mobile {
+    font-size: 12px;
+  }
+}
+
+.glow {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  opacity: 0.5;
+  transition: opacity 0.3s ease;
+}
+
+.container:hover .glow {
+  opacity: 0.8;
+} 

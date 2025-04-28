@@ -4,97 +4,28 @@
   height: 1600vh;
   position: relative;
 
+  @include mobile {
+    height: calc(100vh * 9); // 9 cards * 100vh
+  }
+
   @include desktop {
     min-height: desktop-vw(1310px);
   }
+}
 
-  .card {
-    --d: 100vh;
-
+.cardsWrapper {
+  position: relative;
+  
+  @include mobile {
     position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%; 
+    transform-style: preserve-3d;
+    transform: translate(-50%, -50%);
     will-change: transform;
-    transition-duration: 1.2s;
-    transition-property: opacity, transform;
-    transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
-    transform-origin: center center;
-    filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
-
-    @include mobile {
-      @for $i from 0 through 8 {
-        &:nth-child(#{$i + 1}) {
-          top: calc(
-            (
-                (
-                    (100 * var(--vh, 1vh)) -
-                      #{mobile-vw(440px)} -
-                      (var(--layout-margin))
-                  ) /
-                  8
-              ) *
-              $i
-          );
-        }
-      }
-    }
-
-    @include desktop {
-      @for $i from 0 through 8 {
-        &:nth-child(#{$i + 1}) {
-          top: calc(
-            (
-                (var(--d) - #{desktop-vw(440px)} - (2 * var(--layout-margin))) /
-                  8
-              ) *
-              $i
-          );
-          left: calc(
-            ((100vw - #{desktop-vw(440px)} - (2 * var(--layout-margin))) / 8) *
-              $i
-          );
-        }
-      }
-    }
-
-    &:not(.current) {
-      transform: translate3d(100%, 100%, 0) scale(0.8);
-      opacity: 0;
-      filter: blur(5px);
-    }
-
-    &.current {
-      animation: fadeInScalePremium 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-    }
-  }
-
-  .title {
-    text-align: end;
-    padding-bottom: var(--layout-margin);
-    position: relative;
-    z-index: 10;
-
-    @include desktop {
-      padding: 0;
-      position: absolute;
-      right: var(--layout-margin);
-    }
-
-    &:after {
-      content: '';
-      position: absolute;
-      bottom: var(--layout-margin);
-      right: 0;
-      width: 60px;
-      height: 3px;
-      background: var(--theme-contrast);
-      transform-origin: right;
-      transform: scaleX(0);
-      animation: lineReveal 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-      animation-delay: 0.5s;
-
-      @include desktop {
-        bottom: -20px;
-      }
-    }
+    z-index: 5;
   }
 }
 
@@ -104,6 +35,14 @@
   top: 0;
   height: 100vh;
   padding: var(--layout-margin);
+
+  @include mobile {
+    perspective: 1200px;
+    overflow: hidden;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
 
   @include desktop {
     &:before {
@@ -125,6 +64,91 @@
 
   > * {
     position: relative;
+  }
+}
+
+.card {
+  --d: 100vh;
+
+  position: absolute;
+  will-change: transform;
+  transition-duration: 1.2s;
+  transition-property: opacity, transform;
+  transition-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+  transform-origin: center center;
+  filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.1));
+
+  @include mobile {
+    top: 50%;
+    left: 50%;
+    width: 80vw;
+    max-width: 400px;
+    height: auto;
+    aspect-ratio: 4/3;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    will-change: transform, opacity;
+    transition: none;
+    transform-origin: center center;
+  }
+
+  @include desktop {
+    @for $i from 0 through 8 {
+      &:nth-child(#{$i + 1}) {
+        top: calc(
+          (
+              (var(--d) - #{desktop-vw(440px)} - (2 * var(--layout-margin))) /
+                8
+            ) *
+            $i
+        );
+        left: calc(
+          ((100vw - #{desktop-vw(440px)} - (2 * var(--layout-margin))) / 8) *
+            $i
+        );
+      }
+    }
+
+    &:not(.current) {
+      transform: translate3d(100%, 100%, 0) scale(0.8);
+      opacity: 0;
+      filter: blur(5px);
+    }
+
+    &.current {
+      animation: fadeInScalePremium 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    }
+  }
+}
+
+.title {
+  text-align: end;
+  padding-bottom: var(--layout-margin);
+  position: relative;
+  z-index: 10;
+
+  @include desktop {
+    padding: 0;
+    position: absolute;
+    right: var(--layout-margin);
+  }
+
+  &:after {
+    content: '';
+    position: absolute;
+    bottom: var(--layout-margin);
+    right: 0;
+    width: 60px;
+    height: 3px;
+    background: var(--theme-contrast);
+    transform-origin: right;
+    transform: scaleX(0);
+    animation: lineReveal 1.5s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+    animation-delay: 0.5s;
+
+    @include desktop {
+      bottom: -20px;
+    }
   }
 }
 
