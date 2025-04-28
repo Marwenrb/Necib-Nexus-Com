@@ -108,12 +108,21 @@ export default function Contact() {
     setSubmitting(true)
 
     try {
-      await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID,
-        formRef.current,
-        process.env.NEXT_PUBLIC_EMAILJS_USER_ID
-      )
+      // Send via API route instead of direct emailjs call
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          formData,
+          formType: 'contact',
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
 
       // Reset form on success
       setFormData({

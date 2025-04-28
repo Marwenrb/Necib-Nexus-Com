@@ -231,7 +231,7 @@ export const JoinNexusClubSection = () => {
   const [typingComplete, setTypingComplete] = useState(false)
   
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
     if (email) {
       gsap.to(e.currentTarget, {
@@ -239,8 +239,32 @@ export const JoinNexusClubSection = () => {
         duration: 0.2,
         yoyo: true,
         repeat: 1,
-        onComplete: () => {
-          setSubmitted(true)
+        onComplete: async () => {
+          try {
+            // Send form data to API endpoint
+            const response = await fetch('/api/send-email', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                formData: {
+                  email: email,
+                  message: message || 'No business goals provided'
+                },
+                formType: 'join-club',
+              }),
+            });
+
+            if (!response.ok) {
+              throw new Error('Failed to send form');
+            }
+            
+            setSubmitted(true);
+          } catch (error) {
+            console.error('Error submitting form:', error);
+            // Show error notification here if needed
+          }
         }
       })
     }
