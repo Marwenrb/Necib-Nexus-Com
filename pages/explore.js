@@ -11,10 +11,10 @@ import Head from 'next/head'
 import { TypeAnimation } from 'react-type-animation'
 import gsap from 'gsap'
 
-// Dynamic import for 3D background - REPLACED with new implementation
+// Dynamic import for 3D background with enhanced performance
 const NextGenScene = dynamic(
   () => import('../components/webgl/NextGenScene'),
-  { ssr: false, loading: () => <div className={styles.loadingBackground} /> }
+  { ssr: false }
 )
 
 // Dynamic import for parallax image section
@@ -224,20 +224,21 @@ export default function Explore() {
         <meta name="description" content="Explore innovative digital solutions and cutting-edge technologies with Necib Nexus, your partner in digital transformation." />
       </Head>
       
+      {/* Add the 3D background at the layout level to ensure full page coverage */}
+      <div className={styles.backgroundContainer}>
+        <NextGenScene />
+      </div>
+      
       <Layout 
         title="Explore | NeciB Nexus"
         description="Discover cutting-edge digital experiences and innovations with NeciB Nexus"
         theme="dark"
         className={styles.explorePage}
       >
-        {/* Hero Section with 3D Background - USING NEW COMPONENT */}
+        {/* Hero Section */}
         <section className={styles.heroSection} ref={heroRef}>
-          <div className={styles.backgroundContainer}>
-            <NextGenScene />
-          </div>
-          
           {/* Hero Content with Advanced Animations */}
-          <motion.div 
+          <motion.div
             className={styles.heroContent}
             style={{ opacity, y, scale }}
             ref={textRef}
@@ -277,7 +278,7 @@ export default function Explore() {
             </motion.div>
             
             {/* Enhanced CTA buttons with modern design */}
-            <motion.div 
+            <motion.div
               className={styles.heroCta}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
@@ -342,7 +343,7 @@ export default function Explore() {
         </section>
         
         {/* Solutions Section */}
-        <section id="solutions" className={styles.cardsSection} ref={sectionRef1}>
+        <section className={styles.cardsSection} id="solutions" ref={sectionRef1}>
           <div className={styles.sectionHeader}>
             <div className={styles.titleDecoration}>
               <div className={styles.line}></div>
