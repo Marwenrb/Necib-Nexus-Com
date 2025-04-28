@@ -7,10 +7,21 @@ const ModelViewer = ({ modelPath, mouse, scale = 3, position = [0, 0, 0], rotati
   const group = useRef();
   const spotLight = useRef();
   const pointLight = useRef();
-  const [loaded, setLoaded] = useState(false);
+  const [modelError, setModelError] = useState(false);
+  const [usingFallback, setUsingFallback] = useState(false);
   
-  // Load the model
-  const { scene, animations } = useGLTF(modelPath, true); // Enable loading manager
+  // Try to load the model with error handling
+  const { scene, animations } = useGLTF(
+    modelError ? BACKUP_MODEL_PATH : modelPath, 
+    undefined,
+    (error) => {
+      console.error("Error loading model:", error);
+      setModelError(true);
+      setUsingFallback(true);
+    }
+  );
+  
+  // Apply animations if available
   const { actions, mixer } = useAnimations(animations, group);
   
   // Debug helpers for lights (only in development)
@@ -60,7 +71,10 @@ const ModelViewer = ({ modelPath, mouse, scale = 3, position = [0, 0, 0], rotati
       }
     });
     
-    setLoaded(true);
+    // Show console message if using fallback
+    if (usingFallback) {
+      console.log("Using fallback model due to loading error with primary model");
+    }
     
     return () => {
       if (animations.length > 0) {
@@ -77,78 +91,36 @@ const ModelViewer = ({ modelPath, mouse, scale = 3, position = [0, 0, 0], rotati
         }
       });
     };
-  }, [scene, animations, actions]);
+  }, [scene, animations, actions, usingFallback]);
   
-  // Reactive animation frame
-  useFrame((state, delta) => {
-    if (!group.current || !loaded) return;
+  // Animate the model based on mouse position
+  useFrame(({ clock }) => {
+    if (!group.current) return;
     
-    const time = state.clock.getElapsedTime();
+    const time = clock.getElapsedTime();
     
-    // Smooth mouse following with enhanced responsiveness
-    const targetRotationY = mouse.current[0] * 0.12; // Slightly increased for better reactivity
-    const targetRotationX = -mouse.current[1] * 0.10;
+    // Gentle floating animation
+    group.current.position.y = position[1] + Math.sin(time * 0.5) * 0.1;
     
-    // More responsive rotation with damping
-    group.current.rotation.y = MathUtils.damp(
-      group.current.rotation.y,
-      targetRotationY + rotation[1],
-      4.0, // Higher damping for smoother movement
-      delta
-    );
-    
-    group.current.rotation.x = MathUtils.damp(
-      group.current.rotation.x,
-      targetRotationX + rotation[0],
-      4.0,
-      delta
-    );
-    
-    // Enhanced floating animation with multiple frequencies
-    const floatY = Math.sin(time * 0.5) * 0.2 + Math.sin(time * 0.3) * 0.1;
-    const floatX = Math.cos(time * 0.3) * 0.1;
-    
-    group.current.position.y = position[1] + floatY;
-    group.current.position.x = position[0] + floatX;
-    
-    // Move spotlight to create dynamic lighting
-    if (spotLight.current) {
-      const radius = 5;
-      spotLight.current.position.x = Math.sin(time * 0.3) * radius;
-      spotLight.current.position.z = Math.cos(time * 0.3) * radius;
-      spotLight.current.intensity = 2 + Math.sin(time) * 0.5; // Pulsing intensity
+    // Subtle mouse-based movement
+    if (mouse && mouse.current) {
+      group.current.rotation.x = rotation[0] + mouse.current[1] * 0.1;
+      group.current.rotation.y = rotation[1] + mouse.current[0] * 0.1;
     }
     
-    // Detailed mesh animations for organic movement
-    scene.traverse((child) => {
-      if (child.isMesh && child.userData.initialPosition) {
-        // Apply subtle movement to child meshes for more organic feel
-        const childTime = time * child.userData.randomFactor + child.userData.randomOffset;
-        const offsetY = Math.sin(childTime) * 0.04;
-        const offsetX = Math.cos(childTime * 0.7) * 0.03;
-        const offsetZ = Math.sin(childTime * 0.5) * 0.02;
-        
-        // Apply the offsets to the mesh positions
-        child.position.y = child.userData.initialPosition.y + offsetY;
-        child.position.x = child.userData.initialPosition.x + offsetX;
-        child.position.z = (child.userData.initialPosition.z || 0) + offsetZ;
-        
-        // Subtle scale pulsing for more organic feel
-        if (child.userData.pulseSpeed) {
-          const scalePulse = 1 + Math.sin(time * child.userData.pulseSpeed) * 0.03;
-          child.scale.set(scalePulse, scalePulse, scalePulse);
-        }
-        
-        // Subtle material animation if the material has emissive properties
-        if (child.material && child.material.emissive) {
-          // Pulse the emissive intensity
-          child.material.emissiveIntensity = 0.5 + Math.sin(time * 1.5 + child.userData.randomOffset) * 0.3;
-        }
-      }
-    });
+    // Animated lighting
+    if (spotLight.current) {
+      spotLight.current.intensity = 1.5 + Math.sin(time) * 0.5;
+    }
     
-    // Update animation mixer for skeletal animations
-    if (mixer) mixer.update(delta);
+    if (pointLight.current) {
+      pointLight.current.intensity = 1 + Math.sin(time * 0.5) * 0.3;
+    }
+    
+    // Update animations
+    if (mixer) {
+      mixer.update(0.016); // Fixed time step for consistent animation
+    }
   });
   
   return (
@@ -181,5 +153,9 @@ const ModelViewer = ({ modelPath, mouse, scale = 3, position = [0, 0, 0], rotati
 
 // Preload the model to avoid loading delays
 useGLTF.preload("/models/energized_tvman_accurate.glb");
+
+// Create a backup model path as fallback
+const BACKUP_MODEL_PATH = "/models/robotic_glow_fbx.glb";
+useGLTF.preload(BACKUP_MODEL_PATH);
 
 export default ModelViewer; 
