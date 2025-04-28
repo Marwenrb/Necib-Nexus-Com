@@ -32,56 +32,37 @@ function Particles({
   width = 250,
   height = 250,
   depth = 250,
-  count = 2000,
-  scale = 120,
-  size = 180,
+  count = 1000,
+  scale = 80,
+  size = 120,
 }) {
-  const positions = useMemo(() => {
-    const array = new Array(count * 3)
+  const positionsAndAttributes = useMemo(() => {
+    const positions = new Float32Array(count * 3);
+    const noise = new Float32Array(count * 3);
+    const sizes = new Float32Array(count);
+    const speeds = new Float32Array(count);
+    const scales = new Float32Array(count);
 
-    for (let i = 0; i < array.length; i += 3) {
-      array[i] = MathUtils.randFloatSpread(width)
-      array[i + 1] = MathUtils.randFloatSpread(height)
-      array[i + 2] = MathUtils.randFloatSpread(depth)
+    for (let i = 0; i < count; i++) {
+      const pi = i * 3;
+      positions[pi] = MathUtils.randFloatSpread(width);
+      positions[pi + 1] = MathUtils.randFloatSpread(height);
+      positions[pi + 2] = MathUtils.randFloatSpread(depth);
+      
+      noise[pi] = Math.random() * 100;
+      noise[pi + 1] = Math.random() * 100;
+      noise[pi + 2] = Math.random() * 100;
+      
+      sizes[i] = Math.random() * size;
+      speeds[i] = Math.random() * 0.2;
+      scales[i] = Math.random() * 70;
     }
 
-    return Float32Array.from(array)
-  }, [count, scale, width, height, depth])
+    return { positions, noise, sizes, speeds, scales };
+  }, [count, width, height, depth, size]);
 
-  const noise = useMemo(
-    () =>
-      Float32Array.from(
-        Array.from({ length: count * 3 }, () => Math.random() * 100)
-      ),
-    [count]
-  )
-
-  const sizes = useMemo(
-    () =>
-      Float32Array.from(
-        Array.from({ length: count }, () => Math.random() * size)
-      ),
-    [count, size]
-  )
-
-  const speeds = useMemo(
-    () =>
-      Float32Array.from(
-        Array.from({ length: count }, () => Math.random() * 0.2)
-      ),
-    [count]
-  )
-
-  const scales = useMemo(
-    () =>
-      Float32Array.from(
-        Array.from({ length: count }, () => Math.random() * 100)
-      ),
-    [count]
-  )
-
-  const material = useRef()
-  const points = useRef()
+  const material = useRef();
+  const points = useRef();
 
   const uniforms = useMemo(
     () => ({
@@ -89,7 +70,7 @@ function Particles({
         value: 0,
       },
       uColor: {
-        value: new Color('rgb(0, 66, 255)'),
+        value: new Color('rgb(83, 82, 237)'),
       },
       uScroll: {
         value: 0,
@@ -98,29 +79,29 @@ function Particles({
         value: new Vector2(width, height),
       },
     }),
-    []
-  )
+    [width, height]
+  );
 
   useEffect(() => {
-    uniforms.uResolution.value.set(width, height)
-  }, [width, height])
+    uniforms.uResolution.value.set(width, height);
+  }, [width, height, uniforms.uResolution.value]);
 
   useFrame(({ clock }) => {
-    uniforms.uTime.value = clock.elapsedTime
-  })
+    uniforms.uTime.value = clock.elapsedTime;
+  });
 
   useScroll(({ scroll }) => {
-    uniforms.uScroll.value = scroll
-  })
+    uniforms.uScroll.value = scroll;
+  });
 
   return (
     <points ref={points}>
       <bufferGeometry>
-        <bufferAttribute attach="attributes-position" args={[positions, 3]} />
-        <bufferAttribute attach="attributes-noise" args={[noise, 3]} />
-        <bufferAttribute attach="attributes-size" args={[sizes, 1]} />
-        <bufferAttribute attach="attributes-speed" args={[speeds, 1]} />
-        <bufferAttribute attach="attributes-scale" args={[scales, 1]} />
+        <bufferAttribute attach="attributes-position" args={[positionsAndAttributes.positions, 3]} />
+        <bufferAttribute attach="attributes-noise" args={[positionsAndAttributes.noise, 3]} />
+        <bufferAttribute attach="attributes-size" args={[positionsAndAttributes.sizes, 1]} />
+        <bufferAttribute attach="attributes-speed" args={[positionsAndAttributes.speeds, 1]} />
+        <bufferAttribute attach="attributes-scale" args={[positionsAndAttributes.scales, 1]} />
       </bufferGeometry>
       <shaderMaterial
         ref={material}
@@ -130,7 +111,7 @@ function Particles({
         uniforms={uniforms}
       />
     </points>
-  )
+  );
 }
 
 // Enhanced model sequence steps for a more premium experience
@@ -687,12 +668,12 @@ function Content() {
   return (
     <>
       <Particles
-        width={viewport.width * 1.2}
-        height={viewport.height * 1.2}
-        depth={600}
-        count={2000}
-        scale={500}
-        size={200}
+        width={viewport.width * 1}
+        height={viewport.height * 1}
+        depth={300}
+        count={1000}
+        scale={80}
+        size={120}
       />
       <Arm />
     </>
@@ -701,28 +682,25 @@ function Content() {
 
 export function WebGL({ render = true }) {
   return (
-    <Canvas
-      gl={{
-        powerPreference: 'high-performance',
-        antialias: true,
-        alpha: true,
-      }}
-      dpr={[1, 2]}
-      frameloop="always"
-      shadows
-      orthographic
-      camera={{
-        near: 0.01,
-        far: 10000,
-        position: [0, 0, 1000],
-        zoom: 2.0,
-        fov: 50,
-      }}
-    >
-      <Raf render={render} />
-      <Suspense fallback={null}>
-        <Content />
-      </Suspense>
-    </Canvas>
+    <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', pointerEvents: 'none', zIndex: -1 }}>
+      <Canvas
+        dpr={[1, 1.5]} // Limit DPR for better performance
+        gl={{
+          antialias: false, // Disable antialiasing for performance
+          powerPreference: 'high-performance',
+          alpha: true,
+          stencil: false,
+          depth: true, // Enable depth for proper particle/model positioning
+        }}
+        camera={{ position: [0, 0, 15], fov: 65 }} // Adjusted camera position and field of view
+        style={{ pointerEvents: 'none' }}
+        performance={{ min: 0.1 }} // Lower performance for better FPS
+      >
+        <Suspense fallback={null}>
+          <Raf render={render} />
+          <Content />
+        </Suspense>
+      </Canvas>
+    </div>
   )
 }

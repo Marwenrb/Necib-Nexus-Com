@@ -40,20 +40,23 @@ uniform vec2 uResolution;
 
 void main() {
   vec4 modelPosition = modelMatrix * vec4(position, 1.0);
+  
+  // Push particles further back in z-space to avoid overlapping with models
+  modelPosition.z -= 10.0;
 
-  modelPosition.x += snoise(vec2(noise.x, uTime * speed)) * scale;
-  modelPosition.y += snoise(vec2(noise.y, uTime * speed)) * scale;
-  modelPosition.z += snoise(vec2(noise.z, uTime * speed)) * scale;
+  modelPosition.x += snoise(vec2(noise.x, uTime * speed)) * scale * 0.8;
+  modelPosition.y += snoise(vec2(noise.y, uTime * speed)) * scale * 0.8;
+  modelPosition.z += snoise(vec2(noise.z, uTime * speed)) * scale * 0.8;
 
   float depth = (1.0 / - (viewMatrix * modelPosition).z);
 
-  modelPosition.y += uScroll * depth * 100.;
+  modelPosition.y += uScroll * depth * 80.0;
   modelPosition.y = mod(modelPosition.y, uResolution.y) - uResolution.y/2.;
 
   vec4 viewPosition = viewMatrix * modelPosition;
   vec4 projectionPostion = projectionMatrix * viewPosition;
 
   gl_Position = projectionPostion;
-  gl_PointSize = size * 100.;
+  gl_PointSize = size * 50.0; // Further reduced point size
   gl_PointSize *= (1.0 / - viewPosition.z);
 }
