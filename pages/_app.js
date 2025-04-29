@@ -12,7 +12,7 @@ import 'styles/global.scss'
 import Favicon from 'components/Favicon'
 import { startTransition } from 'react'
 import { Analytics } from "@vercel/analytics/react"
-import { SpeedInsights } from "@vercel/speed-insights/next"
+import { SpeedInsights } from "@vercel/speed-insights/react"
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger)

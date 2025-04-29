@@ -16,7 +16,6 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
   reactStrictMode: true,
   experimental: {
     optimizeCss: true,
@@ -27,7 +26,6 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === 'production',
   },
   images: {
-    unoptimized: true,
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 60,
     domains: [],

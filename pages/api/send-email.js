@@ -15,7 +15,7 @@ export default async function handler(req, res) {
     }
 
     // Configure EmailJS parameters
-    const serviceId = 'service_4mvgv76'; // The service ID provided
+    const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_4mvgv76';
     const recipientEmail = 'necibnexus@gmail.com'; // The destination email
     
     // Choose template based on form type
@@ -23,7 +23,7 @@ export default async function handler(req, res) {
     let templateParams;
 
     if (formType === 'contact') {
-      templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'default_contact_template';
+      templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
       templateParams = {
         to_email: recipientEmail,
         from_name: formData.name || 'Unknown',
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
         message: formData.message || 'No message provided',
       };
     } else if (formType === 'join-club') {
-      templateId = process.env.NEXT_PUBLIC_EMAILJS_CLUB_TEMPLATE_ID || 'default_club_template';
+      templateId = process.env.NEXT_PUBLIC_EMAILJS_CLUB_TEMPLATE_ID;
       templateParams = {
         to_email: recipientEmail,
         from_name: formData.name || 'Unknown',
@@ -41,6 +41,12 @@ export default async function handler(req, res) {
       };
     } else {
       return res.status(400).json({ error: 'Invalid form type' });
+    }
+
+    // Check if required environment variables are set
+    if (!process.env.NEXT_PUBLIC_EMAILJS_USER_ID || !templateId) {
+      console.error('Missing required EmailJS environment variables');
+      return res.status(500).json({ error: 'Email service not properly configured' });
     }
 
     // Send email via EmailJS
@@ -54,6 +60,6 @@ export default async function handler(req, res) {
     return res.status(200).json({ success: true });
   } catch (error) {
     console.error('Email sending error:', error);
-    return res.status(500).json({ error: 'Failed to send email' });
+    return res.status(500).json({ error: 'Failed to send email', details: error.message });
   }
 } 

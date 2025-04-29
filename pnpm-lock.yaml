@@ -7,6 +7,8 @@ settings:
 overrides:
   react: 18.2.0
   react-dom: 18.2.0
+  scheduler: 0.23.2
+  zustand: 4.5.6
 
 dependencies:
   '@darkroom.engineering/hamo':
@@ -48,6 +50,12 @@ dependencies:
   '@use-gesture/react':
     specifier: ^10.2.27
     version: 10.3.1(react@18.2.0)
+  '@vercel/analytics':
+    specifier: ^1.2.0
+    version: 1.2.0(next@13.5.11)(react@18.2.0)
+  '@vercel/speed-insights':
+    specifier: ^1.0.10
+    version: 1.0.10(next@13.5.11)(react@18.2.0)
   classnames:
     specifier: ^2.3.2
     version: 2.5.1
@@ -145,7 +153,7 @@ dependencies:
     specifier: 5.1.6
     version: 5.1.6
   zustand:
-    specifier: ^4.4.1
+    specifier: 4.5.6
     version: 4.5.6(@types/react@18.2.17)(react@18.2.0)
 
 devDependencies:
@@ -2714,12 +2722,11 @@ packages:
       troika-three-text: 0.52.4(three@0.169.0)
       tunnel-rat: 0.1.2(@types/react@18.2.17)(react@18.2.0)
       utility-types: 3.11.0
-      zustand: 5.0.3(@types/react@18.2.17)(react@18.2.0)
+      zustand: 4.5.6(@types/react@18.2.17)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
       - '@types/three'
       - immer
-      - use-sync-external-store
     dev: false
 
   /@react-three/fiber@8.18.0(@types/react@18.2.17)(react-dom@18.2.0)(react@18.2.0)(three@0.169.0):
@@ -2757,12 +2764,13 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       react-reconciler: 0.27.0(react@18.2.0)
       react-use-measure: 2.1.7(react-dom@18.2.0)(react@18.2.0)
-      scheduler: 0.21.0
+      scheduler: 0.23.2
       suspend-react: 0.1.3(react@18.2.0)
       three: 0.169.0
-      zustand: 3.7.2(react@18.2.0)
+      zustand: 4.5.6(@types/react@18.2.17)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
+      - immer
     dev: false
 
   /@rollup/plugin-babel@5.3.1(@babel/core@7.26.10)(rollup@2.79.2):
@@ -3394,6 +3402,50 @@ packages:
       react: '>= 16.8.0'
     dependencies:
       '@use-gesture/core': 10.3.1
+      react: 18.2.0
+    dev: false
+
+  /@vercel/analytics@1.2.0(next@13.5.11)(react@18.2.0):
+    resolution: {integrity: sha512-Q9hduY6+i73Is1m57Y3OlawleeYVi4cvuh/0j6IwmSndMOE4+BKkMwjnwz+7xnqfZCanipIG6+q+zHalH9X0Zg==}
+    peerDependencies:
+      next: '>= 13'
+      react: ^18 || ^19
+    peerDependenciesMeta:
+      next:
+        optional: true
+      react:
+        optional: true
+    dependencies:
+      next: 13.5.11(@babel/core@7.26.10)(react-dom@18.2.0)(react@18.2.0)(sass@1.87.0)
+      react: 18.2.0
+      server-only: 0.0.1
+    dev: false
+
+  /@vercel/speed-insights@1.0.10(next@13.5.11)(react@18.2.0):
+    resolution: {integrity: sha512-4uzdKB0RW6Ff2FkzshzjZ+RlJfLPxgm/00i0XXgxfMPhwnnsk92YgtqsxT9OcPLdJUyVU1DqFlSWWjIQMPkh0g==}
+    requiresBuild: true
+    peerDependencies:
+      '@sveltejs/kit': ^1 || ^2
+      next: '>= 13'
+      react: ^18 || ^19
+      svelte: ^4
+      vue: ^3
+      vue-router: ^4
+    peerDependenciesMeta:
+      '@sveltejs/kit':
+        optional: true
+      next:
+        optional: true
+      react:
+        optional: true
+      svelte:
+        optional: true
+      vue:
+        optional: true
+      vue-router:
+        optional: true
+    dependencies:
+      next: 13.5.11(@babel/core@7.26.10)(react-dom@18.2.0)(react@18.2.0)(sass@1.87.0)
       react: 18.2.0
     dev: false
 
@@ -6300,9 +6352,10 @@ packages:
       react-dom: 18.2.0(react@18.2.0)
       react-dropzone: 12.1.0(react@18.2.0)
       v8n: 1.5.1
-      zustand: 3.7.2(react@18.2.0)
+      zustand: 4.5.6(@types/react@18.2.17)(react@18.2.0)
     transitivePeerDependencies:
       - '@types/react'
+      - immer
     dev: false
 
   /leven@3.1.0:
@@ -8001,7 +8054,7 @@ packages:
     dependencies:
       loose-envify: 1.4.0
       react: 18.2.0
-      scheduler: 0.21.0
+      scheduler: 0.23.2
     dev: false
 
   /react-schemaorg@2.0.0(react@18.2.0)(schema-dts@1.1.5)(typescript@5.1.6):
@@ -8323,12 +8376,6 @@ packages:
     optionalDependencies:
       '@parcel/watcher': 2.5.1
 
-  /scheduler@0.21.0:
-    resolution: {integrity: sha512-1r87x5fz9MXqswA2ERLo0EbOAU74DpIUO090gIasYTqlVoJeMcl+Z1Rg7WHz+qtPujhS/hGIt9kxZOYBV3faRQ==}
-    dependencies:
-      loose-envify: 1.4.0
-    dev: false
-
   /scheduler@0.23.2:
     resolution: {integrity: sha512-UOShsPwz7NrMUqhR6t0hWjFduvOzbtv7toDH1/hIrfRNIDBnnBWd0CwJTGvTpngVlmwGCdP9/Zl/tVrDqcuYzQ==}
     dependencies:
@@ -8401,6 +8448,10 @@ packages:
   /serialize-to-js@3.1.2:
     resolution: {integrity: sha512-owllqNuDDEimQat7EPG0tH7JjO090xKNzUtYz6X+Sk2BXDnOCilDdNLwjWeFywG9xkJul1ULvtUQa9O4pUaY0w==}
     engines: {node: '>=4.0.0'}
+    dev: false
+
+  /server-only@0.0.1:
+    resolution: {integrity: sha512-qepMx2JxAa5jjfzxG79yPPq+8BuFToHd1hm7kI+Z4zAq1ftQiP7HcxMhDDItrbtwVeLg/cY2JnKnrcFkmiswNA==}
     dev: false
 
   /set-function-length@1.2.2:
@@ -9781,18 +9832,6 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /zustand@3.7.2(react@18.2.0):
-    resolution: {integrity: sha512-PIJDIZKtokhof+9+60cpockVOq05sJzHCriyvaLBmEJixseQ1a5Kdov6fWZfWOu5SK9c+FhH1jU0tntLxRJYMA==}
-    engines: {node: '>=12.7.0'}
-    peerDependencies:
-      react: '>=16.8'
-    peerDependenciesMeta:
-      react:
-        optional: true
-    dependencies:
-      react: 18.2.0
-    dev: false
-
   /zustand@4.5.6(@types/react@18.2.17)(react@18.2.0):
     resolution: {integrity: sha512-ibr/n1hBzLLj5Y+yUcU7dYw8p6WnIVzdJbnX+1YpaScvZVF2ziugqHs+LAmHw4lWO9c/zRj+K1ncgWDQuthEdQ==}
     engines: {node: '>=12.7.0'}
@@ -9811,26 +9850,4 @@ packages:
       '@types/react': 18.2.17
       react: 18.2.0
       use-sync-external-store: 1.5.0(react@18.2.0)
-    dev: false
-
-  /zustand@5.0.3(@types/react@18.2.17)(react@18.2.0):
-    resolution: {integrity: sha512-14fwWQtU3pH4dE0dOpdMiWjddcH+QzKIgk1cl8epwSE7yag43k/AD/m4L6+K7DytAOr9gGBe3/EXj9g7cdostg==}
-    engines: {node: '>=12.20.0'}
-    peerDependencies:
-      '@types/react': '>=18.0.0'
-      immer: '>=9.0.6'
-      react: '>=18.0.0'
-      use-sync-external-store: '>=1.2.0'
-    peerDependenciesMeta:
-      '@types/react':
-        optional: true
-      immer:
-        optional: true
-      react:
-        optional: true
-      use-sync-external-store:
-        optional: true
-    dependencies:
-      '@types/react': 18.2.17
-      react: 18.2.0
     dev: false
