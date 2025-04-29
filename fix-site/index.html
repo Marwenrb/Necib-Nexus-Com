@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Necib Nexus</title>
+  <meta name="description" content="Necib Nexus - Digital innovation company transforming visions into immersive realities">
+  
+  <!-- Favicons -->
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  <!-- Critical CSS -->
+  <style>
+    /* Basic reset and loader styles */
+    *, *::before, *::after { box-sizing: border-box; }
+    body, html { margin: 0; padding: 0; height: 100%; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; }
+    body { background-color: #030014; color: #fff; }
+
+    /* Loader */
+    .loader-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background-color: #030014;
+      z-index: 9999;
+    }
+    .loader {
+      border: 3px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
+      border-top: 3px solid #7c3aed;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    /* Content (hidden initially) */
+    .content {
+      display: none;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .content h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(to right, #7c3aed, #4895ef);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .content p {
+      font-size: 1.2rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      display: inline-block;
+      background: linear-gradient(to right, #7c3aed, #4895ef);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 4px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: all 0.3s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <!-- Loader -->
+  <div class="loader-container" id="loader">
+    <div class="loader"></div>
+  </div>
+  
+  <!-- Content -->
+  <div class="content" id="content">
+    <h1>Necib Nexus</h1>
+    <p>Our website is currently being enhanced with cutting-edge technologies. Please check back soon for our full immersive experience.</p>
+    <p>In the meantime, please feel free to contact us:</p>
+    <a href="mailto:info@necibnexus.com" class="btn">Contact Us</a>
+  </div>
+  
+  <!-- Simple script -->
+  <script>
+    // Show content after 3 seconds
+    window.addEventListener('DOMContentLoaded', function() {
+      setTimeout(function() {
+        document.getElementById('loader').style.display = 'none';
+        document.getElementById('content').style.display = 'block';
+      }, 3000);
+    });
+  </script>
+</body>
+</html> 
