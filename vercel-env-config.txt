@@ -1,0 +1,14 @@
+# EmailJS Configuration for Necib Nexus
+# Copy these variables to your Vercel Environment Variables section
+
+# The EmailJS service ID (default from your code)
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=service_4mvgv76
+
+# Your EmailJS User ID (public key)
+# IMPORTANT: Replace this with your actual EmailJS User ID
+NEXT_PUBLIC_EMAILJS_USER_ID=YOUR_USER_ID_HERE
+
+# EmailJS Template IDs
+# IMPORTANT: Replace these with your actual template IDs
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=YOUR_CONTACT_TEMPLATE_ID
+NEXT_PUBLIC_EMAILJS_CLUB_TEMPLATE_ID=YOUR_CLUB_TEMPLATE_ID 
