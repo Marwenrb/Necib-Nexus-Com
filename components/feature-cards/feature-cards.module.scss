@@ -5,7 +5,7 @@
   position: relative;
 
   @include mobile {
-    height: calc(100vh * 9); // 9 cards * 100vh
+    height: calc(100vh * 8); // Reduced height for more compact scrolling
   }
 
   @include desktop {
@@ -37,7 +37,7 @@
   padding: var(--layout-margin);
 
   @include mobile {
-    perspective: 1200px;
+    perspective: 1500px; // Increased perspective for better 3D effect
     overflow: hidden;
     transform: translateZ(0);
     backface-visibility: hidden;
@@ -81,15 +81,16 @@
   @include mobile {
     top: 50%;
     left: 50%;
-    width: 80vw;
-    max-width: 400px;
+    width: 75vw; // Reduced from 80vw
+    max-width: 350px; // Reduced from 400px
     height: auto;
-    aspect-ratio: 4/3;
+    aspect-ratio: 3/2; // Changed from 4/3 for more compact look
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     will-change: transform, opacity;
-    transition: none;
+    transition: transform 0.8s ease-out; // Added transition for smoother effect
     transform-origin: center center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); // Added subtle shadow
   }
 
   @include desktop {
