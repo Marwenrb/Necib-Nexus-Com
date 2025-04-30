@@ -5,7 +5,7 @@
   position: relative;
 
   @include mobile {
-    height: calc(100vh * 8); // Reduced height for more compact scrolling
+    height: calc(100vh * 7); // Further reduced height for more compact scrolling
   }
 
   @include desktop {
@@ -81,16 +81,18 @@
   @include mobile {
     top: 50%;
     left: 50%;
-    width: 75vw; // Reduced from 80vw
-    max-width: 350px; // Reduced from 400px
+    width: 70vw; // Further reduced from 75vw
+    max-width: 320px; // Further reduced from 350px
     height: auto;
-    aspect-ratio: 3/2; // Changed from 4/3 for more compact look
+    aspect-ratio: 5/3; // More compact aspect ratio
     backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
     will-change: transform, opacity;
-    transition: transform 0.8s ease-out; // Added transition for smoother effect
+    transition: transform 0.6s ease-out; // Faster transition
     transform-origin: center center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08); // Added subtle shadow
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06); // Lighter shadow for cleaner look
+    margin: 0 auto; // Center cards
+    padding: 0.5rem; // Add some internal padding
   }
 
   @include desktop {
