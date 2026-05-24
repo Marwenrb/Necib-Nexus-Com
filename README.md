@@ -35,7 +35,7 @@
 
 ## 💫 About Necib Nexus
 
-Necib Nexus is a global digital innovation company that transforms visions into immersive realities. We combine creative brilliance and technical expertise to deliver unforgettable experiences for leading brands worldwide. Our multidisciplinary team of designers, developers, and strategists work together to create digital solutions that exceed expectations and set new standards in the industry.
+Necib Nexus is a global digital innovation company that transforms visions into immersive realities. We combine creative brilliance and technical expertise to deliver unforgettable experiences for[...]
 
 ## 🛠️ Technologies
 
@@ -115,6 +115,7 @@ NEXT_PUBLIC_MAPBOX_TOKEN=your_mapbox_token
 - **Developer:** Marwen Rabai - marwenrabai@protonmail.me
 - **Phone:** +213 07 96 96 98 95
 - **Website:** [necibnexus.com](https://necibnexus.com)
+- **Portfolio:** [marwenrabai.com](https://marwenrabai.com)
 
 ## 🔄 Maintenance & Updates
 

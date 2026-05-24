@@ -416,7 +416,7 @@ export const Footer = () => {
             </div>
             <span className={s.byText}>by</span>
             <motion.a
-              href="https://marwen-rabai.netlify.app"
+              href="https://marwenrabai.com"
               target="_blank"
               rel="noreferrer"
               className={s.devCreditLink}
